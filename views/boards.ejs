@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html ng-app="TodoListApp">
+
+<head>
+  <title>TODO List</title>
+  <!-- AngularJS -->
+  <script src="/javascripts/angular.js"></script>
+  <script src="/javascripts/app.js"></script>
+  <script src="/javascripts/services/api-service.js"></script>
+  <script src="/javascripts/angular-drag-and-drop-lists.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500" />
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+  <!--<link rel="stylesheet" href="normalize.css" />-->
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+</head>
+
+<body ng-click="name = ''; toggle = false;" ng-controller="boardsController" ng-init="init('<%= JSON.stringify(user) %>')">
+
+
+
+  <div style="position: absolute;height: 40px; background-color:#026AA7; width: 100%;"></div>
+
+
+  <navbar user='user'></navbar>
+
+  <div class="container-boards">
+
+    <!--test-->
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="nav_boards">
+          <li class="active"><a data-toggle="tab" href="/#profile" class="btn btn-default">Tablice Otwarte</a></li>
+          <li><a data-toggle="tab" href="/#cards" class="btn btn-default">Tablice Zamkniętę</a></li>
+        </ul>
+      </div>
+    </div>
+
+
+
+    <div class="tab-content">
+      <div id="profile" class="tab-pane fade in active">
+        <div class="row">
+          <div class="col-md-12">
+            <!--first card-->
+
+            <div class="container-boards__heading">
+              <span class="glyphicon glyphicon-star-empty"></span>
+              <h4>Tablice oznaczone gwiazdką</h4>
+            </div>
+
+            <ul class="boards">
+              <li ng-repeat="board in boards" ng-hide="board.closed">
+
+                <a href="b/{{board._id}}">
+                  <div class="boards__item" style="background-color: {{board.background}}">
+                    <span class="boards--item__heading">{{board.name}}</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+
+
+
+            <div class="container-boards__heading">
+              <span class="glyphicon glyphicon-user"></span>
+              <h4>Tablice prywatne</h4>
+            </div>
+
+            <ul class="boards">
+              <li ng-repeat="board in boards" ng-hide="board.closed">
+                <a href="b/{{board._id}}">
+                  <div class="boards__item" style="background-color: {{board.background}}">
+                    <span class="boards--item__heading">{{board.name}}</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="#" ng-click="activeMenu('boardsCreateBoard', !toggle, $event);">
+                  <div class="boards__item-create" style="position: relative;">
+                    <span class="boards--item__heading-create">Dodaj tablicę</span>
+                    <div class="menu--create_board">
+                      <!--create board-->
+                      <div class="menu cb__boards-coordinate menu--create-board" ng-click="blockClosingList($event)" ng-class="{active : name === 'boardsCreateBoard' && toggle === true}">
+                        <span class="settings-menu__header-title">Utwórz Tablicę</span>
+                        <div class="menu__wrapper--create-board center-block">
+                          <form ng-submit="addBoard(newBoard)">
+                            <div class="form-group">
+                              <label for="">Tytuł</label>
+                              <input type="text" ng-model="newBoard" class="form-control" placeholder="add a new board" required />
+                            </div>
+                            <div class="form-group">
+                              <label for="">Zespół</label>
+                              <input type="text" class="form-control">
+                            </div>
+                            <span class="bottom--create-board">Ta tablica będzie Prywatna. Zmień</span>
+                            <button class="btn btn-success">Utwórz</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </a>
+              </li>
+            </ul>
+
+
+
+
+
+            <!--<hr>-->
+
+
+            <!--<div class="container-boards__heading">
+              <span class="glyphicon glyphicon-asterisk"></span>
+              <h4>zespół</h4>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-12">
+                <h4>Twoje Zespoły</h4>
+              </div>
+            </div>-->
+
+
+            <!--//first card-->
+          </div>
+        </div>
+      </div>
+
+<!--SECOOOOOOOOND-->
+      <div id="cards" class="tab-pane">
+        <div class="row ">
+          <div class="col-md-12">
+            <!--second card-->
+        <div class="row">
+          <div class="col-md-12">
+            <!--first card-->
+
+            <div class="container-boards__heading">
+              <span class="glyphicon glyphicon-star-empty"></span>
+              <h4>Tablice oznaczone gwiazdką</h4>
+            </div>
+
+            <ul class="boards">
+              <li ng-repeat="board in boards" ng-show="board.closed">
+
+                <a href="b/{{board._id}}">
+                  <div class="boards__item" style="background-color: {{board.background}}">
+                    <span class="boards--item__heading">{{board.name}}</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+
+
+
+            <div >
+              <span class="glyphicon glyphicon-user"></span>
+              <h4>Tablice prywatne</h4>
+            </div>
+
+            <ul class="boards">
+              <li ng-repeat="board in boards" ng-show="board.closed">
+                <a href="b/{{board._id}}">
+                  <div class="boards__item" style="background-color: {{board.background}}">
+                    <span class="boards--item__heading">{{board.name}}</span>
+                  </div>
+                </a>
+              </li> 
+            </ul>
+
+
+
+
+
+            <!--<hr>-->
+
+
+            <!--<div >
+              <span class="glyphicon glyphicon-asterisk"></span>
+              <h4>zespół</h4>
+            </div>-->
+
+
+            <!--<div class="row">
+              <div class="col-md-12">
+                <h4>Twoje Zespoły</h4>
+              </div>
+            </div>-->
+
+
+            <!--//first card-->
+          </div>
+        </div>
+            <!--//second card-->
+          </div>
+        </div>
+      </div>
+      <!---->
+
+
+    </div>
+    <!--test//-->
+
+
+  </div>
+
+
+  <script src="/javascripts/angular-timeago.js"></script>
+  <script src="/javascripts/boards/boardsController.js"></script>
+  <script src="/navbar/navbar-module.js"></script>
+  <script src="/navbar/navbar-component.js"></script>
+
+  <script src="/navbar/profile-menu/profile-menu-component.js"></script>
+  <script src="/navbar/notifications/notifications-component.js"></script>
+  <script src="/navbar/menu-create/menu-create-component.js"></script>
+
+  <script src="/sidebar/sidebar.js"></script>
+</body>
+
+</html>

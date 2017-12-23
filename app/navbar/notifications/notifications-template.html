@@ -1,0 +1,15 @@
+<a href="#" ng-click="$ctrl.parent.activeMenu('Notice', $event);">
+  <div class="btns">
+    <span class="glyphicon glyphicon-bell"></span>
+  </div>
+</a>
+
+<div class="menu menu_notice" ng-click="$ctrl.parent.blockClosingList($event)" ng-class="{active : $ctrl.parent.name === 'Notice' && $ctrl.parent.toggle === true}">
+
+  <!--<a href="#" ng-click="$ctrl.parent.activeMenu('Notice', $event);">close</a>-->
+  <span class="menu-heading">Powiadomienia</span>
+
+  <div class="menu_notice-placeholder">
+    <span>Brak powiadomień</span>
+  </div>
+</div>

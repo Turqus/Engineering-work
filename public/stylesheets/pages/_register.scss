@@ -1,0 +1,52 @@
+.register-header {
+    font-size: 40px;
+    font-family: Georgia;
+    margin: 70px 0 40px 0;
+}
+
+.reg-form label  {
+    font-family: Georgia;
+    margin-top: 10px;
+}
+
+.reg-form input {   
+    border-radius: 5px;
+    max-width: 300px;
+    height: 40px;
+}
+
+.btn-reg {
+    margin-top: 20px;
+    padding: 10px !important;
+    width: 200px;
+    font-weight: bold !important;
+    border: 4 px solid black !important;
+    font-family: Georgia;
+} 
+
+.infoLogin {
+    margin-top: 30px;
+    font-family: 'Palatino Linotype';
+}
+
+.footer {
+//    position: relative; 
+//    bottom: 30px;
+//    left: 10%;
+//    right: 10%;
+//    width: 80%
+font-family: 'Palatino Linotype';
+margin-top: 160px;
+}
+
+ .footer-info > li {
+    
+    display: inline-block;
+    text-decoration: underline;
+    margin-right: 10px;
+}
+
+.footer-info { 
+    list-style-type: none;
+    
+}

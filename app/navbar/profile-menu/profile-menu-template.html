@@ -1,0 +1,34 @@
+<a href="#" ng-click="$ctrl.parent.activeMenu('Profile', $event);">
+  <div class="btn__circle">
+    <span class="btn--circle">B</span>
+  </div>
+</a>
+
+
+<div class="menu menu_avatar" ng-click="$ctrl.parent.blockClosingList($event)" ng-class="{active : $ctrl.parent.name === 'Profile' && $ctrl.parent.toggle === true}">
+  <!--<a href="#" ng-click="$ctrl.parent.activeMenu('Profile', $event);">close</a>-->
+  <span class="menu-heading">
+       {{$ctrl.parent.user.username}} {{$ctrl.parent.user.role}}    
+      </span>
+
+  <ul class="menu_avatar-list">
+    <li>
+      <a href="/{{$ctrl.parent.user.username}}">Profil </a>
+    </li>
+
+    <li>
+      <a href="/{{$ctrl.parent.user.username}}">
+         Karty</a>
+    </li>
+
+    <li>
+      <a href="/{{$ctrl.parent.user.username}}">
+         Ustawienia</a>
+    </li>
+
+    <li>
+      <a href="/logout">
+          Wyloguj</a>
+    </li>
+  </ul>
+</div>

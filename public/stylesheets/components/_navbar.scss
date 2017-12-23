@@ -1,0 +1,67 @@
+
+.main-navbar {
+  background: rgba(0, 0, 0, 0.15);
+  width: 100%;
+  padding: 1px 1px;
+  position: relative;
+  clear: both;
+  min-height: 38px; }
+
+.menu-left {
+  float: left; }
+
+.menu-right {
+  float: right; }
+
+.btns {
+  padding: 7px;
+  max-height: 30px;
+  float: left;
+  margin: 3px 5px;
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+  border-radius: 3px; }
+
+.btn__circle {
+  float: left;
+  padding: 5px;
+  background-color: #D6DADC;
+  margin: 3px 5px;
+  border-radius: 100px;
+  line-height: 20px;
+  width: 30px;
+  cursor: pointer; }
+
+.btn--circle {
+  margin: 3px 5px;
+  line-height: 20px;
+  width: 30px;
+  cursor: pointer; }
+
+.btns:hover {
+  color: #fff;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2); }
+
+.btn__glyph {
+  transform: scaleY(-1) rotate(270deg);
+  color: white;
+  font-size: 12px; }
+
+.navbar__search {
+  width: 175px;
+  text-align: right; }
+
+.navbar__logo {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 10%;
+  text-align: center; }
+
+.navbar--logo {
+  font-size: 30px;
+  font-family: 'Courier New'; }

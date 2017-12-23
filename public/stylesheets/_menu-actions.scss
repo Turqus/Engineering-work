@@ -1,0 +1,43 @@
+.transfer-wrapper {
+    display: flex; 
+    align-items: center;
+    flex-direction: column;  
+    padding: 0px 10px 0px 10px; 
+}
+
+.transfer-wrapper form {
+    width: 100%;
+}
+
+.transfer-opt {  
+    margin-bottom: 5px;
+}
+
+.transfer-opt textarea {
+    width: 100%;
+    resize: none;
+}
+ 
+
+.transfer-opt span {
+    text-align: center;
+    display: block;
+    height: 30px;
+    font-size: 17px; 
+}
+
+.transfer-wrapper button {
+    margin-top: 15px;
+}
+select {
+/*for firefox*/
+  -moz-appearance: none;
+   /*for chrome*/
+  -webkit-appearance:none;
+}
+
+/*for IE10*/
+select::-ms-expand {
+    display: none;
+}
+ 

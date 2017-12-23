@@ -1,0 +1,197 @@
+ .menu {
+     
+    background-color: #FFFFFF;
+    position: absolute;
+    display: none;
+    padding: 0 10px 10px 10px; 
+    width: 300px;
+    z-index: 5000;
+    border-radius: 3px;
+    border: 1px solid #D6DADC;
+    border-bottom-color: rgb(214, 218, 220);
+    box-shadow: 0 1px 6px rgba(0,0,0,.15);
+    transform: translate3d(0,0,0); 
+}
+
+// // menu AVATAR
+//settings-menu__header-title - ta klasa do poprawienia
+.menu_avatar {
+    background-color: #FFFFFF;
+    right: 5px;
+    top: 40px;
+
+    &-list {
+        li {
+            list-style-type: none;
+            font-weight: bold;
+            &:hover {
+                 background-color: #4D95BF;
+            }
+        }
+        a {
+            &:hover {
+               text-decoration: none;
+            }
+            margin-top: 5px;
+            display: block;
+            width: 100%;
+            height: 100%; 
+            padding: 5px 10px; 
+            color: #444;
+        }
+    } 
+}
+
+
+// // menu NOTICE
+
+.menu_notice {
+    background-color: #EDEFF0;
+    right: 5px;
+    top: 40px;
+
+    &-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 7px;
+        width: 96%;
+        height: 70px;
+        background-color: #E2E4E6;
+        border: 1px dashed #C4C9CC;
+        color: #838c91;
+    }
+}
+ 
+
+// // menu CREATE 
+
+.menu_create { 
+    background-color: #FFFFFF; 
+    right: 5px;
+    top: 40px;
+
+    &-list {
+        span {
+           display: block;
+           margin: 3px 0;
+        }
+
+        li {
+        margin-top: 5px;
+        list-style-type: none;  
+        &:hover {
+            background-color: #4D95BF; 
+        }
+        a {
+            &:hover {
+                text-decoration: none;
+            }
+        }
+     }
+    }
+
+    &-desc { 
+        font-size: 11px;
+    }
+
+    .menu_wrapper-create {
+       padding: 5px 10px; 
+       color: #444; 
+       &:hover {
+           color: white;
+           background-color: #4D95BF;
+       }
+       .menu_create-heading {
+           font-weight: bold; 
+       }
+    }
+}
+  
+
+    
+// menu create board
+.cb__menu-coordinate { 
+    right: 5px;
+    top: 40px;
+}
+
+.cb__boards-coordinate { 
+    left: 0px;
+    top: 0px;
+}
+
+.menu--create-board {
+    background-color: #FFFFFF;
+}
+
+.menu__wrapper--create-board {
+    width: 95%;
+    margin-top: 5px;
+}
+
+.bottom--create-board {
+    color: #838c91;
+    font-size: 12px;
+    display: block;
+    margin-bottom: 10px;
+    margin-left: 2px;
+}
+
+
+ .change_email {
+     &-wrapper {
+
+     span:first-child {
+         font-weight: bold;
+         margin-top: 10px;
+     }
+    
+     form {
+         margin-top: 10px;
+     }
+
+     button {
+         margin-top: 10px;
+     }
+ }
+    &-heading {
+        margin-top: 10px;
+    }
+ }
+ 
+
+//  MODAL WINDOW
+
+// to-do-list wrapper
+
+.todo-list-wrapper {
+
+    form {
+        label {
+            margin: 10px 0 10px 0;
+            width: 100%;
+            text-align: center;
+
+        }
+        
+        button {
+            margin-top: 15px;
+        }
+    }
+}
+
+
+
+// delete menu wrapper
+
+.delete-wrapper {
+    span {
+        margin: 10px 0 10px 0;
+        display: block;
+    }
+
+    button {
+        width: 100%;
+    }
+}

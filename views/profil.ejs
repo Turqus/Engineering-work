@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html ng-app="TodoListApp">
+
+<head>
+  <title>TODO List</title>
+  <!-- AngularJS -->
+  <script src="/javascripts/angular.js"></script>
+  <script src="/javascripts/app.js"></script>
+  <script src="/javascripts/services/api-service.js"></script>
+  <script src="/javascripts/angular-drag-and-drop-lists.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500" />
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
+  <!--<link rel="stylesheet" href="normalize.css" />-->
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+
+<body ng-click="name = ''; toggle = false;" ng-controller="profileController" ng-init="init('<%= JSON.stringify(user) %>')">
+
+  <div style="position: absolute;height: 40px; background-color:#026AA7; width: 100%;"></div>
+
+  <navbar user='user'></navbar>
+
+
+  <div ng-click="blockClosingList($event)" class="panel_header">
+    <div class="row">
+      <div class="col-md-5 col-xs-10 center-block " style="margin-top: 25px;">
+        <div class="panel_header-wrapper">
+          <div class="circle">
+            <span class="circle-firstLetter">B</span>
+          </div>
+
+          <div ng-class="{deactive : name === 'editProfile' && toggle === true}" class="panel_header-option ">
+            <div class="panel_header-heading">
+              <span class="panel_header-heading"><%= user.username %></span>
+            </div>
+
+            <a ng-click="activeMenu('editProfile', !toggle, $event);" href="#" class="panel_header-edit-option">
+              <span class="glyphicon glyphicon-pencil"></span> Edytuj profil
+            </a>
+          </div>
+
+          <div ng-click="blockClosingList($event)" ng-class="{active : name === 'editProfile' && toggle === true}" class="heading-form">
+            <form>
+              <div class="form-group">
+                <label for="">Imię</label>
+                <input type="text" class="form-control" name="username" ng-model="user.firstName">
+              </div>
+
+              <div class="form-group">
+                <label for="">Nazwisko</label>
+                <input type="text" class="form-control" name="username" ng-model="user.surname">
+              </div>
+
+              <div class="form-group">
+                <label for="">Inicjały</label>
+                <input type="text" class="form-control" name="username" ng-model="user.initials">
+              </div>
+
+              <div class="form-group">
+                <label for="">Biografia <span>(opcjonalnie)</span></label>
+                <textarea name="" id="" cols="30" rows="2" class="form-control" ng-model="user.biography"></textarea>
+              </div>
+
+              <button class="btn btn-success" ng-click="changeTheDataAboutMe(user)">Zapisz</button>
+              <button class="btn btn-default" ng-click="toggle = !toggle">Anuluj</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row nav-style">
+    <div class="col-md-5 center-block">
+      <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="/#profile">Profil</a></li>
+        <li><a data-toggle="tab" href="/#cards">Karty</a></li>
+        <li><a data-toggle="tab" href="/#settings">Ustawienia</a></li>
+        <li><a data-toggle="tab" href="/#gold">Opcje Gold</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <div class="tab-content">
+    <div id="profile" class="tab-pane fade in active">
+      <div class="row">
+        <div class="col-md-6  center-block">
+          <h4>Zespoły</h4>
+          <hr>
+          <h4>Aktywność</h4>
+          <hr>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="settings" class="tab-pane">
+      <div class="row ">
+        <div class="col-md-6  center-block">
+          <div class="settings-header">
+            <h4>Szczegóły konta</h4>
+          </div>
+
+          <div>
+            <!--LINK CHANGE PROFILE-->
+            <a ng-click="activeMenu('changeProfile', !toggle, $event);" class="settings-link" href="#">
+              <span>Zmień nazwę, inicjały i biografię...</span>
+            </a>
+
+            <!--MENU CHANGE PROFILE-->
+            <div class="row menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'changeProfile' && toggle === true}">
+              <span class="menu-heading">Zmień Imię i "O Mnie"</span>
+
+              <div class="col-md-12">
+                <form class="form_input" action="/login" method="post">
+                  <div class="form-group">
+                    <label class="menu_profile-heading" for="">Imię</label>
+                    <input type="text" class="form-control" ng-model="user.firstName">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="menu_profile-heading" for="">Nazwisko</label>
+                    <input type="text" class="form-control" ng-model="user.surname">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="menu_profile-heading" for="">Państwo</label>
+                    <input type="text" class="form-control" ng-model="user.country">
+                  </div>
+
+
+                  <div class="form-group">
+                    <label class="menu_profile-heading" for="">Miasto</label>
+                    <input type="text" class="form-control" ng-model="user.city">
+                  </div>
+
+                  <div class="form-group">
+                    <label class="menu_profile-heading" for="">Numer telefonu</label>
+                    <input type="number" class="form-control" ng-model="user.phone">
+                  </div>
+
+
+                  <button class="btn btn-default" ng-click="toggle = !toggle">anuluj</button>
+                  <button ng-click="showFormEditProfile(user)" class="btn btn-success" type="button">submit</button>
+                </form>
+
+                <hr style="margin-bottom: 5px;">
+                <p class="menu_prfile-bottom">Jeżeli Twój avatar nie jest ustawiony to Twoje inicjały są używane w miejscu Twojego avataru. Nazwa użytkownika
+                  jest długości przynajmniej 3 znaków, tylko alfanumeryczne.</p>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <!--LINK CHANGE AVATAR-->
+          <a ng-click="activeMenu('changeAvatar', !toggle, $event);" class="settings-link" href="#">
+            <span>Zmień awatar...</span>
+          </a>
+
+
+          <!--MENU CHANGE AVATAR-->
+          <div class="row menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'changeAvatar' && toggle === true}">
+            <span class="menu-heading">Zmien Awatar"</span>
+            <div class="col-md-12">
+              <form method="post" enctype="multipart/form-data">
+                <button type="file">yhy<button>
+               </form>  
+            </div>
+          </div> 
+
+          <!--LINK CHANGE PASSWORD-->
+          <a ng-click="activeMenu('changePassword', !toggle, $event);" class="settings-link" href="#">
+            <span>Zmień hasło...</span>
+          </a>
+ 
+          <!--MENU CHANGE PASSWORD-->
+          <div class="row menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'changePassword' && toggle === true}">
+                <span class="menu-heading">Zmień Hasło</span> 
+
+            <div class="col-md-12">
+              <form class="form_input">
+                <div class="form-group">
+                  <label class="menu_profile-heading" for="">Stare hasło</label>
+                  <input  type="text" class="form-control" name="username">
+                </div>
+ 
+                    <div class="form-group">
+                  <label class="menu_profile-heading" for="">Nowe hasło</label>
+                  <input   type="text" class="form-control" name="username">
+                </div>
+
+                     <div class="form-group">
+                  <label class="menu_profile-heading" for="">Nowe hasło (ponownie)</label>
+                  <input   type="text" class="form-control" name="username">
+                </div>
+
+                  <button class="btn btn-default" ng-click="toggle = !toggle">Anuluj</button>
+                  <button class="btn btn-success">Zapisz</button>
+              </form>
+            </div>
+          </div>
+
+
+          <!--LINK CHANGE EMAIL-->
+          <a ng-click="activeMenu('changeEmail', !toggle, $event);" class="settings-link" href>
+            <span>Zmień adres e-mail</span>
+          </a>
+
+          <!--MENU CHANGE EMAIL-->
+          <div class="row menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'changeEmail' && toggle === true}">
+
+            <span class="menu-heading">Zmień adres e-mail</span>
+            <div class="col-md-12">
+              <div class="change_email-wrapper">
+                <div class="change_email-heading">
+                  <span>Obecny adres e-mail:</span>
+                  <span><%= user.email %></span>
+                </div>
+                <form>
+                  <input type="text" class="form-control" name="email" placeholder="Podaj nowy adres e-mail">
+
+                  <button class="btn btn-default" ng-click="toggle = !toggle">Anuluj</button>
+                  <button class="btn btn-success">Zapisz</button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+
+        </div>
+      </div>
+    </div>
+    <!---->
+    <div id="cards" class="tab-pane fade">
+      <div class="row ">
+        <div class="col-md-6  center-block">
+
+
+          <ul ng-repeat="card in assignedCards">
+            <div>
+              name Lists: {{card.name}} <br> Cards: {{card.boardcards.name}}
+            </div>
+            Access Users:
+            <li style="border: 1px solid black; " ng-repeat="item in card.boardcards.Author track by $index">{{item}}</li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+    <div id="gold" class="tab-pane fade">
+      <div class="row ">
+        <div class="col-md-6  center-block">
+          4
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="/javascripts/angular-timeago.js"></script>
+  <script src="/javascripts/profile/profileController.js"></script>
+
+  <script src="/navbar/navbar-module.js"></script>
+  <script src="/navbar/navbar-component.js"></script>
+
+  <script src="/navbar/profile-menu/profile-menu-component.js"></script>
+  <script src="/navbar/notifications/notifications-component.js"></script>
+  <script src="/navbar/menu-create/menu-create-component.js"></script>
+
+  <script src="/sidebar/sidebar.js"></script>
+</body>
+
+</html>
