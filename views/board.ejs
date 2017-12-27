@@ -31,11 +31,10 @@
   <link rel='stylesheet' href='/stylesheets/style.css' />
 
   <style>
-  
-._720kb-datepicker-calendar-day._720kb-datepicker-today {
-    background:red;
-    color:white;
-  }
+    ._720kb-datepicker-calendar-day._720kb-datepicker-today {
+      background: red;
+      color: white;
+    }
   </style>
 </head>
 
@@ -144,17 +143,17 @@
                     </p>
                   </div>
                 </div>
- 
+
 
                 <div class="modal-left-column">
                   <div class="modal-label">
                     <div class="modal-label__items" ng-show="card.labels.length > 0">
-                        <p class="quiet-heading">Etykiety</p>
-                        <span style="background-color: {{item.colour}}" ng-repeat="item in card.labels">{{item.name}}</span>
+                      <p class="quiet-heading">Etykiety</p>
+                      <span style="background-color: {{item.colour}}" ng-repeat="item in card.labels">{{item.name}}</span>
                     </div>
 
                     <div class="modal-deadline" ng-hide="card.deadline === null">
-                        <p class="quiet-heading">Termin</p>
+                      <p class="quiet-heading">Termin</p>
                       <span class="modal-deadline__item">{{card.deadline | date:'dd'}} - {{card.deadline | date:'MM'}} o {{card.deadline | date:'HH:mm'}} </span>
                     </div>
                   </div>
@@ -358,10 +357,10 @@
                               </div>
                               <div class="form-group">
                                 <label>Data</label>
-                                <datepicker datepicker-show="true" datepicker-toggle="true"  date-format="yyyy-MM-dd" selector="form-control">
-                                  <input ng-model="term.date"   class="form-control" />
+                                <datepicker datepicker-show="true" datepicker-toggle="true" date-format="yyyy-MM-dd" selector="form-control">
+                                  <input ng-model="term.date" class="form-control" />
                                 </datepicker>
-                                </div>
+                              </div>
                               <button class="btn btn-success" ng-click="setDeadline(term, $parent.$index, $index)">Zapisz</button>
                               <button class="btn btn-danger pull-right">Usuń</button>
                             </form>
@@ -373,7 +372,29 @@
                       </div>
                       <!--END-->
 
-                      <a href="#" class="modal-menu__link">Załącznik</a>
+                      <!--Załącznik w KARcie-->
+
+                      <div style="position: relative">
+
+                        <a href="#" class="modal-menu__link" ng-click="activeMenu('Załącznik', !toggle, $event)">Załącznik</a>
+
+                        <!---->
+                        <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Załącznik' && toggle === true }">
+                          <span class="menu-heading">Dodaj Załącznik</span>
+
+                          <div class="">
+                            <form method="post" enctype="multipart/form-data" action="/card/upload-image">
+                              <input type="file" name="image">
+                              <input type="submit" name="submit" value="submit">
+                              <!-- <button class="btn btn-success pull-right" ng-click="setDeadline(term, $parent.$index, $index)">Dodaj</button>  -->
+                            </form>
+
+                          </div>
+
+                        </div>
+                        <!---->
+                      </div>
+                      <!--END-->
                     </div>
                     <h4 class="loud-header">Działania</h4>
                     <div>

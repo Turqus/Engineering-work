@@ -1,31 +1,41 @@
 var express = require('express');
 var router = express.Router();
 var ObjectId = require('mongodb').ObjectID;
+var multer = require('multer'); 
 var Board = require('../model/board.model');
 
+let storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/')
+    },
+    filename: function (req, file, cb) {
+        let extArray = file.mimetype.split("/"); 
+        if(extArray[0] === 'image') { 
+            let extension = extArray[extArray.length - 1];
+            cb(null, file.fieldname + '-' + Date.now() + '.' + extension);
+        } else {  
 
-// router.put('/change/background', function (req, res) {
+        }
+    }
+})
 
-// Board.findOneAndUpdate({ _id: req.body._id },
-//     {
-//         $set: {
-//             background: req.body.background
-//         }
-//     },
-//     {
-//         upsert: true
-//     },
-//     ((background) => {
-//         console.log(background)
-//         res.send(background)
-//     })
-// )
-// });
 
+const upload = multer({ storage: storage })
+
+
+
+router.post('/upload-image', upload.any(), function (req, res, next) {
+      if(req.files.error) {
+          console.log('qrwa jakis blad');
+      } else {
+        res.send(req.files);
+      }
+ 
+});
 
 router.post('/set-deadline', function (req, res, next) {
-    let dateObj = req.body 
-    
+    let dateObj = req.body
+
     Board.findOneAndUpdate({ _id: dateObj.idBoard },
         {
             $set: {
@@ -36,11 +46,11 @@ router.post('/set-deadline', function (req, res, next) {
             upsert: true
         },
         ((err, updated) => {
-            if(err) { console.log(err) }
+            if (err) { console.log(err) }
             else { res.status(200).send('Added'); }
         })
     )
-  });
+});
 
 
 
