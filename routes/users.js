@@ -369,9 +369,7 @@ router.post('/add/label/board', function (req, res, next) {
 
 // dodawanie labli do kart
 
-router.post('/add/label/card', function (req, res, next) {
-  console.log(req.body._id)
-  console.log(req.body)
+router.post('/add/label/card', function (req, res, next) { 
   var indexList = req.body.indexList;
   var indexCard = req.body.indexCard;
   var labels = req.body.labels;
@@ -384,7 +382,7 @@ router.post('/add/label/card', function (req, res, next) {
     {
       upsert: true
     },
-    ((cards) => {
+    ((err,cards) => {
       res.send(cards)
     })
   )
@@ -404,5 +402,7 @@ router.delete('/label/delete/:id', function (req, res, next) {
   // });
 });
 //
+
+
 
 module.exports = router;

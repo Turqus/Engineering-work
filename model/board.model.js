@@ -19,12 +19,14 @@ var BoardSchema = new Schema({
       description: String,
       labels : [   { _id : Schema.Types.ObjectId, name : String, colour : String}  ],
       Author: [{type : Schema.Types.ObjectId, ref: 'User'}],
-
+       
+      deadline: { type: Date },
       comments: [{ text: String, 
         authorID: {type : Schema.Types.ObjectId, ref: 'User'}, 
         name: String,
         created: { type: Date, default: Date.now } }],
         
+
       listsTasks: [{name : String, percent : Number, tasks : []}]
     }]
   }],

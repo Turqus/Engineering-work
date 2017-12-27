@@ -12,6 +12,7 @@ var index = require('./routes/index');
 var profile = require('./routes/profile');
 var boardRouter = require('./routes/board');
 var users = require('./routes/users');
+var card = require('./routes/card');
  
 var User = require('./model/user.model');
 var Board = require('./model/board.model');
@@ -66,6 +67,7 @@ app.use('/users', users);
 app.use('/admin', users);
 app.use('/profile', profile);
 app.use('/board', boardRouter);
+app.use('/card', card);
 
 
 
