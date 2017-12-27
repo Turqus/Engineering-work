@@ -1,5 +1,5 @@
 App.controller('boardController', function ($scope, $http, ApiService, timeAgo, nowTime) {
- 
+
 	$scope.init = function (user, board) {
 		$scope.downloadedLists = '';
 		$scope.downloadedLists.lists = [];
@@ -8,7 +8,14 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 		// $scope.selectedCard = "";
 		// $scope.mainList = '';
 		// $scope.hasData = '';
- 
+		var today = new Date();
+		var getDay = today.getDate();
+		var getMonth = today.getMonth();
+		var getYear = today.getFullYear();
+
+		$scope.term = {};
+		$scope.term.date = `${getYear}-${getMonth}-${getDay}`;
+		$scope.term.time = `12:00`;
 
 		$scope.toggleAddTask = false;
 		$scope.toggleDesc = false;
@@ -153,7 +160,7 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 
 
 
-		$scope.indexAddCard = index; 
+		$scope.indexAddCard = index;
 	}
 
 	$scope.addListMenuActiv = (openMenuAddList, $event) => {
@@ -262,7 +269,7 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 	// DODAWANIE KART 
 	$scope.addTask = function (newTask, index) {
 
-		$scope.board.lists[index].cards.push({ 'name': newTask, 'subscription': false });
+		$scope.board.lists[index].cards.push({ 'name': newTask, 'subscription': false, 'deadline' : null });
 
 		$scope.CardObj = {
 			idBlackBoard: $scope.board._id,
@@ -382,6 +389,19 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 	$scope.copyCard = (nameNew, status, selectedBoard, selectedList) => {
 	}
 
+
+	// set a deadline
+	$scope.setDeadline = (term, indexList, indexCard) => {
+		let dateObj = {};
+		dateObj = {
+			date : new Date(term.date + 'T' + term.time),
+			idBoard : $scope.board._id,
+			indexList : indexList,
+			indexCard : indexCard
+		}
+
+		return ApiService.card.deadline(dateObj);
+	}
 
 
 
