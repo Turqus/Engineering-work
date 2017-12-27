@@ -26,8 +26,17 @@
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/javascripts/angular-datepicker.css">
 
   <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  <style>
+  
+._720kb-datepicker-calendar-day._720kb-datepicker-today {
+    background:red;
+    color:white;
+  }
+  </style>
 </head>
 
 <body ng-controller="boardController" ng-init="init('<%= JSON.stringify(user) %>','<%= JSON.stringify(board) %>')" style="background-color: {{board.background}}">
@@ -46,8 +55,9 @@
   </div>
 
 
-  <div id="wrapper"><span> {{results.length}}</span>{{searchCards}}
-    <input type="text" ng-model="searchCards.name">  
+  <div id="wrapper">
+    <span> {{results.length}}</span>{{searchCards}}
+    <input type="text" ng-model="searchCards.name">
     <!--kc-->
     <ul id="first" dnd-horizontal-list="true" dnd-list="board.lists" dnd-allowed-types="['item']">
       <li ng-repeat="item in board.lists" dnd-draggable="item" dnd-type="'item'" dnd-effect-allowed="move" ng-class="{'selected': board.selected === item}"
@@ -58,8 +68,8 @@
               {{item.list}}
             </div>
             <ol id="second" dnd-list="item.cards" dnd-allowed-types="['card']">
-              <li style="margin: 3px 0 3px 0;" ng-repeat="card in item.cards | filter:searchCards as results" dnd-draggable="card" dnd-type="'card'" dnd-effect-allowed="move"
-                dnd-moved="removeItem($parent.$index, $index)" ng-class="{'selected': item.selected === card}">  
+              <li style="margin: 3px 0 3px 0;" ng-repeat="card in item.cards | filter:searchCards as results" dnd-draggable="card" dnd-type="'card'"
+                dnd-effect-allowed="move" dnd-moved="removeItem($parent.$index, $index)" ng-class="{'selected': item.selected === card}">
 
                 <a style="text-decoration: none; color: black;" data-toggle="modal" ng-click="checkDescStatus($parent.$index, $index, card.description, card.name)"
                   href="#{{card._id}}">
@@ -137,16 +147,25 @@
 
 
                 <div class="modal-left-column">
-                  <div class="modal-label" ng-repeat="item in card.labels">
-                    <span style="background-color: {{item.colour}}">{{item.name}}</span>
+                  <div class="modal-label">
+                    <div class="modal-label__items" ng-show="card.labels.length > 0">
+                        <p class="quiet-heading">Etykiety</p>
+                        <span style="background-color: {{item.colour}}" ng-repeat="item in card.labels">{{item.name}}</span>
+                    </div>
+
+                    <div class="modal-deadline" ng-hide="card.deadline === null">
+                        <p class="quiet-heading">Termin</p>
+                      <span class="modal-deadline__item">{{card.deadline | date:'dd'}} - {{card.deadline | date:'MM'}} o {{card.deadline | date:'HH:mm'}} </span>
+                    </div>
                   </div>
+
                   <div class="modal-desc">
 
 
                     <div ng-class="{ deactive : toggleDesc != false }">
                       <a href="#">
                         <span class="quiet-heading underline" ng-click="toggleDesc = !toggleDesc">
-                              <h5 class="quiet-heading">Opis:</h5>  Edytuj
+                          <h5 class="quiet-heading">Opis:</h5> Edytuj
                         </span>
                       </a>
                     </div>
@@ -244,12 +263,12 @@
 
                 <div class="modal-right-column">
 
-                  <div class="modal-option pull-right">
+                  <div class="pull-right">
                     <h4 class="loud-header">Dodaj</h4>
                     <div>
-                      <a href="#" class="option-menu">Członkowie</a>
+                      <a href="#" class="modal-menu__link">Członkowie</a>
                       <div style="position: relative;">
-                        <a href="#" class="option-menu" ng-click="activeMenu('addLabel', !toggle, $event)">Etykiety</a>
+                        <a href="#" class="modal-menu__link" ng-click="activeMenu('addLabel', !toggle, $event)">Etykiety</a>
 
                         <!---->
                         <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'addLabel' && toggle === true }">
@@ -279,7 +298,7 @@
                                         <h5>Wybierz kolor</h5>
                                         <div class="label-create">
                                           <span ng-repeat="item in labels" style="background-color: {{item.colour}}" ng-click="changeLabelColour(item.colour)">
-                                                <span class="glyphicon glyphicon-ok" ng-if="selectedColour == item.colour"></span>
+                                            <span class="glyphicon glyphicon-ok" ng-if="selectedColour == item.colour"></span>
                                           </span>
                                         </div>
 
@@ -304,7 +323,7 @@
                       </div>
 
                       <div style="position: relative">
-                        <a href="#" class="option-menu" ng-click="activeMenu('addListOfTasks', !toggle, $event)">Lista zadań</a>
+                        <a href="#" class="modal-menu__link" ng-click="activeMenu('addListOfTasks', !toggle, $event)">Lista zadań</a>
 
                         <!---->
                         <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'addListOfTasks' && toggle === true }">
@@ -321,14 +340,46 @@
                         </div>
                         <!---->
                       </div>
-                      <a href="#" class="option-menu">Termin</a>
-                      <a href="#" class="option-menu">Załącznik</a>
+                      <!--TERMIN KARTy-->
+
+                      <div style="position: relative">
+
+                        <a href="#" class="modal-menu__link" ng-click="activeMenu('Termin', !toggle, $event)">Termin</a>
+
+                        <!---->
+                        <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Termin' && toggle === true }">
+                          <span class="menu-heading">Ustal Termin</span>
+
+                          <div class="setDeadline-wrapper">
+                            <form>
+                              <div class="form-group">
+                                <label>Czas</label>
+                                <input type="text" ng-model="term.time" class="form-control">
+                              </div>
+                              <div class="form-group">
+                                <label>Data</label>
+                                <datepicker datepicker-show="true" datepicker-toggle="true"  date-format="yyyy-MM-dd" selector="form-control">
+                                  <input ng-model="term.date"   class="form-control" />
+                                </datepicker>
+                                </div>
+                              <button class="btn btn-success" ng-click="setDeadline(term, $parent.$index, $index)">Zapisz</button>
+                              <button class="btn btn-danger pull-right">Usuń</button>
+                            </form>
+
+                          </div>
+
+                        </div>
+                        <!---->
+                      </div>
+                      <!--END-->
+
+                      <a href="#" class="modal-menu__link">Załącznik</a>
                     </div>
                     <h4 class="loud-header">Działania</h4>
                     <div>
                       <div style="position: relative">
 
-                        <a href="#" class="option-menu" ng-click="activeMenu('Przenieś', !toggle, $event)">Przenieś</a>
+                        <a href="#" class="modal-menu__link" ng-click="activeMenu('Przenieś', !toggle, $event)">Przenieś</a>
 
                         <!---->
                         <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Przenieś' && toggle === true }">
@@ -338,17 +389,17 @@
                             <form>
                               <div class="transfer-opt">
                                 <span>Przenieś do tablicy:</span>
-                                <select class="form-control" ng-model="selectedBoard" ng-change="changeBoard(selectedBoard)">  
-                                <option ng-repeat="item in boards" value="{{item._id}}">{{item.name}}</option>   
+                                <select class="form-control" ng-model="selectedBoard" ng-change="changeBoard(selectedBoard)">
+                                  <option ng-repeat="item in boards" value="{{item._id}}">{{item.name}}</option>
                                 </select>
                               </div>
 
 
                               <div class="transfer-opt">
                                 <span>Przenieś do listy:</span>
-                                <select class="form-control" ng-model="selectedList">  
-                                <option ng-show="downloadedLists === 0"  disabled value="">Lista do której przenieść kartę ...</option>
-                                <option ng-repeat="item in downloadedLists" value="{{$index}}">{{item.list}}</option>
+                                <select class="form-control" ng-model="selectedList">
+                                  <option ng-show="downloadedLists === 0" disabled value="">Lista do której przenieść kartę ...</option>
+                                  <option ng-repeat="item in downloadedLists" value="{{$index}}">{{item.list}}</option>
                                 </select>
                               </div>
 
@@ -365,7 +416,7 @@
 
                       <div style="position: relative">
 
-                        <a href="#" class="option-menu" ng-click="activeMenu('Kopiuj', !toggle, $event)">Kopiuj</a>
+                        <a href="#" class="modal-menu__link" ng-click="activeMenu('Kopiuj', !toggle, $event)">Kopiuj</a>
 
                         <!---->
                         <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Kopiuj' && toggle === true }">
@@ -381,17 +432,17 @@
                                 <input type="checkbox" ng-model="status"> Komentarze {{commentsLength}}
 
                                 <span>Kopiuj do tablicy:</span>
-                                <select class="form-control" ng-model="selectedBoard" ng-change="changeBoard(selectedBoard)">  
-                                <option ng-repeat="item in boards" value="{{item._id}}">{{item.name}}</option>   
+                                <select class="form-control" ng-model="selectedBoard" ng-change="changeBoard(selectedBoard)">
+                                  <option ng-repeat="item in boards" value="{{item._id}}">{{item.name}}</option>
                                 </select>
                               </div>
 
 
                               <div class="transfer-opt">
                                 <span>Kopiuj do listy:</span>
-                                <select class="form-control" ng-model="selectedList">  
-                                <option ng-show="downloadedLists === 0"  disabled value="">Lista do której skopiować kartę ...</option>
-                                <option ng-repeat="item in downloadedLists" value="{{$index}}">{{item.list}}</option>
+                                <select class="form-control" ng-model="selectedList">
+                                  <option ng-show="downloadedLists === 0" disabled value="">Lista do której skopiować kartę ...</option>
+                                  <option ng-repeat="item in downloadedLists" value="{{$index}}">{{item.list}}</option>
                                 </select>
                               </div>
 
@@ -405,19 +456,20 @@
                       </div>
                       <!---->
 
-                      <a href="#" class="option-menu">Subskrybuj</a>
+                      <a href="#" class="modal-menu__link">Subskrybuj</a>
 
                       <!--USUń KARTE-->
 
                       <div style="position: relative">
 
-                        <a href="#" class="option-menu" ng-click="activeMenu('Usuń', !toggle, $event)">Usuń</a>
+                        <a href="#" class="modal-menu__link" ng-click="activeMenu('Usuń', !toggle, $event)">Usuń</a>
 
                         <!---->
                         <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Usuń' && toggle === true }">
                           <span class="menu-heading">Skasować Kartę?</span>
                           <div class="delete-wrapper">
-                            <span>Wszystkie aktywności zostaną usunięte z kanału aktywności i nie będzie możliwości odtworzenia karty. Nie ma powrotu.</span>
+                            <span>Wszystkie aktywności zostaną usunięte z kanału aktywności i nie będzie możliwości odtworzenia
+                              karty. Nie ma powrotu.</span>
                             <button class="btn btn-danger">Skasuj</button>
                           </div>
                         </div>
@@ -461,6 +513,8 @@
   <script src="/navbar/menu-create/menu-create-component.js"></script>
 
   <script src="/sidebar/sidebar.js"></script>
+
+  <script src="/javascripts/angular-datepicker.js"></script>
 </body>
 
 </html>

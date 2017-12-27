@@ -10,10 +10,19 @@ angular.module('TodoListApp')
         var routes = {
             staff: '/users',
             profile: '/profile',
-            board: '/board'
+            board: '/board',
+            card: '/card'
         };
 
         var api = {
+            card: {
+                deadline: function (data) {
+                    return post({
+                        url: routes.card + '/set-deadline',
+                        data: data
+                    });
+                }
+            },
             staff: {
                 // all: function (query) {
                 //     return get({

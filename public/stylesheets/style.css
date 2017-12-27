@@ -325,11 +325,9 @@ ol[dnd-list] .dndDraggingSource {
   width: 30%;
   padding: 15px; }
 
-.modal-option a {
+.modal-menu__link {
   display: block;
-  width: 100%; }
-
-.option-menu {
+  width: 100%;
   position: relative;
   padding: 7px 7px 7px 11px;
   height: 2pc;
@@ -339,18 +337,28 @@ ol[dnd-list] .dndDraggingSource {
   color: black;
   min-width: 180px; }
 
-.modal-option span {
+.modal-menu span {
   margin-top: 10px; }
 
-.modal-option li {
+.modal-menu li {
   list-style-type: none; }
 
-.modal-label {
+.modal-deadline {
+  height: 100%; }
+  .modal-deadline__item {
+    border: 1px solid grey; }
+
+.modal-label__items {
   display: inline-flex;
   flex-wrap: wrap; }
 
+.modal-label .quiet-heading {
+  display: block; }
+
 .modal-label span {
   padding: 5px;
+  min-width: 10px;
+  min-height: 10px;
   margin-right: 5px;
   border-radius: 3px; }
 
@@ -793,6 +801,18 @@ ol[dnd-list] .dndDraggingSource {
   display: block; }
 .delete-wrapper button, .close-board-wrapper button {
   width: 100%; }
+
+.setDeadline-wrapper form datepicker {
+  height: 360px; }
+.setDeadline-wrapper form .form-group {
+  margin-top: 10px; }
+  .setDeadline-wrapper form .form-group label {
+    text-align: center;
+    width: 100%; }
+.setDeadline-wrapper form input:nth-child(1) {
+  margin-bottom: 10px; }
+.setDeadline-wrapper span {
+  margin: 10px 0 10px 0; }
 
 .transfer-wrapper {
   display: flex;
