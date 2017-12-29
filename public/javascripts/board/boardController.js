@@ -269,7 +269,7 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 	// DODAWANIE KART 
 	$scope.addTask = function (newTask, index) {
 
-		$scope.board.lists[index].cards.push({ 'name': newTask, 'subscription': false, 'deadline' : null });
+		$scope.board.lists[index].cards.push({ 'name': newTask, 'subscription': false, 'deadline': null });
 
 		$scope.CardObj = {
 			idBlackBoard: $scope.board._id,
@@ -394,15 +394,114 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 	$scope.setDeadline = (term, indexList, indexCard) => {
 		let dateObj = {};
 		dateObj = {
-			date : new Date(term.date + 'T' + term.time),
-			idBoard : $scope.board._id,
-			indexList : indexList,
-			indexCard : indexCard
+			date: new Date(term.date + 'T' + term.time),
+			idBoard: $scope.board._id,
+			indexList: indexList,
+			indexCard: indexCard
 		}
 
 		return ApiService.card.deadline(dateObj);
 	}
 
 
+	// $scope.uploadAttachment = (file) => {
+	// 		console.log(file)
+
+	// 		$http({
+	// 			method: 'POST',
+	// 			url: '/card/upload-attachment',
+	// 			headers: {'Content-Type': 'multipart/form-data'},
+	// 			data: { file } 
+	// 		}).then(function successCallback(response) { 
+	// 			console.log(response)
+	// 		}, function errorCallback(response) { 
+	// 			console.log(response);
+	// 		});
+	// }
+
 
 });
+
+App.directive("fileread", [function () {
+    return {
+        scope: {
+            fileread: "="
+        },
+        link: function (scope, element, attributes) {
+            element.bind("change", function (changeEvent) {
+                var reader = new FileReader();
+                reader.onload = function (loadEvent) {
+                    scope.$apply(function () {
+                        scope.fileread = loadEvent.target.result; 
+					});
+                }
+				reader.readAsDataURL(changeEvent.target.files[0]); 
+				console.log(reader);
+				scope.sendFile(reader);
+	
+			});
+		},
+		controller: function($scope, $http) {
+			$scope.sendFile = (reader) => {
+				$http({
+					method: 'POST',
+					url: '/card/upload-attachment',
+					headers: {'Content-Type': 'multipart/form-data'},
+					data: { reader } 
+				}).then(function successCallback(response) { 
+					console.log(response)
+				}, function errorCallback(response) { 
+					console.log(response);
+				});
+			}
+		}
+    }
+}]);
+
+// App.directive('file', function () {
+//     return {
+//         scope: {
+//             file: '='
+//         },
+//         link: function (scope, el, attrs) {
+//             el.bind('change', function (event) { 
+//                 var file = event.target.files[0];
+//                 scope.file = file ? file : undefined;
+// 				scope.$apply(); 
+// 				scope.check();
+//             });
+// 		},
+// 		controller: function($scope, $http) {
+
+// 			$scope.check = () => { 
+// 				if($scope.file) {
+// 					$http({
+// 						method: 'POST',
+// 						url: '/card/upload-image',
+// 						headers: {
+// 							'Content-Type': 'multipart/form-data'
+// 						},
+// 						data: {
+// 							upload: $scope.file
+// 						},
+// 						transformRequest: function (data, headersGetter) {
+// 							var formData = new FormData();
+// 							angular.forEach(data, function (value, key) {
+// 								formData.append(key, value);
+// 							});
+
+// 							var headers = headersGetter();
+// 							delete headers['Content-Type'];
+
+// 							return formData;
+// 						}
+// 					})
+// 					.then(function (data) { 
+// 						console.log(data)
+// 					})			
+// 				}
+
+// 			}
+// 		} 
+//     };
+// });

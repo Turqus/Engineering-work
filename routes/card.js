@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var ObjectId = require('mongodb').ObjectID;
-var multer = require('multer'); 
+var multer = require('multer');
 var Board = require('../model/board.model');
 
 let storage = multer.diskStorage({
@@ -9,13 +9,10 @@ let storage = multer.diskStorage({
         cb(null, 'public/uploads/')
     },
     filename: function (req, file, cb) {
-        let extArray = file.mimetype.split("/"); 
-        if(extArray[0] === 'image') { 
-            let extension = extArray[extArray.length - 1];
-            cb(null, file.fieldname + '-' + Date.now() + '.' + extension);
-        } else {  
+        let extArray = file.mimetype.split("/");
+        let extension = extArray[extArray.length - 1];
+        cb(null, file.fieldname + '-' + Date.now() + '.' + extension);
 
-        }
     }
 })
 
@@ -24,14 +21,12 @@ const upload = multer({ storage: storage })
 
 
 
-router.post('/upload-image', upload.any(), function (req, res, next) {
-      if(req.files.error) {
-          console.log('qrwa jakis blad');
-      } else {
-        res.send(req.files);
-      }
- 
+router.post('/upload-attachment', upload.any(), function (req, res, next) {
+    console.log(req.body,  req.files)
+    res.send(req.files);
 });
+
+
 
 router.post('/set-deadline', function (req, res, next) {
     let dateObj = req.body

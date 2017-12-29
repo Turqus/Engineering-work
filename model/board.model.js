@@ -21,11 +21,24 @@ var BoardSchema = new Schema({
       Author: [{type : Schema.Types.ObjectId, ref: 'User'}],
        
       deadline: { type: Date },
-      comments: [{ text: String, 
+
+      comments: [{ 
+        text: String, 
         authorID: {type : Schema.Types.ObjectId, ref: 'User'}, 
         name: String,
-        created: { type: Date, default: Date.now } }],
-        
+        created: { type: Date, default: Date.now } 
+      }],
+
+        attachments: [{   
+          fieldname: String,
+          originalname: String,
+          mimetype: String,
+          destination: String,
+          fieldname: String,
+          path: String,
+          size: Number,
+          created: { type: Date, default: Date.now } 
+        }],
 
       listsTasks: [{name : String, percent : Number, tasks : []}]
     }]

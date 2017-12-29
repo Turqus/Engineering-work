@@ -382,11 +382,10 @@
                         <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Załącznik' && toggle === true }">
                           <span class="menu-heading">Dodaj Załącznik</span>
 
-                          <div class="">
-                            <form method="post" enctype="multipart/form-data" action="/card/upload-image">
-                              <input type="file" name="image">
-                              <input type="submit" name="submit" value="submit">
-                              <!-- <button class="btn btn-success pull-right" ng-click="setDeadline(term, $parent.$index, $index)">Dodaj</button>  -->
+                          <div class="panel-attachment">
+                            <form class="panel-attachment__form" enctype="multipart/form-data">
+                              <input type="file" fileread="file" />
+                              <!-- <button class="btn btn-success panel-attachment__btn pull-right" type="submit" ng-click="uploadAttachment(file)">Wyślij</button>  -->
                             </form>
 
                           </div>
