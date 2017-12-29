@@ -6,8 +6,9 @@
             },
             controller: function ($scope, ApiService) {
                 this.$onInit = function () {
-                    $scope.link = 'http://localhost:3000/b/'+this.board._id;
-                    console.log($scope.link)
+                    $scope.board = this.board;
+                    $scope.link = 'http://localhost:3000/b/' + this.board._id;
+
                     $scope.labels = [
                         { "colour": "#61BD4F" },
                         { "colour": "#F2D600" },
@@ -23,11 +24,11 @@
                     ];
 
                     $scope.toggle = {
-                        rightMenu: false,
+                        rightMenu: true,
                         nestedMenu: false,
                     }
                     $scope.nestedNameMenu = '';
-                    $scope.nameMenu = 'Menu';
+                    $scope.nameMenu = 'Etykiety';
                 };
 
                 $scope.openNestedMenu = (nestedNameMenu) => {
@@ -42,9 +43,7 @@
                             _id: this.board._id,
                             background: background
                         };
-                        return ApiService.board.changeBackground(params).then((resp) => {
-                            console.log(resp)
-                        });
+                        return ApiService.board.changeBackground(params);
                     }
                 }
 
@@ -55,31 +54,45 @@
                     $scope.level = level;
                 }
 
-
-
-                $scope.labelMenu = (colour, itemName, index, name, toggle, $event) => {
-                    $scope.blockClosingList($event);
-                    if ($scope.toggle.nestedMenu === true && $scope.indexEditLabel == index) {
-                        $scope.toggle.nestedMenu = !$scope.toggle.nestedMenu;
-                    }
-                    else if ($scope.toggle.nestedMenu === false) {
-                        $scope.toggle.nestedMenu = !$scope.toggle.nestedMenu;
-                    }
-
-                    $scope.indexEditLabel = index;
-                    $scope.name = name;
-                    $scope.insertedName = itemName;
-                    $scope.selectedColour = colour;
-                    $scope.indexEditLabel = index;
-                }
-
                 $scope.changeLabelColour = (colour) => {
                     $scope.selectedColour = colour;
                 }
 
-                $scope.labelControl = (name, indexLabel) => {
+                // LABEL CONTROL *SIDEBAR*
+                $scope.createLabel = (insertedName) => {
+                    let isValidated = validateLabel(insertedName)
+                    if (isValidated === true) {
+                        if (insertedName == '') {
+                            $scope.board.boardLabels.push({ 'colour': $scope.selectedColour });
+                        }
+                        else {
+                            $scope.board.boardLabels.push({ 'name': insertedName, 'colour': $scope.selectedColour });
+                        }
+                        updateListLabels()
+                    } else {
 
+                    }
+                };
+
+                $scope.editLabel = (insertedName, indexLabel) => {
+                    let isValidated = validateLabel(insertedName)
+                    if (isValidated === true) {
+                        if (insertedName == '') {
+                            $scope.board.boardLabels.splice(indexLabel, 1, { 'colour': $scope.selectedColour });
+                        }
+                        else {
+                            $scope.board.boardLabels.splice(indexLabel, 1, { 'name': insertedName, 'colour': $scope.selectedColour });
+                        }
+                        updateListLabels();
+                    } else {
+
+                    }
+                    // $scope.insertedName = insertedName;
+                };
+
+                function validateLabel(name) {
                     var ok = true;
+
                     if ($scope.selectedColour == null) {
                         $scope.selectedColour = '#B6BBBF';
                     }
@@ -90,40 +103,42 @@
                         }
                     });
 
-                    if (indexLabel == null && ok != false) {
-                        if (name == '') {
-                            $scope.board.boardLabels.push({ 'colour': $scope.selectedColour });
-                        }
-                        else {
-                            $scope.board.boardLabels.push({ 'name': name, 'colour': $scope.selectedColour });
-                        }
+                    return ok;
+                };
 
-
-
-                    } else {
-                        if (name == '') {
-                            $scope.board.boardLabels.splice(indexLabel, 1, { 'colour': $scope.selectedColour });
-                        }
-                        else {
-                            $scope.board.boardLabels.splice(indexLabel, 1, { 'name': name, 'colour': $scope.selectedColour });
-                        }
-
-                        $scope.insertedName = name;
-
+                function updateListLabels() {
+                    let labelObj = {
+                        idBoard: $scope.board._id,
+                        labels: $scope.board.boardLabels
                     }
 
-                    if (ok != false) {
-                        let labelObj = {
-                            idBoard: $scope.board._id,
-                            labels: $scope.board.boardLabels
-                        }
-
-
-                        return ApiService.staff.addLabelToBoard(labelObj);
-                    }
-
-                    $scope.name = '';
+                    return ApiService.staff.addLabelToBoard(labelObj);
                 }
+
+                // END LABEL CONTROL *SIDEBAR*
+
+
+                $scope.labelMenu = ($event, nameMenu, index, item) => { 
+                    $scope.blockClosingList($event);
+                    if ($scope.toggle.nestedMenu === true && $scope.indexEditLabel == index) {
+                        $scope.toggle.nestedMenu = !$scope.toggle.nestedMenu;
+                    }
+                    else if ($scope.toggle.nestedMenu === false) {
+                        $scope.toggle.nestedMenu = !$scope.toggle.nestedMenu;
+                    }
+
+                    if(index && item) {
+                        $scope.insertedName = item.name;
+                        $scope.selectedColour = item.colour; 
+                        $scope.indexEditLabel = index;
+                    } else {
+                        $scope.insertedName = '';
+                        $scope.selectedColour = '#B6BBBF';
+                    }
+
+                    $scope.name = nameMenu;
+                }
+
 
                 $scope.addLabel = (indexList, indexCard, indexLabel, label) => {
                     var ok = true;

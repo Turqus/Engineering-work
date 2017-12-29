@@ -263,7 +263,7 @@
                             <a href="#">
                                 <span class="label-property" style="background-color: {{item.colour}}; ">{{item.name}}</span>
                             </a>
-                            <span class="label-glyphicon glyphicon glyphicon-pencil" ng-click="labelMenu(item.colour, item.name, $index, 'editLabel', !toggle, $event);"></span>
+                            <span class="label-glyphicon glyphicon glyphicon-pencil" ng-click="labelMenu($event, 'editLabel', $index, item);"></span>
                         </div> 
  
                             <!---->
@@ -280,7 +280,7 @@
                                             </span>
                                         </div>		 
 
-                                        <button class="btn btn-success pull-right" ng-click="labelControl(insertedName, $index)">Zapisz</button>
+                                        <button class="btn btn-success pull-right" ng-click="editLabel(insertedName, $index)">Zapisz</button>
                                         <button class="btn btn-danger pull-right" ng-click="deleteLabel(item._id)">Usuń</button>
                                     </form>
                                 </div>
@@ -289,18 +289,15 @@
                             <!----> 
                     </li>
                 </ul>
-
-
-
             </div>
 
 
 
             <div class="label-bottom">
-                <a href="#" ng-click="labelMenu(null, null, null, 'createLabel', !toggle, $event);">Utwórz nową etykietę</a>
+                <a href="#" ng-click="labelMenu($event, 'createLabel');">Utwórz nową etykietę</a>
 
                        <!---->
-                            <div class="menu label-control" ng-click="sidebar.blockClosingList($event)" ng-class="{active : name === 'createLabel' && toggle.nestedMenu === true }">
+                            <div class="menu label-control" ng-click="blockClosingList($event)" ng-class="{active : name === 'createLabel' && toggle.nestedMenu === true }">
                                 <span class="menu-heading">Nowa Etykieta</span> 
                                 <div class="label-control-wrapper center-block">
                                     <form>
@@ -308,14 +305,14 @@
                                         <input type="text" class="form-control" ng-model="insertedName">
                                         <h5>Wybierz kolor</h5>
                                         <div class="label-create">
-                                            <span ng-repeat="item in labels" style="background-color: {{item.colour}}" ng-click="sidebar.changeLabelColour(item.colour)">
+                                            <span ng-repeat="item in labels" style="background-color: {{item.colour}}" ng-click="changeLabelColour(item.colour)">
                                                 <span class="glyphicon glyphicon-ok" ng-if="selectedColour == item.colour"></span>
                                             </span>
                                         </div>		 
                                         <div> 
                                             <p class="quiet-heading">Jeśli nie wybierzesz koloru domyślnie zostanie ustawiony szary.</p>
                                         </div>
-                                        <button class="btn btn-success pull-right" ng-click="labelControl(insertedName, $index)">Zapisz</button>
+                                        <button class="btn btn-success pull-right" ng-click="createLabel(insertedName)">Zapisz</button>
                                         <button class="btn btn-danger pull-right">Usuń</button>
                                     </form>
                                 </div>
