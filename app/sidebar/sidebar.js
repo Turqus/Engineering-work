@@ -24,11 +24,11 @@
                     ];
 
                     $scope.toggle = {
-                        rightMenu: true,
+                        rightMenu: false,
                         nestedMenu: false,
                     }
                     $scope.nestedNameMenu = '';
-                    $scope.nameMenu = 'Etykiety';
+                    $scope.nameMenu = 'Menu';
                 };
 
                 $scope.openNestedMenu = (nestedNameMenu) => {
@@ -185,5 +185,4 @@
         })
 })();
 
-
-
+ 

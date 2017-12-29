@@ -1015,6 +1015,26 @@ select::-ms-expand {
   width: 100%;
   color: white; }
 
+.modal-menu-label-wrapper {
+  display: flex; }
+.modal-menu-label__list {
+  list-style-type: none; }
+.modal-menu-label__item {
+  margin-top: 5px; }
+.modal-menu-label__link {
+  flex: 5; }
+  .modal-menu-label__link span {
+    padding: 7px 12px 12px 11px;
+    display: block;
+    color: white;
+    width: 100%;
+    height: 35px;
+    border-radius: 3px; }
+  .modal-menu-label__link:link {
+    text-decoration: none; }
+.modal-menu-label span {
+  flex: 1; }
+
 .label-glyphicon {
   display: flex;
   align-content: center;

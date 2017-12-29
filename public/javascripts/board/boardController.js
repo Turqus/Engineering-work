@@ -114,32 +114,7 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 
 
 
-	$scope.addLabel = (indexList, indexCard, indexLabel, label) => {
-		var ok = true;
-		var duplicate;
 
-		angular.forEach($scope.board.lists[indexList].cards[indexCard].labels, function (value, key) {
-			if ($scope.board.lists[indexList].cards[indexCard].labels[key]._id == label._id) {
-				ok = false;
-				duplicate = key;
-			}
-		})
-
-		if (ok == true) {
-			$scope.board.lists[indexList].cards[indexCard].labels.splice(indexLabel, 0, { '_id': label._id, 'name': label.name, 'colour': label.colour });
-		} else {
-			$scope.board.lists[indexList].cards[indexCard].labels.splice(duplicate, 1);
-		}
-
-		var labelObj = {
-			idBoard: $scope.board._id,
-			indexList: indexList,
-			indexCard: indexCard,
-			labels: $scope.board.lists[indexList].cards[indexCard].labels
-		}
-		return ApiService.staff.addLabelToCard(labelObj).then(function () {
-		})
-	}
 
 
 
@@ -354,12 +329,6 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 	}
 
 
-	$scope.blockClosingList = function ($event) {
-		$event.stopPropagation();
-	}
-
-
-
 
 
 	$scope.changeBoard = (_id) => {
@@ -420,42 +389,81 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 	// }
 
 
+	$scope.addLabel = (indexList, indexCard, indexLabel, label) => {
+		var ok = true;
+		var duplicate;
+
+		angular.forEach($scope.board.lists[indexList].cards[indexCard].labels, function (value, key) {
+			if ($scope.board.lists[indexList].cards[indexCard].labels[key]._id == label._id) {
+				ok = false;
+				duplicate = key;
+			}
+		})
+
+		if (ok == true) {
+			$scope.board.lists[indexList].cards[indexCard].labels.splice(indexLabel, 0, { '_id': label._id, 'name': label.name, 'colour': label.colour });
+		} else {
+			$scope.board.lists[indexList].cards[indexCard].labels.splice(duplicate, 1);
+		}
+
+		var labelObj = {
+			idBoard: $scope.board._id,
+			indexList: indexList,
+			indexCard: indexCard,
+			labels: $scope.board.lists[indexList].cards[indexCard].labels
+		}
+		return ApiService.staff.addLabelToCard(labelObj).then(function () {
+		})
+	}
+ 
+	
+
+	$scope.blockClosingList = function ($event) {
+		$event.stopPropagation();
+	}
+
+
+
 });
+ 
+
+
+
 
 App.directive("fileread", [function () {
-    return {
-        scope: {
-            fileread: "="
-        },
-        link: function (scope, element, attributes) {
-            element.bind("change", function (changeEvent) {
-                var reader = new FileReader();
-                reader.onload = function (loadEvent) {
-                    scope.$apply(function () {
-                        scope.fileread = loadEvent.target.result; 
+	return {
+		scope: {
+			fileread: "="
+		},
+		link: function (scope, element, attributes) {
+			element.bind("change", function (changeEvent) {
+				var reader = new FileReader();
+				reader.onload = function (loadEvent) {
+					scope.$apply(function () {
+						scope.fileread = loadEvent.target.result;
 					});
-                }
-				reader.readAsDataURL(changeEvent.target.files[0]); 
+				}
+				reader.readAsDataURL(changeEvent.target.files[0]);
 				console.log(reader);
 				scope.sendFile(reader);
-	
+
 			});
 		},
-		controller: function($scope, $http) {
+		controller: function ($scope, $http) {
 			$scope.sendFile = (reader) => {
 				$http({
 					method: 'POST',
 					url: '/card/upload-attachment',
-					headers: {'Content-Type': 'multipart/form-data'},
-					data: { reader } 
-				}).then(function successCallback(response) { 
+					headers: { 'Content-Type': 'multipart/form-data' },
+					data: { reader }
+				}).then(function successCallback(response) {
 					console.log(response)
-				}, function errorCallback(response) { 
+				}, function errorCallback(response) {
 					console.log(response);
 				});
 			}
 		}
-    }
+	}
 }]);
 
 // App.directive('file', function () {
@@ -505,3 +513,10 @@ App.directive("fileread", [function () {
 // 		} 
 //     };
 // });
+
+
+
+
+		// return a Promise object so that the caller can handle success/failure
+		// return $http({ method: 'POST', url: '/api/recipe/add', data: recipe });
+		// console.log(labelObj)
