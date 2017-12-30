@@ -15,12 +15,15 @@ App.directive("menuDeadline", function () {
             
             $scope.setDeadline = (term, indexList, indexCard) => {
                 let dateObj = {};
+
                 dateObj = {
                     date: new Date(term.date + 'T' + term.time),
                     idBoard: $scope.board._id,
                     indexList: indexList,
                     indexCard: indexCard
                 }
+                
+                $scope.board.lists[indexList].cards[indexCard].deadline = dateObj.date;
 
                 return ApiService.card.deadline(dateObj);
             }

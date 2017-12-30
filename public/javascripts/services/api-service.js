@@ -13,7 +13,7 @@ angular.module('TodoListApp')
             board: '/board',
             card: '/card'
         };
-
+        
         var api = {
             card: {
                 deadline: function (data) {
@@ -21,7 +21,25 @@ angular.module('TodoListApp')
                         url: routes.card + '/set-deadline',
                         data: data
                     });
-                }
+                },
+                deleteCard: function (data) {
+                    return post({
+                        url: routes.card + '/delete-card',
+                        data: data
+                    });
+                },
+                transferCard: function (data) {
+                    return put({
+                        url: routes.card + '/transfer-card',
+                        data: data
+                    });
+                },
+                copyCard: function (data) {
+                    return put({
+                        url: routes.card + '/copy-card',
+                        data: data
+                    });
+                },
             },
             staff: {
                 // all: function (query) {

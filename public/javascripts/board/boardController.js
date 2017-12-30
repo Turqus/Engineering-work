@@ -1,25 +1,16 @@
 App.controller('boardController', function ($scope, $http, ApiService, timeAgo, nowTime) {
 
 	$scope.init = function (user, board) {
-		// $scope.downloadedLists = '';
-		// $scope.downloadedLists.lists = [];
-		// $scope.commentsLength = ''; 
-
-		$scope.toggleAddTask = false;
 		$scope.toggle = false;
-		$scope.toggleRightMenu = true;
 		$scope.toggleAddCard = false;
-		$scope.nameMenu = 'Menu';
-
+		
 		$scope.modelAsJson = '';
 		$scope.user = JSON.parse(user);
 		$scope.board = JSON.parse(board);
 	};
 
-	// $scope.changeMenu = (name) => {
-	// 	$scope.nameMenu = name; 
-	// }
 
+	// open menu to add card
 	$scope.addCard = (index) => {
 		if ($scope.toggleAddCard === true && $scope.indexAddCard == index) {
 			$scope.toggleAddCard = !$scope.toggleAddCard;
@@ -27,20 +18,16 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 		else if ($scope.toggleAddCard === false) {
 			$scope.toggleAddCard = !$scope.toggleAddCard;
 		}
-
 		$scope.indexAddCard = index;
 	}
 
+	// open menu to add list
 	$scope.addListMenuActiv = ($event) => {
-		$scope.openMenuAddList = !openMenuAddList;
+		$scope.openMenuAddList = !$scope.openMenuAddList; 
 	}
 
 
 	$scope.logEvent = () => {
-		//  document.getElementsByClassName("wewe").style.display = "none";
-		// setTimeout(function () { 
-		//  document.querySelector("#wewe").style.height = "1000px"
-		// }, 15);
 		setTimeout(function () {
 			document.querySelector("ul[dnd-list] > .dndDraggingSource").style.display = "none"
 		}, 20);
@@ -61,7 +48,7 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 
 		$scope.$watch('board', function (lists) {
 			$scope.modelAsJson = angular.toJson(lists, true);
-			$scope.udpateCard();
+			udpateCard();
 		}, false);
 	}
 
@@ -70,11 +57,12 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 
 		$scope.$watch('board', function (lists) {
 			$scope.modelAsJson = angular.toJson(lists, true);
-			$scope.udpateCard();
+			udpateCard();
 		}, false);
 	}
 
-	$scope.udpateCard = function () {
+	// $scope.udpateCard = function () {
+		function udpateCard() {
 		return ApiService.staff.update($scope.modelAsJson).then(function () {
 		})
 	}
@@ -110,17 +98,9 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 		})
 	};
  
-	//********************* */
-	// improve communication
-	//********************** */
+	
 	$scope.checkDescStatus = (indexList, indexCard, descrip, name) => {
 		$scope.commentsLength = $scope.board.lists[indexList].cards[indexCard].comments.length;
-		$scope.loadBoards();
-		// $scope.selectedList = '0';
-		// $scope.selectedCard = '0';
-		// $scope.mainList = JSON.stringify(indexList);
-		// $scope.mainCard = JSON.stringify(indexCard);
-		// $scope.changeBoard(null);
 		$scope.nameNew = name;
 		$scope.descripNew = descrip;
 		if ($scope.board.lists[indexList].cards[indexCard].description == undefined)
@@ -197,3 +177,33 @@ App.directive("fileread", [function () {
 	// 	return ApiService.staff.addMemberToCard($scope.board).then(function () {
 	// 	})
 	// }
+
+
+
+
+			// $scope.downloadedLists = '';
+		// $scope.downloadedLists.lists = [];
+		// $scope.commentsLength = ''; 
+		// $scope.toggleRightMenu = true;
+		// $scope.toggleAddTask = false;
+		// $scope.nameMenu = 'Menu';
+		
+	// $scope.changeMenu = (name) => {
+	// 	$scope.nameMenu = name; 
+	// }
+
+
+
+	//checkdescstatus
+		// $scope.selectedList = '0';
+		// $scope.selectedCard = '0';
+		// $scope.mainList = JSON.stringify(indexList);
+		// $scope.mainCard = JSON.stringify(indexCard);
+		// $scope.changeBoard(null);
+
+
+		// $scope.logevent
+				//  document.getElementsByClassName("wewe").style.display = "none";
+		// setTimeout(function () { 
+		//  document.querySelector("#wewe").style.height = "1000px"
+		// }, 15);

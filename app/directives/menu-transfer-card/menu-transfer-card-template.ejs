@@ -1,4 +1,4 @@
-<div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Przenieś' && toggle === true }">
+<div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Przenieś' && toggle === true }" ng-init="initBoards()">
         <span class="menu-heading">Przenieś Kartę</span>
 
         <div class="transfer-wrapper">
@@ -20,7 +20,7 @@
             </div>
 
 
-            <button class="btn btn-success pull-right" ng-click="changePositionCard(selectedBoard, selectedList)">Przenieś</button>
+            <button class="btn btn-success pull-right" ng-click="transferCard(selectedBoard, selectedList, $parent.$index, $index)">Przenieś</button>
           </form>
         </div>
 

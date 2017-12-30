@@ -23,7 +23,7 @@
     </li>
 
     <div class="addTaskToListBtn" ng-class="{ deactive : toggleAddTask == true && indexAddTask == $index}">
-        <span ng-click="openAddTask($index)">Dodaj element</span>
+        <span ng-click="openAddTask($index)">Dodaj element</span>{{$index}}
     </div>
 
     <div class="addTaskToList" ng-class="{ active : toggleAddTask == true && indexAddTask == $index }">

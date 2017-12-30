@@ -1,35 +1,4 @@
-<!DOCTYPE html>
-<html ng-app="TodoListApp">
-
-<head>
-  <title>TODO List</title>
-  <!-- AngularJS -->
-  <script src="/javascripts/angular.js"></script>
-  <script src="/javascripts/app.js"></script>
-  <script src="/javascripts/services/api-service.js"></script>
-  <script src="/javascripts/angular-drag-and-drop-lists.js"></script>
-
-  <!-- Google Fonts -->
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500" />
-  <!-- Google Fonts -->
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" />
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
-  <!--<link rel="stylesheet" href="normalize.css" />-->
-
-  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.1/css/jasny-bootstrap.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/javascripts/angular-datepicker.css">
-
-  <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
+<% include partials/head.ejs %>
 
 <body ng-controller="boardController" ng-init="init('<%= JSON.stringify(user) %>','<%= JSON.stringify(board) %>')" style="background-color: {{board.background}}">
   <navbar user='user'></navbar>
@@ -165,8 +134,13 @@
                         </div>
                       </div>
 
-
+                      <div style="position: relative;">
+                          <a href="#" class="modal-menu__link" ng-click="activeMenu('addLabel', !toggle, $event)">Etykiety</a>
+                          <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'addLabel' && toggle === true }">
+                              <span class="menu-heading">Dodaj Etykiete</span>
                       <label-panel></label-panel>
+                    </div>
+                  </div>
                       <menu-add-list-tasks></menu-add-list-tasks>
                       <menu-deadline></menu-deadline> 
 
