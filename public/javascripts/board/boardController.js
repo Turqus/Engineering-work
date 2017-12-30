@@ -165,22 +165,7 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 		})
 	};
  
-	$scope.addListOfTasks = (indexList, indexCard, nameList) => {
-		if ($scope.board.lists[indexList].cards[indexCard].listsTasks == undefined)
-			$scope.board.lists[indexList].cards[indexCard].listsTasks = [];
 
-		$scope.board.lists[indexList].cards[indexCard].listsTasks.push({ 'name': nameList, 'percent': '0' });
-
-		var listsTasksObj = {
-			type: 'name',
-			idBoard: $scope.board._id,
-			indexList: indexList,
-			indexCard: indexCard,
-			tasks: $scope.board.lists[indexList].cards[indexCard].listsTasks
-		}
-
-		return ApiService.staff.addListsOfTasks(listsTasksObj);
-	}
 
 	$scope.checkDescStatus = (indexList, indexCard, descrip, name) => {
 		$scope.commentsLength = $scope.board.lists[indexList].cards[indexCard].comments.length;
@@ -261,22 +246,10 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 		console.log(toBoard, toList);
 	};
 
-	$scope.copyCard = (nameNew, status, selectedBoard, selectedList) => {
-	}
 
 
-	// set a deadline
-	$scope.setDeadline = (term, indexList, indexCard) => {
-		let dateObj = {};
-		dateObj = {
-			date: new Date(term.date + 'T' + term.time),
-			idBoard: $scope.board._id,
-			indexList: indexList,
-			indexCard: indexCard
-		}
 
-		return ApiService.card.deadline(dateObj);
-	}
+
 
 
 

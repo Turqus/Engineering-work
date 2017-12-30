@@ -1,0 +1,39 @@
+
+                      <div style="position: relative">
+
+                          <a href="#" class="modal-menu__link" ng-click="activeMenu('Kopiuj', !toggle, $event)">Kopiuj</a>
+<div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Kopiuj' && toggle === true }">
+        <span class="menu-heading">Kopiuj Kartę</span>
+
+        <div class="transfer-wrapper">
+          <form>
+            <div class="transfer-opt">
+              <span>Zmienić nazwę?:</span>
+              <textarea rows="4" ng-model="nameNew" class="form-control" ng-keypress="($event.keyCode==13) ? copyCard() : return"></textarea>
+
+              <h5>Zatrzymaj:</h5>
+              <input type="checkbox" ng-model="status"> Komentarze {{commentsLength}}
+
+              <span>Kopiuj do tablicy:</span>
+              <select class="form-control" ng-model="selectedBoard" ng-change="changeBoard(selectedBoard)">
+                <option ng-repeat="item in boards" value="{{item._id}}">{{item.name}}</option>
+              </select>
+            </div>
+
+
+            <div class="transfer-opt">
+              <span>Kopiuj do listy:</span>
+              <select class="form-control" ng-model="selectedList">
+                <option ng-show="downloadedLists === 0" disabled value="">Lista do której skopiować kartę ...</option>
+                <option ng-repeat="item in downloadedLists" value="{{$index}}">{{item.list}}</option>
+              </select>
+            </div>
+
+
+            <button class="btn btn-success pull-right" ng-click="copyCard(nameNew, status, selectedBoard, selectedList)">Kopiuj</button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
