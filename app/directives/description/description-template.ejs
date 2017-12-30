@@ -1,0 +1,20 @@
+<div class="modal-desc">
+        <div ng-class="{ deactive : toggleDesc != false }">
+          <a href="#">
+            <span class="quiet-heading underline" ng-click="toggleDesc = !toggleDesc">
+              <h5 class="quiet-heading">Opis:</h5> Edytuj
+            </span>
+          </a>
+        </div>
+
+        <div class="modal-desc-form" ng-class="{ deactive : toggleDesc != false }">
+          <p> {{card.description}}</p>
+        </div>
+
+        <div class="modal-desc-form" ng-class="{ deactive : toggleDesc != true }">
+          <form ng-submit="editDesc($parent.$index, $index, descripNew)">
+            <textarea ng-model="descripNew" cols="30" rows="2" class="form-control" placeholder="Dodaj bardziej szczegółowy opis..."></textarea>
+            <button class="btn btn-success" ng-click="toggleDesc = !toggleDesc">Zapisz</button>
+          </form>
+        </div>
+      </div>

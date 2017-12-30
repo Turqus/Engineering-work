@@ -29,18 +29,9 @@
   <link rel="stylesheet" href="/javascripts/angular-datepicker.css">
 
   <link rel='stylesheet' href='/stylesheets/style.css' />
-
-  <style>
-    ._720kb-datepicker-calendar-day._720kb-datepicker-today {
-      background: red;
-      color: white;
-    }
-  </style>
 </head>
 
 <body ng-controller="boardController" ng-init="init('<%= JSON.stringify(user) %>','<%= JSON.stringify(board) %>')" style="background-color: {{board.background}}">
-
-
   <navbar user='user'></navbar>
 
   </div>
@@ -49,7 +40,6 @@
 
     <div class="board-header">
       <%= board.name %> Prywatna
-
     </div>
   </div>
 
@@ -76,8 +66,7 @@
                     <span>{{card.name}}</span>
                   </div>
                 </a>
-
-                <!--<div modal-window-card></div>-->
+ 
               </li>
             </ol>
             <div class="addCardForm" ng-click="blockClosingList($event)" ng-class="{active : indexAddCard == $index && toggleAddCard === true}"
@@ -99,7 +88,7 @@
 
       <ul class="third-list" dnd-list="board.lists" dnd-allowed-types="['de']">
         <li ng-class="{deactive : openMenuAddList === true }">
-          <div ng-click="addListMenuActiv(!openMenuAddList, $event);" class="third-list__btn">
+          <div ng-click="addListMenuActiv($event);" class="third-list__btn">
             <span>Dodaj listę...</span>
           </div>
         </li>
@@ -109,15 +98,13 @@
             <form>
               <input type="text" class="form-control" ng-model="newList" placeholder="Dodaj kartę..." />
               <button class="btn btn-success" ng-click="addList(newList)">Dodaj</button>
-              <button class="btn btn-default" ng-click="addListMenuActiv(!openMenuAddList, $event);">Anuluj</button>
+              <button class="btn btn-default" ng-click="addListMenuActiv($event);">Anuluj</button>
             </form>
           </div>
         </li>
       </ul>
     </ul>
   </div>
-
-
 
   <div ng-repeat="item in board.lists">
     <div ng-repeat="card in item.cards">
@@ -144,7 +131,6 @@
                   </div>
                 </div>
 
-
                 <div class="modal-left-column">
                   <div class="modal-label">
                     <div class="modal-label__items" ng-show="card.labels.length > 0">
@@ -158,41 +144,12 @@
                     </div>
                   </div>
 
-                  <div class="modal-desc">
-
-
-                    <div ng-class="{ deactive : toggleDesc != false }">
-                      <a href="#">
-                        <span class="quiet-heading underline" ng-click="toggleDesc = !toggleDesc">
-                          <h5 class="quiet-heading">Opis:</h5> Edytuj
-                        </span>
-                      </a>
-                    </div>
-
-                    <div class="modal-desc-form" ng-class="{ deactive : toggleDesc != false }">
-                      <p> {{card.description}}</p>
-                    </div>
-
-                    <div class="modal-desc-form" ng-class="{ deactive : toggleDesc != true }">
-                      <form ng-submit="editDesc($parent.$index, $index, descripNew, !toggleDesc)">
-                        <textarea ng-model="descripNew" cols="30" rows="2" class="form-control" placeholder="Dodaj bardziej szczegółowy opis..."></textarea>
-                        <button class="btn btn-success" ng-click="toggleDesc = !toggleDesc">Zapisz</button>
-                      </form>
-                    </div>
-                  </div>
-
-
-
+                  <description></description>
 
                   <div class="modal-tasks" ng-repeat="listsTaskItem in card.listsTasks">
                     <list-tasks></list-tasks>
                   </div>
-
-
-
                   <comment></comment>
-
-
                 </div>
 
                 <div class="modal-right-column">
@@ -201,38 +158,19 @@
                     <h4 class="loud-header">Dodaj</h4>
                     <div>
 
-
                       <div style="position: relative">
                         <a href="#" class="modal-menu__link" ng-click="activeMenu('Członkowie', !toggle, $event)">Członkowie</a>
-
-                        <!---->
                         <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Członkowie' && toggle === true }">
                           <label-panel></label-panel>
                         </div>
-                        <!---->
                       </div>
 
 
-
-                      <div style="position: relative;">
-                        <a href="#" class="modal-menu__link" ng-click="activeMenu('addLabel', !toggle, $event)">Etykiety</a>
-
-                        <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'addLabel' && toggle === true }">
-                          <span class="menu-heading">Dodaj Etykiete</span>      
-                              <label-panel></label-panel>
-                        </div>
-                      </div>
-
+                      <label-panel></label-panel>
                       <menu-add-list-tasks></menu-add-list-tasks>
-
-                      <!--TERMIN KARTy-->
-                      <menu-deadline></menu-deadline>
-                      <!--END-->
-
-                      <!--Załącznik w KARcie-->
+                      <menu-deadline></menu-deadline> 
 
                       <div style="position: relative">
-
                         <a href="#" class="modal-menu__link" ng-click="activeMenu('Załącznik', !toggle, $event)">Załącznik</a>
 
                         <!---->
@@ -244,67 +182,29 @@
                               <input type="file" fileread="file" />
                               <!-- <button class="btn btn-success panel-attachment__btn pull-right" type="submit" ng-click="uploadAttachment(file)">Wyślij</button>  -->
                             </form>
-
                           </div>
 
                         </div>
-                        <!---->
                       </div>
-                      <!--END-->
                     </div>
+
                     <h4 class="loud-header">Działania</h4>
                     <div>
                       <div style="position: relative">
-
                         <a href="#" class="modal-menu__link" ng-click="activeMenu('Przenieś', !toggle, $event)">Przenieś</a>
-
-                        <!---->
-                        <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Przenieś' && toggle === true }">
-                          <span class="menu-heading">Przenieś Kartę</span>
-
-                          <div class="transfer-wrapper">
-                            <form>
-                              <div class="transfer-opt">
-                                <span>Przenieś do tablicy:</span>
-                                <select class="form-control" ng-model="selectedBoard" ng-change="changeBoard(selectedBoard)">
-                                  <option ng-repeat="item in boards" value="{{item._id}}">{{item.name}}</option>
-                                </select>
-                              </div>
-
-
-                              <div class="transfer-opt">
-                                <span>Przenieś do listy:</span>
-                                <select class="form-control" ng-model="selectedList">
-                                  <option ng-show="downloadedLists === 0" disabled value="">Lista do której przenieść kartę ...</option>
-                                  <option ng-repeat="item in downloadedLists" value="{{$index}}">{{item.list}}</option>
-                                </select>
-                              </div>
-
-
-                              <button class="btn btn-success pull-right" ng-click="changePositionCard(selectedBoard, selectedList)">Przenieś</button>
-                            </form>
-                          </div>
-
-                        </div>
-                        <!---->
+                        <menu-transfer-card></menu-transfer-card>
                       </div>
- 
-                        <menu-copy-card></menu-copy-card> 
+
+                      <menu-copy-card></menu-copy-card>
 
                       <a href="#" class="modal-menu__link">Subskrybuj</a>
-
-                      <!--USUń KARTE-->
                       <menu-delete-card></menu-delete-card>
-                      <!---->
                     </div>
                   </div>
                 </div>
 
               </div>
               <!--end-->
-
-
-
 
             </div>
           </div>
@@ -335,15 +235,17 @@
   <script src="/sidebar/sidebar.js"></script>
 
 
-  <script src="/directives/label-panel/label-panel-directive.js"></script> 
-  <script src="/directives/list-tasks/list-tasks-directive.js"></script> 
-  <script src="/directives/comment/comment-directive.js"></script> 
+  <script src="/directives/label-panel/label-panel-directive.js"></script>
+  <script src="/directives/list-tasks/list-tasks-directive.js"></script>
+  <script src="/directives/comment/comment-directive.js"></script>
   <script src="/directives/menu-deadline/menu-deadline-directive.js"></script>
-  <script src="/directives/menu-copy-card/menu-copy-card-directive.js"></script>  
-  <script src="/directives/menu-delete-card/menu-delete-card-directive.js"></script>  
-  <script src="/directives/menu-add-list-tasks/menu-add-list-tasks-directive.js"></script>  
+  <script src="/directives/menu-copy-card/menu-copy-card-directive.js"></script>
+  <script src="/directives/menu-delete-card/menu-delete-card-directive.js"></script>
+  <script src="/directives/menu-add-list-tasks/menu-add-list-tasks-directive.js"></script>
+  <script src="/directives/description/description-directive.js"></script>
+  <script src="/directives/menu-transfer-card/menu-transfer-card-directive.js"></script>
 
-  
+
   <script src="/javascripts/angular-datepicker.js"></script>
 </body>
 

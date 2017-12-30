@@ -1,7 +1,8 @@
 App.directive("menuAddListTasks", function() {
     return {
         restrict: "E",
-        controller: function() {
+		templateUrl: '/directives/menu-add-list-tasks/menu-add-list-tasks-template.ejs',
+        controller: function($scope, ApiService) {
             $scope.addListOfTasks = (indexList, indexCard, nameList) => {
                 if ($scope.board.lists[indexList].cards[indexCard].listsTasks == undefined)
                     $scope.board.lists[indexList].cards[indexCard].listsTasks = [];
