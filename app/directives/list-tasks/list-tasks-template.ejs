@@ -1,0 +1,35 @@
+<div style="position: relative" class="modal-header-wrapper">
+    <span class="modal-icon-inside glyphicon glyphicon-edit"></span>
+    <h4 class="loud-header">{{listsTaskItem.name}}</h4>
+    <span class="quiet-heading modal__deleteLists" ng-click="deleteListOfTasks($parent.$parent.$index, $parent.$index, $index)">Usuń...</span>
+</div>
+
+<div class="progress-wrapper">
+    <span class="quiet-heading"> {{listsTaskItem.percent | number:0}}% </span>
+    <div class="progress">
+        <div class="progress-bar" style="width: {{listsTaskItem.percent}}%;"> </div>
+    </div>
+</div>
+
+
+<ul>
+    <li ng-repeat="itemTask  in listsTaskItem.tasks">
+        <div class="taskInList">
+            <input type="checkbox" ng-change="updateStatusInTask($parent.$parent.$parent.$index, $parent.$parent.$index, $parent.$index)"
+                ng-model="itemTask.status" />
+            <span ng-class="{ completeTask : itemTask.status == true }">{{itemTask.name}}</span>
+            <button type="button" class="close" ng-click="deleteTaskFromList($parent.$parent.$parent.$index, $parent.$parent.$index, $parent.$index, $index)">&times;</button>
+        </div>
+    </li>
+
+    <div class="addTaskToListBtn" ng-class="{ deactive : toggleAddTask == true && indexAddTask == $index}">
+        <span ng-click="openAddTask($index)">Dodaj element</span>
+    </div>
+
+    <div class="addTaskToList" ng-class="{ active : toggleAddTask == true && indexAddTask == $index }">
+        <form>
+            <textarea ng-model="task" class="form-control"></textarea>
+            <button class="btn btn-success" ng-click="addTaskToList($parent.$parent.$index, $parent.$index, $index, task)">Dodaj</button>
+        </form>
+    </div>
+</ul>

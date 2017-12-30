@@ -1,0 +1,32 @@
+<div class="modal-comments" style="position: relative;">
+        <span class="modal-icon glyphicon glyphicon-comment"></span>
+        <h4 class="loud-header">Dodaj komentarz</h4>
+        <form>
+          <textarea ng-model="commentCard" cols="30" rows="2" class="form-control" placeholder="Napisz komentarz..."></textarea>
+          <button class="btn btn-success" ng-click="addComment($parent.$index, $index, commentCard)">Dodaj</button>
+        </form>
+      </div>
+
+
+      <div class="modal-activity" style="position: relative;">
+        <span class="modal-icon glyphicon glyphicon-time"></span>
+        <h4 class="loud-header">Aktywność</h4>
+
+
+        <div class="window-comments">
+          <div style="border-bottom: 1px solid #E2E4E6; margin-top: 5px;" ng-repeat="comment in card.comments ">
+            <div>
+              <p class="comment-card">{{ comment.text }}</p>
+            </div>
+            <div>
+              <p class="quiet-heading">
+                {{ comment.created | timeAgo }}
+
+                <u>Edytuj</u> -
+                <u>Usuń</u>
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
