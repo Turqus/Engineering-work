@@ -7,18 +7,14 @@ App.directive("menuCopyCard", function () {
             $scope.downloadedLists = [{ 'list': 'n/a' }];
 
             $scope.copyCard = (nameNew, statusComment, selectedBoard, selectedList, indexList, indexCard) => {
-                console.log(nameNew, status, selectedBoard, selectedList, indexList, indexCard)
-
+                var filteredBoard;
                 if (!nameNew || !selectedBoard || !selectedList) {
 
                 } else {
                     let
                         card = $scope.board.lists[indexList].cards[indexCard],
                         copiedCardObj = {
-                            idBoard: $scope.board._id,
-                            selectedBoard: selectedBoard,
                             selectedList: selectedList,
-                            indexList: indexList 
                         },
                         copiedCard = {
                             name: nameNew,
@@ -32,14 +28,27 @@ App.directive("menuCopyCard", function () {
                         };
 
                     if (!statusComment) copiedCard.comments = [];
+
                     if (selectedBoard === $scope.board._id) {
                         $scope.board.lists[selectedList].cards.unshift(copiedCard);
 
+                        copiedCardObj.idBoard = $scope.board._id;
                         copiedCardObj.lists = $scope.board.lists;
 
                         return ApiService.card.copyCard(copiedCardObj);
-                    } else {
 
+                    } else {
+                        filteredBoard = $scope.boards.filter((board) => board._id == selectedBoard);
+
+                        if (filteredBoard.length > 0) {
+                            filteredBoard[0].lists[selectedList].cards.unshift(copiedCard);
+
+                            copiedCardObj.cards = filteredBoard[0].lists[selectedList].cards;
+                            copiedCardObj.selectedBoard = selectedBoard;
+
+                            return ApiService.card.copyCard(copiedCardObj);
+
+                        }
                     }
                 }
 

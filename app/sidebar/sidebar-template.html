@@ -1,9 +1,9 @@
-          <button ng-click="toggle.rightMenu = !toggle.rightMenu" class="side-menu-trigger pull-right">
-        <span class="glyphicon">&#xe234;</span>
-          Pokaż menu
-        </button>
+<button ng-click="toggle.rightMenu = !toggle.rightMenu" class="side-menu-trigger pull-right">
+    <span class="glyphicon">&#xe234;</span>
+    Pokaż menu
+</button>
 
-  <nav class="menu-wrapperRM" ng-class="{activeRM : toggle.rightMenu == true, overflow : nameMenu == 'Menu'}">
+<nav class="menu-wrapperRM" ng-class="{activeRM : toggle.rightMenu == true, overflow : nameMenu == 'Menu'}">
     <div class="menu-headerRM">
         <a href="#" id="menu-back" ng-if="level == 1" ng-click="changeMenu('Menu', true, 0)">Back</a>
         <a href="#" id="menu-back" ng-if="level == 2" ng-click="changeMenu(earlierMenu, true, 1)">Back</a>
@@ -18,10 +18,12 @@
         <div ng-class="{ deactiveRM : nameMenu != 'Menu' }">
             <div style="margin-top: 60px">
 
-                <a href="" class="btn-addUser"><span class="glyphicon glyphicon-user"></span>Zaproś...</a>
+                <a href="" class="btn-addUser">
+                    <span class="glyphicon glyphicon-user"></span>Zaproś...</a>
                 <div style="display: none;">
                     <form ng-submit="addMemberBoard(addMember)">
-                        <label for="">Dodaj członka</label><br>
+                        <label for="">Dodaj członka</label>
+                        <br>
                         <input type="text" class="form-control" ng-model="addMember" placeholder="add a new task" />
                     </form>
                 </div>
@@ -56,9 +58,9 @@
 
             <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
             <span>
-        <span class="glyphicon glyphicon-time"></span>
-         Aktywność 
-            </span>            
+                <span class="glyphicon glyphicon-time"></span>
+                Aktywność
+            </span>
         </div>
 
     </div>
@@ -88,59 +90,68 @@
                 <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
                 <li>
 
-                      <!--KOPIUJ KARTE-->
+                    <!--KOPIUJ KARTE-->
 
-                      <div style="position: relative">
+                    <div style="position: relative">
 
-                        <a href="#"  ng-click="openNestedMenu('Skopiuj Tablicę')"><span class="glyphicon glyphicon-duplicate"></span>Skopiuj tablicę</a>
+                        <a href="#" ng-click="openNestedMenu('Skopiuj Tablicę')">
+                            <span class="glyphicon glyphicon-duplicate"></span>Skopiuj tablicę</a>
 
                         <!---->
-                        <div class="menu" ng-click="blockClosingList($event)"  ng-class="{active : nestedNameMenu === 'Skopiuj Tablicę' && toggle.nestedMenu === true }">
-                          <span class="menu-heading">Skopiuj Tablicę</span>
+                        <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : nestedNameMenu === 'Skopiuj Tablicę' && toggle.nestedMenu === true }">
+                            <span class="menu-heading">Skopiuj Tablicę</span>
 
-                          <div class="copy-board-wrapper">
-                            <form> 
-                                <h5>Tytuł</h5> 
-                               <input type="text" class="form-control" ng-model="nameList" placeholder='Na przykład "Domowe"'>
-                        
-                                <input type="checkbox" ng-model="status"><span> Zatrzymaj karty </span>
-                              <button class="btn btn-success pull-right" ng-click="">Utwórz</button>
-                            </form> 
-                          </div>
+                            <div class="copy-board-wrapper">
+                                <form>
+                                    <h5>Tytuł</h5>
+                                    <input type="text" class="form-control" ng-model="copy.name" placeholder='Na przykład "Domowe"'>
+                                    <input type="checkbox" ng-model="copy.status">
+                                    <span>Zatrzymaj karty</span>
+                                    <button class="btn btn-success pull-right" ng-click="copyBoard(copy)">Skopiuj</button>
+                                </form>
+                            </div>
 
                         </div>
-                      </div>
-                        <!---->
-                    
+                    </div>
+                    <!---->
+
                 </li>
                 <li>
-                     <div style="position: relative">
+                    <div style="position: relative">
 
-                        <a href ng-click="openNestedMenu('Zamknij Tablicę')"><span class="glyphicon glyphicon-duplicate"></span> Zamknij tablicę</a>
+                        <a href ng-hide="board.closed === false" ng-click="openNestedMenu('Zamknij Tablicę')">
+                            <span class="glyphicon glyphicon-duplicate"></span>Zamknij tablicę</a>
+                        <a href ng-hide="board.closed === true" ng-click="openNestedMenu('Zamknij Tablicę')">
+                            <span class="glyphicon glyphicon-duplicate"></span>Otwórz tablicę</a>
 
                         <!---->
                         <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : nestedNameMenu === 'Zamknij Tablicę' && toggle.nestedMenu === true }">
-                          <span class="menu-heading">Zamknąć Tablicę</span>
-                          <div class="close-board-wrapper">
-                            <span>Możesz ponownie otworzyć tablice poprzez znalezienie tablicy i naciśnięcie "Otwórz ponownie".</span>
-                            <button class="btn btn-danger">Zamknij</button>
-                          </div>
+                            <span class="menu-heading">Zamknąć Tablicę?</span>
+                            <div class="close-board-wrapper">
+                                <span ng-hide="board.closed === false">Możesz ponownie otworzyć tablice poprzez kliknięcie w przycisk "Otwórz" znajdujący się w
+                                    menu bocznym tablicy.</span>
+                                <span ng-hide="board.closed === true">Możesz ponownie zamknąć tablice poprzez kliknięcie w przycisk "Zamknij" znajdujący się w
+                                    menu bocznym tablicy.</span>
+                                <button ng-hide="board.closed === false" class="btn btn-danger" ng-click="toggleBoard(board)">Zamknij</button>
+                                <button ng-hide="board.closed === true" class="btn btn-success" ng-click="toggleBoard(board)">Otwórz</button>
+                            </div>
                         </div>
                         <!---->
-                      </div>
-                      <!---->
+                    </div>
+                    <!---->
+
                 </li>
             </ul>
 
             <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
 
             <div class="reference-to-board">
-                <span>  Odnośnik do tej tablicy </span>
+                <span> Odnośnik do tej tablicy </span>
                 <input type="text" class="form-control" readonly="readonly" ng-model="link">
             </div>
 
 
- 
+
 
 
         </div>
@@ -150,8 +161,8 @@
     <div class="menuRM" ng-class="{ activeRM : nameMenu == 'Filtruj Karty' }">
         <div class="changeColour" ng-class="{ deactiveRM : nameMenu != 'Filtruj Karty' }">
 
-          <input type="text"> 
-          <span>Wpisz frazę, aby wyszukać po słowach kluczowych, członkach oraz terminach.</span>     
+            <input type="text">
+            <span>Wpisz frazę, aby wyszukać po słowach kluczowych, członkach oraz terminach.</span>
 
         </div>
     </div>
@@ -219,24 +230,24 @@
                 <li>
                     <a href="#">
                         Zmień Zespół...
-                        </a>
+                    </a>
                 </li>
                 <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
                 <li>
-                    <a href="#"> 
+                    <a href="#">
                         Okładki zdjęciowe do kart włączone
-                        </a>
+                    </a>
                 </li>
                 <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
                 <li>
-                    <a href="#"> 
-                         Uprawnienia komentowania...
-                         </a>
+                    <a href="#">
+                        Uprawnienia komentowania...
+                    </a>
                 </li>
                 <li>
-                    <a href="#"> 
-                         Dodaj/cofnij uprawnienia
-                         </a>
+                    <a href="#">
+                        Dodaj/cofnij uprawnienia
+                    </a>
                 </li>
             </ul>
             <span>Zezwól członkom zespołu aby mogli się dołączyć.</span>
@@ -249,7 +260,7 @@
     <!--etykiety-->
     <div class="menuRM" ng-class="{ activeRM : nameMenu == 'Etykiety' }">
         <div class="menu-label" ng-class="{ deactiveRM : nameMenu != 'Etykiety' }">
-                <label-panel></label-panel>
+            <label-panel></label-panel>
         </div>
     </div>
 </nav>

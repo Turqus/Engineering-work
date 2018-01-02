@@ -38,21 +38,24 @@ App.directive("menuTransferCard", () => {
                     var filteredBoard;
 
                     let transferCardObj = {
-                        idBoard: $scope.board._id,
                         toList: toList,
-                        fromIndexList: indexList
+                        fromIndexList: indexList,
+                        idBoard: $scope.board._id
                     };
 
                     if (toBoard === $scope.board._id) {
                         $scope.board.lists[toList].cards.unshift($scope.board.lists[indexList].cards[indexCard]);
                         $scope.board.lists[indexList].cards.splice(indexCard, 1);
+
                         transferCardObj.lists = $scope.board.lists;
                         transferCardObj.toCards = $scope.board.lists[toList].cards;
+                         
                     } else {
                         filteredBoard = $scope.boards.filter((board) => board._id == toBoard);
                         if (filteredBoard.length > 0) {
                             filteredBoard[0].lists[toList].cards.unshift($scope.board.lists[indexList].cards[indexCard]);
                             $scope.board.lists[indexList].cards.splice(indexCard, 1);
+                            
                             transferCardObj.toCards = filteredBoard[0].lists[toList].cards;
                             transferCardObj.toBoard = toBoard;
                         }

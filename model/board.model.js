@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var BoardSchema = new Schema({
   name: String ,
-  availability: String ,
+  // availability: String ,
   boardLabels : [{ id: {type : Schema.Types.ObjectId}, name: String, colour: String}],
   background : String,
   closed: Boolean,

@@ -23,10 +23,10 @@
                     //     { "colour": "#B6BBBF" }
                     // ];
 
-                    // $scope.toggle = {
-                    //     rightMenu: false,
-                    //     nestedMenu: false,
-                    // }
+                    $scope.toggle = {
+                        // rightMenu: false,
+                        nestedMenu: false,
+                    }
                     $scope.nestedNameMenu = '';
                     $scope.nameMenu = 'Menu';
                 };
@@ -53,6 +53,49 @@
                     $scope.toggle.rightMenu = toggle;
                     $scope.level = level;
                 }
+
+                $scope.toggleBoard = () => {
+                    let toggleBoardObj = {
+                        idBoard : $scope.board._id,
+                        closed : !$scope.board.closed
+                    };
+
+                    $scope.board.closed = !$scope.board.closed;
+                    $scope.nestedNameMenu = '';
+                    $scope.toggle.nestedMenu = false;
+
+                    return ApiService.board.toggleBoard(toggleBoardObj);
+                }
+
+                $scope.copyBoard = (copy) => { 
+                    var copyBoardObj = {};
+                    var newCopy = $scope.board;
+                    var array = [];
+                    if(!copy.status) {
+                        newCopy.forEach((element)=> array.push({list: element.name, cards: []}));
+
+                        copyBoardObj = {
+                            name: copy.name,
+                            closed: newCopy.closed,
+                            background: newCopy.background,
+                            users: newCopy.users,
+                            lists: array,
+                            boardLabels: newCopy.boardLabels
+                        } 
+                    }
+                    else {
+                        copyBoardObj = {
+                            name: copy.name,
+                            closed: newCopy.closed,
+                            background: newCopy.background,
+                            users: newCopy.users,
+                            lists: newCopy.lists,
+                            boardLabels: newCopy.boardLabels
+                        } 
+                    }
+                    
+                    return ApiService.board.copyBoard(copyBoardObj);
+                } 
 
                 // $scope.changeLabelColour = (colour) => {
                 //     $scope.selectedColour = colour;

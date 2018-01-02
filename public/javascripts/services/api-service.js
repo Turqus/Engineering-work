@@ -171,6 +171,18 @@ angular.module('TodoListApp')
                         url: routes.board + '/change/background',
                         data: data
                     });
+                },
+                toggleBoard: function (data) {
+                    return post({
+                        url: routes.board + '/toggle-board',
+                        data: data
+                    });
+                },
+                copyBoard: function (data) {
+                    return post({
+                        url: routes.board + '/copy-board',
+                        data: data
+                    });
                 }
             }
         };

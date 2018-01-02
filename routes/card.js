@@ -29,12 +29,12 @@ router.post('/upload-attachment', upload.any(), function (req, res, next) {
 
 
 router.put('/transfer-card', (req, res) => {
-    let transferObj = req.body; 
+    let transferObj = req.body;
 
     if (transferObj.toBoard != undefined) {
         Board.findOneAndUpdate({ _id: transferObj.idBoard },
             { $set: { ['lists.' + transferObj.fromIndexList + '.cards']: transferObj.fromCards, } }, { upsert: true })
-            .then(() => { 
+            .then(() => {
                 Board.findOneAndUpdate({ _id: transferObj.toBoard },
                     { $set: { ['lists.' + transferObj.toList + '.cards']: transferObj.toCards, } }, { upsert: true },
                     ((err, updated) => {
@@ -104,23 +104,42 @@ router.post('/set-deadline', function (req, res, next) {
 
 
 
-router.put('/copy-card', (req, res) => { 
-    let copyCardObj = req.body;
+router.put('/copy-card', (req, res) => {
+    let copyCardObj = req.body; 
+    if (!copyCardObj.selectedBoard) {
+        Board.findOneAndUpdate({ _id: copyCardObj.idBoard },
+            {
+                $set: {
+                    lists: copyCardObj.lists,
+                }
+            },
+            {
+                upsert: true
+            },
+            ((err, updated) => {
+                if (err) { console.log(err) }
+                else { res.status(200).send('Added'); }
+            })
+        );
+    } else {
+        Board.findOneAndUpdate({ _id: copyCardObj.selectedBoard },
+            {
+                $set: {
+                    ['lists.' + copyCardObj.selectedList + '.cards']: copyCardObj.cards,
+                }
+            },
+            {
+                upsert: true
+            },
+            ((err, updated) => {
+                if (err) { console.log(err) }
+                else { res.status(200).send('Added'); }
+            })
+        )
+    }
 
-    Board.findOneAndUpdate({ _id: copyCardObj.idBoard },
-        {
-            $set: {
-               lists: copyCardObj.lists,
-            }
-        },
-        {
-            upsert: true
-        },
-        ((err, updated) => {
-            if (err) { console.log(err) }
-            else { res.status(200).send('Added'); }
-        })
-    )
+
+
 
 });
 
