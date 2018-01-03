@@ -67,6 +67,8 @@ App.directive("listTasks", function () {
 					item.percent = completedTask * 100 / countTasks;
 				})
 			}
+
+		 
 		},
 		templateUrl: '/directives/list-tasks/list-tasks-template.ejs'
 

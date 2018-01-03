@@ -42,6 +42,46 @@
     } 
 }
 
+//MENU OPTIONS LIST
+.options-list {
+    max-width: 100%;
+    background-color: #FFFFFF;
+    right: 5px;
+    top: 40px;
+
+    &__item { 
+        list-style-type: none;
+        font-weight: bold;
+                 margin-top: 5px;
+                 padding: 5px 10px; 
+
+            &:hover {
+                background-color: #4D95BF;
+            }
+
+            a {
+                display: block;
+                width: 100%;
+                height: 100%;
+                color: #444;
+                &:hover {
+                    text-decoration: none;
+                 }
+            }
+    }
+}
+
+
+// textarea menu copy list
+
+.copy-list {
+    margin: 15px 15px 0 15px;
+    
+    &__textarea {
+        margin-top: 5px;    
+        max-width: 250px;
+    }
+}
 
 // // menu NOTICE
 
@@ -218,3 +258,4 @@
     }
 
 }
+

@@ -10,6 +10,7 @@
   transform: translateX(100%);
   transition: .4s;
   box-shadow: 0 0 6px rgba(0,0,0,.4);
+  z-index: 999;
 }
  
  .overflow {

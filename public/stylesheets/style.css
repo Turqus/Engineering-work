@@ -109,6 +109,7 @@ ol[dnd-list] .dndDraggingSource {
   margin-left: 10px; }
 
 .addCard span {
+  color: #838c91;
   padding: 12px;
   line-height: 25px; }
 .addCard:hover {
@@ -170,10 +171,9 @@ ol[dnd-list] .dndDraggingSource {
   word-wrap: break-word;
   font-size: 12px; }
   #tasks a {
-    text-decoration: none;
-    color: #838c91; }
+    text-decoration: none; }
 
-#tasks textarea {
+#tasks .textarea-modif {
   margin: 0;
   width: 250px;
   border-radius: 3px;
@@ -233,11 +233,22 @@ ol[dnd-list] .dndDraggingSource {
   transition: 0.3s transform ease-in-out;
   transform: translateX(100%); }
 
+.placement {
+  display: flex;
+  align-content: center;
+  float: right;
+  background-color: #E2E4E6;
+  border: 0;
+  color: grey;
+  height: 20px; }
+  .placement:hover {
+    background-color: #d1d4d6;
+    border-radius: 5px; }
+
 .dzaga {
   transform: translate(0); }
 
 /*# sourceMappingURL=style.css.map */
-/*modal*/
 .comment-card {
   font-size: 13px;
   padding: 8px;
@@ -721,6 +732,32 @@ ol[dnd-list] .dndDraggingSource {
     .menu_avatar-list a:hover {
       text-decoration: none; }
 
+.options-list {
+  max-width: 100%;
+  background-color: #FFFFFF;
+  right: 5px;
+  top: 40px; }
+  .options-list__item {
+    list-style-type: none;
+    font-weight: bold;
+    margin-top: 5px;
+    padding: 5px 10px; }
+    .options-list__item:hover {
+      background-color: #4D95BF; }
+    .options-list__item a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: #444; }
+      .options-list__item a:hover {
+        text-decoration: none; }
+
+.copy-list {
+  margin: 15px 15px 0 15px; }
+  .copy-list__textarea {
+    margin-top: 5px;
+    max-width: 250px; }
+
 .menu_notice {
   background-color: #EDEFF0;
   right: 5px;
@@ -864,7 +901,8 @@ select::-ms-expand {
   background: #EDEFF0;
   transform: translateX(100%);
   transition: .4s;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4); }
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  z-index: 999; }
 
 .overflow {
   overflow-y: scroll;

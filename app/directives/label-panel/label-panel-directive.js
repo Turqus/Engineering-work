@@ -1,7 +1,34 @@
 App.directive("labelPanel", function (ApiService) {
 	return {
 		restrict: 'E', 
+		templateUrl: '/directives/label-panel/label-panel-template.ejs',
 		controller: function ($scope) { 
+
+			$scope.labels = [
+				{ "colour": "#61BD4F" },
+				{ "colour": "#F2D600" },
+				{ "colour": "#FFAB4A" },
+				{ "colour": "#EB5A46" },
+				{ "colour": "#FF80CE" },
+				{ "colour": "#51E898" },
+				{ "colour": "#C377E0" },
+				{ "colour": "#0079BF" },
+				{ "colour": "#00C2E0" },
+				{ "colour": "#4d4d4d" },
+				{ "colour": "#B6BBBF" }
+			];
+
+			$scope.toggles = {
+				rightMenu: false,
+				nestedMenu: false,
+			}
+
+			
+                // // usuwanie
+                // $scope.deleteLabel = (_id) => {
+                //     // return ApiService.staff.deleteLabel(_id);
+                //     console.log($scope.board.boardLabels)
+                // }
 
 			$scope.createLabel = (insertedName) => {
 				let isValidated = validateLabel(insertedName)
@@ -65,25 +92,6 @@ App.directive("labelPanel", function (ApiService) {
 			}
 
 
-			$scope.labels = [
-				{ "colour": "#61BD4F" },
-				{ "colour": "#F2D600" },
-				{ "colour": "#FFAB4A" },
-				{ "colour": "#EB5A46" },
-				{ "colour": "#FF80CE" },
-				{ "colour": "#51E898" },
-				{ "colour": "#C377E0" },
-				{ "colour": "#0079BF" },
-				{ "colour": "#00C2E0" },
-				{ "colour": "#4d4d4d" },
-				{ "colour": "#B6BBBF" }
-			];
-
-			$scope.toggles = {
-				rightMenu: false,
-				nestedMenu: false,
-			}
-
 			$scope.labelMenu = ($event, nameMenu, index, item) => { 
 				$scope.blockClosingList($event);
 				if ($scope.toggles.nestedMenu === true && $scope.indexEditLabel == index) {
@@ -106,9 +114,6 @@ App.directive("labelPanel", function (ApiService) {
 			}
 
 
-			$scope.blockClosingList = function ($event) {
-				$event.stopPropagation();
-			}
 
 			$scope.addLabel = (indexList, indexCard, indexLabel, label) => { 
 				if(indexList != undefined) {
@@ -138,7 +143,7 @@ App.directive("labelPanel", function (ApiService) {
 					})	
 				}
 			}
-		},
-		templateUrl: '/directives/label-panel/label-panel-template.ejs'
+
+		}
 	}
 })

@@ -119,21 +119,21 @@
                 <li>
                     <div style="position: relative">
 
-                        <a href ng-hide="board.closed === false" ng-click="openNestedMenu('Zamknij Tablicę')">
-                            <span class="glyphicon glyphicon-duplicate"></span>Zamknij tablicę</a>
                         <a href ng-hide="board.closed === true" ng-click="openNestedMenu('Zamknij Tablicę')">
+                            <span class="glyphicon glyphicon-duplicate"></span>Zamknij tablicę</a>
+                        <a href ng-hide="board.closed === false" ng-click="openNestedMenu('Zamknij Tablicę')">
                             <span class="glyphicon glyphicon-duplicate"></span>Otwórz tablicę</a>
 
                         <!---->
                         <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : nestedNameMenu === 'Zamknij Tablicę' && toggle.nestedMenu === true }">
                             <span class="menu-heading">Zamknąć Tablicę?</span>
                             <div class="close-board-wrapper">
-                                <span ng-hide="board.closed === false">Możesz ponownie otworzyć tablice poprzez kliknięcie w przycisk "Otwórz" znajdujący się w
+                                <span ng-hide="board.closed === true">Możesz ponownie otworzyć tablice poprzez kliknięcie w przycisk "Otwórz" znajdujący się w
                                     menu bocznym tablicy.</span>
-                                <span ng-hide="board.closed === true">Możesz ponownie zamknąć tablice poprzez kliknięcie w przycisk "Zamknij" znajdujący się w
+                                <span ng-hide="board.closed === false">Możesz ponownie zamknąć tablice poprzez kliknięcie w przycisk "Zamknij" znajdujący się w
                                     menu bocznym tablicy.</span>
-                                <button ng-hide="board.closed === false" class="btn btn-danger" ng-click="toggleBoard(board)">Zamknij</button>
-                                <button ng-hide="board.closed === true" class="btn btn-success" ng-click="toggleBoard(board)">Otwórz</button>
+                                <button ng-hide="board.closed === true" class="btn btn-danger" ng-click="toggleBoard(board)">Zamknij</button>
+                                <button ng-hide="board.closed === false" class="btn btn-success" ng-click="toggleBoard(board)">Otwórz</button>
                             </div>
                         </div>
                         <!---->

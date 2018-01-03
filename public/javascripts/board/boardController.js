@@ -1,12 +1,15 @@
 App.controller('boardController', function ($scope, $http, ApiService, timeAgo, nowTime) {
 
 	$scope.init = function (user, board) {
-		$scope.toggle = false;
+		$scope.toggle = true;
 		$scope.toggleAddCard = false;
-		
+		$scope.indexListMenu = '';
 		$scope.modelAsJson = '';
 		$scope.user = JSON.parse(user);
 		$scope.board = JSON.parse(board);
+		$scope.name = "dada";
+
+
 	};
 
 
@@ -23,9 +26,8 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 
 	// open menu to add list
 	$scope.addListMenuActiv = ($event) => {
-		$scope.openMenuAddList = !$scope.openMenuAddList; 
+		$scope.openMenuAddList = !$scope.openMenuAddList;
 	}
-
 
 	$scope.logEvent = () => {
 		setTimeout(function () {
@@ -62,7 +64,7 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 	}
 
 	// $scope.udpateCard = function () {
-		function udpateCard() {
+	function udpateCard() {
 		return ApiService.staff.update($scope.modelAsJson).then(function () {
 		})
 	}
@@ -87,9 +89,9 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 
 		$scope.CardObj = {
 			idBlackBoard: $scope.board._id,
-			cardIndex: index, 
+			cardIndex: index,
 			cards: $scope.board.lists[index].cards
-		}; 
+		};
 
 		this.newTask = '';
 
@@ -97,8 +99,8 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 			//$scope.loadLists();
 		})
 	};
- 
-	
+
+
 	$scope.checkDescStatus = (indexList, indexCard, descrip, name) => {
 		$scope.commentsLength = $scope.board.lists[indexList].cards[indexCard].comments.length;
 		$scope.nameNew = name;
@@ -109,20 +111,57 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 			$scope.toggleDesc = false;
 	}
 
-	$scope.activeMenu = function (name, toggle, $event) {
+	$scope.activeMenu = function (name, $event, index) { 
+
 		$scope.blockClosingList($event);
-		if ($scope.toggle === true && $scope.name == name) {
-			$scope.toggle = toggle;
+		if (index == undefined) {
+			if ($scope.toggle === true && $scope.name === name) {
+				$scope.toggle = !$scope.toggle;
+			}
+			else if ($scope.toggle === false) {
+				$scope.toggle = !$scope.toggle;
+			}
+		} else {
+			if ($scope.toggle === true && $scope.name === name && $scope.indexListMenu === index) {
+				$scope.toggle = !$scope.toggle;
+			}
+			else if ($scope.toggle === false) {
+				$scope.toggle = !$scope.toggle;
+			}
 		}
-		else if ($scope.toggle === false) {
-			$scope.toggle = toggle;
-		}
+
 		$scope.name = name;
+
+		if (index != undefined) {
+			$scope.indexListMenu = index;
+
+			// download name of list to copy list
+			$scope.copyListName = $scope.board.lists[index].list;
+		} 
 	}
 
 	$scope.blockClosingList = function ($event) {
 		$event.stopPropagation();
 	}
+
+
+	//options in list 
+	$scope.copyList = (copyListName, indexList) => {
+		let copiedList = $scope.board.lists[indexList];
+		let newCopyList = {
+			list : copiedList.list,
+			cards : copiedList.cards
+		}
+		$scope.board.lists.splice(indexList+1, 0, newCopyList);
+
+		let copyListObj = {
+			idBoard : $scope.board._id,
+			lists : $scope.board.lists
+		};
+
+		return ApiService.board.copyList(copyListObj);
+	}
+
 
 });
 
@@ -187,7 +226,7 @@ App.directive("fileread", [function () {
 		// $scope.toggleRightMenu = true;
 		// $scope.toggleAddTask = false;
 		// $scope.nameMenu = 'Menu';
-		
+
 	// $scope.changeMenu = (name) => {
 	// 	$scope.nameMenu = name; 
 	// }

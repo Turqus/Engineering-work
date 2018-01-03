@@ -182,6 +182,8 @@ ol[dnd-list] .dndDraggingSource {
 
 .addCard {
   span { 
+    
+    color: #838c91; 
     padding: 12px;
     line-height: 25px;
   }
@@ -253,11 +255,10 @@ ol[dnd-list] .dndDraggingSource {
   
   a {
       text-decoration: none;
-      color: #838c91; 
     }
   }
 
-#tasks textarea {
+#tasks .textarea-modif {
   margin: 0;
   width: 250px;
   border-radius: 3px;
@@ -334,6 +335,22 @@ ol[dnd-list] .dndDraggingSource {
   display: block;
     transition: 0.3s transform ease-in-out; 
   transform: translateX(100%);
+}
+
+.placement { 
+  display: flex;
+  align-content: center;
+  float: right;
+  background-color: #E2E4E6;
+  border: 0;
+  color: grey;
+  height: 20px;
+  
+
+  &:hover {
+    background-color: rgb(209, 212, 214);
+    border-radius: 5px;
+  }
 }
 
 .dzaga {

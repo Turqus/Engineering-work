@@ -1,23 +1,30 @@
 var express = require('express');
 var router = express.Router();
-
 var Board = require('../model/board.model');
 
+router.post('/copy-list', (req, res) => { 
+    Board.findOneAndUpdate({ _id: req.body.idBoard },
+        {
+            $set: {
+                lists: req.body.lists
+            }
+        },
+        {
+            upsert: true
+        },
+        ((lists) => {
+            console.log(lists)
+            res.send(lists)
+        })
+    )
+}); 
+ 
+
 router.post('/copy-board', function (req, res, next) {
-
-    // var newBoard = {
-    //     name: req.body.name,
-    //     closed : req.body.closed,
-    //     background: req.body.background,
-    //     lists: req.body.lists,
-    //     users: req.body.users,
-    //     boardLabels: req.body.boardLabels
-    //   }
-
-      var newBoard = req.body;
-    
-
+    var newBoard = req.body;  
     var board = new Board(newBoard);
+    console.log('reqbody', req.body)
+    console.log('varible', board)
   
     board.save()
       .then(function (boards) {
