@@ -5,9 +5,9 @@
                 <li class="modal-menu-label__item" ng-repeat="item in board.boardLabels | filter:searchText">
                     <div class="modal-menu-label-wrapper">
                         <a href class="modal-menu-label__link" ng-click="addLabel($parent.$parent.$index, $parent.$index, $index, item)">
-                            <span class="label-property" style="background-color: {{item.colour}}; ">{{item.name}}</span>
+                            <span class="label-property" style="background-color: {{item.colour}}">{{item.name}}</span>
                         </a>
-                        <span class="label-glyphicon glyphicon glyphicon-pencil" ng-click="labelMenu($event, 'editLabel', $index, item);"></span>
+                        <span class="label-glyphicon glyphicon glyphicon-pencil" ng-click="labelMenu($event, 'editLabel', $index, item)"></span>
                     </div>
 
                     <div class="menu label-control" ng-click="blockClosingList($event)" ng-class="{active : names === 'editLabel' && toggles.nestedMenu === true && indexEditLabel == $index}">

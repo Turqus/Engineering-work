@@ -19,7 +19,7 @@ App.directive("labelPanel", function (ApiService) {
 			];
 
 			$scope.toggles = {
-				rightMenu: false,
+				// rightMenu: true,
 				nestedMenu: false,
 			}
 
@@ -101,11 +101,11 @@ App.directive("labelPanel", function (ApiService) {
 					$scope.toggles.nestedMenu = !$scope.toggles.nestedMenu;
 				}
 
-				if (index && item) {
+				if (index != undefined && item != undefined) {
 					$scope.insertedName = item.name;
 					$scope.selectedColour = item.colour;
-					$scope.indexEditLabel = index;
-				} else {
+					$scope.indexEditLabel = index; 
+				} else { 
 					$scope.insertedName = '';
 					$scope.selectedColour = '#B6BBBF';
 				}

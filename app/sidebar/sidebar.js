@@ -42,8 +42,8 @@
 
                 $scope.toggleBoard = () => {
                     let toggleBoardObj = {
-                        idBoard : $scope.board._id,
-                        closed : !$scope.board.closed
+                        idBoard: $scope.board._id,
+                        closed: !$scope.board.closed
                     };
 
                     $scope.board.closed = !$scope.board.closed;
@@ -53,35 +53,13 @@
                     return ApiService.board.toggleBoard(toggleBoardObj);
                 }
 
-                $scope.copyBoard = (copy) => {  
-                    var copyBoardObj = {};
-                    var newCopy = $scope.board;
-                    var array = [];
-
-                    if(!copy.status) {
-                        newCopy.lists.forEach((element)=> array.push({list: element.name, cards: []})); 
-                        
-                        copyBoardObj = {
-                            name: copy.name,
-                            closed: newCopy.closed,
-                            background: newCopy.background,
-                            users: newCopy.users,
-                            lists: array,
-                            boardLabels: newCopy.boardLabels
-                        } 
-                    } else {
-                        copyBoardObj = {
-                            name: copy.name,
-                            closed: newCopy.closed,
-                            background: newCopy.background,
-                            users: newCopy.users,
-                            lists: newCopy.lists,
-                            boardLabels: newCopy.boardLabels
-                        } 
-                    }
-                    
+                $scope.copyBoard = (copy) => { 
+                    let copyBoardObj = angular.copy($scope.board);
+                    delete copyBoardObj._id;
+                    copyBoardObj.name = copy.name;
+                    if (!copy.status) copyBoardObj.lists.forEach((element) => element.cards = []);
                     return ApiService.board.copyBoard(copyBoardObj);
-                } 
+                }
 
 
                 // //etykiety
@@ -96,4 +74,3 @@
         })
 })();
 
- 

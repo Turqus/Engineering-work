@@ -189,6 +189,12 @@ angular.module('TodoListApp')
                         url: routes.board + '/copy-list',
                         data: data
                     });
+                },
+                transferList: function (data) {
+                    return post({
+                        url: routes.board + '/transfer-list',
+                        data: data
+                    });
                 }
             }
         };

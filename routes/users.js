@@ -127,7 +127,7 @@ router.post('/create/board', function (req, res, next) {
 
   var newBoard = {
     name: req.body.name,
-    availability: null,
+    // availability: null,
     closed : false,
     background: '#0079BF',
     lists: [],

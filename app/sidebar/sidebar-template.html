@@ -82,7 +82,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" ng-click="changeMenu('Zarchiwizuj', true, 2)">
                         <span class="glyphicon glyphicon-apple"></span> Zarchiwizowane elementy</a>
                 </li>
 
@@ -209,17 +209,84 @@
 
     <!--dodatki-->
     <div class="menuRM" ng-class="{ activeRM : nameMenu == 'Dodatki' }">
-        <div ng-class="{ deactiveRM : nameMenu != 'Dodatki' }">
-            <h3> Dodatki </h3>
-            <ul>
-                <li>one</li>
-                <li>one</li>
-            </ul>
-
+            <div ng-class="{ deactiveRM : nameMenu != 'Dodatki' }">
+                <h3> Dodatki </h3>
+                <ul>
+                    <li>one</li>
+                    <li>one</li>
+                </ul>
+    
+            </div>
         </div>
-    </div>
+    
+    <!--zarchiwizowane elementy-->
+    <div class="menuRM" ng-class="{ activeRM : nameMenu == 'Zarchiwizuj' }">
+            <div ng-class="{ deactiveRM : nameMenu != 'Zarchiwizuj' }">
+    <!--test-->
+    <div class="row">
+            <div class="col-md-12">
+              <ul class="nav_boards">
+                <li class="active"><a data-toggle="tab" href="/#profile" class="btn btn-default">Tablice Otwarte</a></li>
+                <li><a data-toggle="tab" href="/#cards" class="btn btn-default">Tablice Zamkniętę</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          
+          
+
+    <div class="tab-content">
+            <div id="profile" class="tab-pane fade in active">
+              <div class="row">
+                <div class="col-md-12">
+                  <!--first card-->
+      
+           11
+      
+      
+      
+      
+       
+      
+      
+                  <!--//first card-->
+                </div>
+              </div>
+            </div>
+      
+      <!--SECOOOOOOOOND-->
+            <div id="cards" class="tab-pane">
+              <div class="row ">
+                <div class="col-md-12">
+                  <!--second card-->
+              <div class="row">
+                <div class="col-md-12">
+                  <!--first card-->
+      
+ 
+ 
+      
+      
+       12
+       
+                  <!--//first card-->
+                </div>
+              </div> 
+                  <!--//second card-->
+                </div>
+              </div>
+            </div>
+            <!---->
+      
+      
+          </div>
+          <!-- end test -->
 
 
+            </div>
+        </div>
+    
+        
 
 
     <!--menu w więcej-->

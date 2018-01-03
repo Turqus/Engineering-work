@@ -12,6 +12,12 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 
 	};
 
+	$scope.loadBoards = () => {
+		return ApiService.staff.boards().then((resp) => {
+			$scope.boards = resp;
+			$scope.selectedBoard = $scope.board._id; 
+		});
+	}
 
 	// open menu to add card
 	$scope.addCard = (index) => {
@@ -137,6 +143,9 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 
 			// download name of list to copy list
 			$scope.copyListName = $scope.board.lists[index].list;
+
+			// download boards to changing position of list
+			$scope.loadBoards();
 		} 
 	}
 
@@ -152,6 +161,7 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 			list : copiedList.list,
 			cards : copiedList.cards
 		}
+		
 		$scope.board.lists.splice(indexList+1, 0, newCopyList);
 
 		let copyListObj = {
@@ -161,6 +171,28 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 
 		return ApiService.board.copyList(copyListObj);
 	}
+
+	$scope.transferList = (selectedBoard, indexList) => {
+		let sendingList = angular.copy($scope.board.lists[indexList]);
+		$scope.board.lists.splice(indexList, 1);
+
+		let transferListObj = {
+			idBoard: $scope.board._id
+		};
+
+		if(selectedBoard === $scope.board._id) {
+			$scope.board.lists.unshift(sendingList);
+			transferListObj.lists = $scope.board.lists;
+			transferListObj.isSame = true;
+		} else {
+			let filteredBoard = $scope.boards.filter((board) => board._id == selectedBoard);
+			filteredBoard[0].lists.unshift(sendingList);
+			transferListObj.lists = filteredBoard[0].lists;
+			transferListObj.toBoard = selectedBoard;
+		}	
+		
+		return ApiService.board.transferList(transferListObj);
+	};
 
 
 });

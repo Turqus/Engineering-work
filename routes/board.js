@@ -74,4 +74,39 @@ router.post('/toggle-board', (req, res) => {
  
 
 
+
+router.post('/transfer-list', (req, res) => {
+    let transferObj = req.body;
+console.log(transferObj)
+    if (transferObj.isSame === true) {
+        Board.findOneAndUpdate({ _id: transferObj.idBoard },
+            {
+                $set: {
+                    lists: transferObj.lists,
+                }
+            },
+            {
+                upsert: true
+            },
+            ((err, updated) => {
+                if (err) { console.log(err) }
+                else { res.status(200).send('Transfered'); }
+            })
+        )
+    } else {
+        Board.findOneAndUpdate({ _id: transferObj.idBoard },
+            { $set: { lists : transferObj.lists, } }, { upsert: true })
+            .then(() => {
+                Board.findOneAndUpdate({ _id: transferObj.toBoard },
+                    { $set: { lists: transferObj.lists, } }, { upsert: true },
+                    ((err, updated) => {
+                        if (err) { console.log(err) }
+                        else { res.status(200).send('Transfered'); }
+                    })
+                );
+            })
+    }
+});
+
+
 module.exports = router;
