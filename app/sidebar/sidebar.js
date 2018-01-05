@@ -6,21 +6,8 @@
             },
             controller: function ($scope, ApiService) {
                 this.$onInit = function () {
-                    $scope.link = 'http://localhost:3000/b/'+this.board._id;
-                    console.log($scope.link)
-                    $scope.labels = [
-                        { "colour": "#61BD4F" },
-                        { "colour": "#F2D600" },
-                        { "colour": "#FFAB4A" },
-                        { "colour": "#EB5A46" },
-                        { "colour": "#FF80CE" },
-                        { "colour": "#51E898" },
-                        { "colour": "#C377E0" },
-                        { "colour": "#0079BF" },
-                        { "colour": "#00C2E0" },
-                        { "colour": "#4d4d4d" },
-                        { "colour": "#B6BBBF" }
-                    ];
+                    $scope.board = this.board;
+                    $scope.link = 'http://localhost:3000/b/' + this.board._id;
 
                     $scope.toggle = {
                         rightMenu: false,
@@ -42,9 +29,7 @@
                             _id: this.board._id,
                             background: background
                         };
-                        return ApiService.board.changeBackground(params).then((resp) => {
-                            console.log(resp)
-                        });
+                        return ApiService.board.changeBackground(params);
                     }
                 }
 
@@ -55,110 +40,108 @@
                     $scope.level = level;
                 }
 
+                $scope.toggleBoard = () => {
+                    let toggleBoardObj = {
+                        idBoard: $scope.board._id,
+                        closed: !$scope.board.closed
+                    };
 
+                    $scope.board.closed = !$scope.board.closed;
+                    $scope.nestedNameMenu = '';
+                    $scope.toggle.nestedMenu = false;
 
-                $scope.labelMenu = (colour, itemName, index, name, toggle, $event) => {
-                    $scope.blockClosingList($event);
-                    if ($scope.toggle.nestedMenu === true && $scope.indexEditLabel == index) {
-                        $scope.toggle.nestedMenu = !$scope.toggle.nestedMenu;
-                    }
-                    else if ($scope.toggle.nestedMenu === false) {
-                        $scope.toggle.nestedMenu = !$scope.toggle.nestedMenu;
-                    }
-
-                    $scope.indexEditLabel = index;
-                    $scope.name = name;
-                    $scope.insertedName = itemName;
-                    $scope.selectedColour = colour;
-                    $scope.indexEditLabel = index;
+                    return ApiService.board.toggleBoard(toggleBoardObj);
                 }
 
-                $scope.changeLabelColour = (colour) => {
-                    $scope.selectedColour = colour;
+                $scope.copyBoard = (copy) => {
+                    let copyBoardObj = angular.copy($scope.board);
+                    delete copyBoardObj._id;
+                    copyBoardObj.name = copy.name;
+                    if (!copy.status) copyBoardObj.lists.forEach((element) => element.cards = []);
+                    return ApiService.board.copyBoard(copyBoardObj);
                 }
 
-                $scope.labelControl = (name, indexLabel) => {
 
-                    var ok = true;
-                    if ($scope.selectedColour == null) {
-                        $scope.selectedColour = '#B6BBBF';
-                    }
+                // //etykiety
 
-                    angular.forEach($scope.board.boardLabels, function (value, key) {
-                        if ($scope.board.boardLabels[key].colour == $scope.selectedColour && $scope.board.boardLabels[key].name == name) {
-                            ok = false;
+// SEND BACK
+
+                $scope.sendBackToBoard = (indexCard) => {
+                    var exist = false;
+                    var position;
+
+                    var cardObj = {
+                        idBoard : $scope.board._id,
+                    };
+
+                    if ($scope.board.lists.length > 0) {
+                        $scope.board.lists.forEach((element, key) => {
+                            if (element._id === $scope.board.cardArchive[indexCard].idList) {
+                                exist = true;
+                                position = key;
+                            } else {
+                                exist = false;
+                            }
+
+                            if (exist === true) {
+                                $scope.board.lists[position].cards.unshift($scope.board.cardArchive[indexCard]);
+                                $scope.board.cardArchive.splice(indexCard, 1);
+
+                                cardObj.lists = $scope.board.lists;
+                                cardObj.cardArchive = $scope.board.cardArchive;
+
+                                return ApiService.card.sendBackToBoardCard(cardObj);
+                            }
+                        })
+                    };
+
+
+                    if (exist === false) $scope.board.archives.forEach((element, key) => {
+                        if (element._id === $scope.board.cardArchive[indexCard].idList) {
+                            position = key;
+                            exist = true
+                        } else {
+                            exist = false;
+                        }
+
+                        if (exist === true) {
+                            $scope.board.archives[position].cards.unshift($scope.board.cardArchive[indexCard]); 
+                            $scope.board.cardArchive.splice(indexCard, 1);
+
+                            cardObj.archives = $scope.board.archives;
+                            cardObj.cardArchive = $scope.board.cardArchive;
+
+                            return ApiService.card.sendBackToBoardCard(cardObj);
                         }
                     });
-
-                    if (indexLabel == null && ok != false) {
-                        if (name == '') {
-                            $scope.board.boardLabels.push({ 'colour': $scope.selectedColour });
-                        }
-                        else {
-                            $scope.board.boardLabels.push({ 'name': name, 'colour': $scope.selectedColour });
-                        }
+                };
 
 
+                $scope.sendListBackToBoard = (indexList) => {
+                    $scope.board.lists.unshift($scope.board.archives[indexList]);
+                    $scope.board.archives.splice(indexList, 1);
 
-                    } else {
-                        if (name == '') {
-                            $scope.board.boardLabels.splice(indexLabel, 1, { 'colour': $scope.selectedColour });
-                        }
-                        else {
-                            $scope.board.boardLabels.splice(indexLabel, 1, { 'name': name, 'colour': $scope.selectedColour });
-                        }
+                    let listObj = {
+                        idBoard : $scope.board._id,
+                        lists :  $scope.board.lists,
+                        archives : $scope.board.archives
+                    };
 
-                        $scope.insertedName = name;
-
-                    }
-
-                    if (ok != false) {
-                        let labelObj = {
-                            idBoard: $scope.board._id,
-                            labels: $scope.board.boardLabels
-                        }
-
-
-                        return ApiService.staff.addLabelToBoard(labelObj);
-                    }
-
-                    $scope.name = '';
+                    return ApiService.card.sendListBackToBoard(listObj);
                 }
 
-                $scope.addLabel = (indexList, indexCard, indexLabel, label) => {
-                    var ok = true;
-                    var duplicate;
+                $scope.deleteCardFromArchive = (indexCard) => {
+                    $scope.board.cardArchive.splice(indexCard, 1);
 
-                    angular.forEach($scope.board.lists[indexList].cards[indexCard].labels, function (value, key) {
-                        if ($scope.board.lists[indexList].cards[indexCard].labels[key]._id == label._id) {
-                            ok = false;
-                            duplicate = key;
-                        }
-                    })
-
-                    if (ok == true) {
-                        $scope.board.lists[indexList].cards[indexCard].labels.splice(indexLabel, 0, { '_id': label._id, 'name': label.name, 'colour': label.colour });
-                    } else {
-                        $scope.board.lists[indexList].cards[indexCard].labels.splice(duplicate, 1);
+                    let deleteObj = {
+                        idBoard : $scope.board._id,
+                        cardArchive : $scope.board.cardArchive
                     }
 
-                    var labelObj = {
-                        idBoard: $scope.board._id,
-                        indexList: indexList,
-                        indexCard: indexCard,
-                        labels: $scope.board.lists[indexList].cards[indexCard].labels
-                    }
-                    console.log(labelObj)
-                    return ApiService.staff.addLabelToCard(labelObj).then(function () {
-                    })
+                    return ApiService.card.deleteCardFromArchive(deleteObj);
                 }
 
-                // usuwanie
-                $scope.deleteLabel = (_id) => {
-                    // return ApiService.staff.deleteLabel(_id);
-                    console.log($scope.board.boardLabels)
-                }
-                // //etykiety
+
 
                 $scope.blockClosingList = function ($event) {
                     $event.stopPropagation();
@@ -169,6 +152,4 @@
             templateUrl: '/sidebar/sidebar-template.html'
         })
 })();
-
-
 

@@ -108,13 +108,15 @@ ol[dnd-list] .dndDraggingSource {
   list-style-type: none;
   margin-left: 10px; }
 
-.addCard span {
-  padding: 12px;
-  line-height: 25px; }
-.addCard:hover {
+.addCard a {
   color: #838c91;
-  text-decoration: underline;
-  background-color: #c7c7c7; }
+  display: block;
+  padding: 5px 5px 5px 10px;
+  font-size: 12px; }
+  .addCard a:hover {
+    color: #838c91;
+    text-decoration: underline;
+    background-color: #c7c7c7; }
 
 #second > li {
   /*padding: 5px 8px;*/
@@ -132,6 +134,13 @@ ol[dnd-list] .dndDraggingSource {
   border-radius: 5px;
   padding: 5px;
   background-color: #FFF; }
+  .card span:nth-child(2) {
+    font-size: 12px;
+    padding: 3px;
+    height: 100%;
+    border-radius: 2px; }
+    .card span:nth-child(2):hover {
+      background-color: #E2E4E6; }
 
 #first > li.dndPlaceholder {
   margin-left: 5px;
@@ -170,10 +179,9 @@ ol[dnd-list] .dndDraggingSource {
   word-wrap: break-word;
   font-size: 12px; }
   #tasks a {
-    text-decoration: none;
-    color: #838c91; }
+    text-decoration: none; }
 
-#tasks textarea {
+#tasks .textarea-modif {
   margin: 0;
   width: 250px;
   border-radius: 3px;
@@ -233,18 +241,40 @@ ol[dnd-list] .dndDraggingSource {
   transition: 0.3s transform ease-in-out;
   transform: translateX(100%); }
 
+.placement {
+  display: flex;
+  align-content: center;
+  float: right;
+  background-color: #E2E4E6;
+  border: 0;
+  color: grey;
+  height: 20px; }
+  .placement:hover {
+    background-color: #d1d4d6;
+    border-radius: 5px; }
+
 .dzaga {
   transform: translate(0); }
 
 /*# sourceMappingURL=style.css.map */
-/*modal*/
-.comment-card {
+.comment-card__txt {
   font-size: 13px;
   padding: 8px;
   background-color: white;
   display: inline-block;
   border-radius: 3px;
-  box-shadow: 1px 1px 1px grey; }
+  box-shadow: 1px 1px 1px grey;
+  margin: 5px 0 5px 0; }
+.comment-card__option {
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 5px; }
+  .comment-card__option:hover {
+    color: grey; }
+.comment-card__author {
+  font-weight: bold;
+  margin-left: 2px;
+  display: block; }
 
 .underline {
   text-decoration: underline; }
@@ -344,9 +374,17 @@ ol[dnd-list] .dndDraggingSource {
   list-style-type: none; }
 
 .modal-deadline {
-  height: 100%; }
+  margin-top: 5px;
+  min-height: 35px;
+  display: flex; }
   .modal-deadline__item {
-    border: 1px solid grey; }
+    background-color: rgba(211, 211, 35, 0.253);
+    border-radius: 15px;
+    margin-left: 3px; }
+
+.panel-attachment__input {
+  height: 50px;
+  margin: 15px 0 15px 0; }
 
 .modal-label__items {
   display: inline-flex;
@@ -698,6 +736,9 @@ ol[dnd-list] .dndDraggingSource {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
   transform: translate3d(0, 0, 0); }
 
+.boards-list {
+  top: 40px; }
+
 .menu_avatar {
   background-color: #FFFFFF;
   right: 5px;
@@ -716,6 +757,32 @@ ol[dnd-list] .dndDraggingSource {
     color: #444; }
     .menu_avatar-list a:hover {
       text-decoration: none; }
+
+.options-list {
+  max-width: 100%;
+  background-color: #FFFFFF;
+  right: 5px;
+  top: 40px; }
+  .options-list__item {
+    list-style-type: none;
+    font-weight: bold;
+    margin-top: 5px;
+    padding: 5px 10px; }
+    .options-list__item:hover {
+      background-color: #4D95BF; }
+    .options-list__item a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: #444; }
+      .options-list__item a:hover {
+        text-decoration: none; }
+
+.copy-list {
+  margin: 15px 15px 0 15px; }
+  .copy-list__textarea {
+    margin-top: 5px;
+    max-width: 250px; }
 
 .menu_notice {
   background-color: #EDEFF0;
@@ -860,7 +927,8 @@ select::-ms-expand {
   background: #EDEFF0;
   transform: translateX(100%);
   transition: .4s;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4); }
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+  z-index: 999; }
 
 .overflow {
   overflow-y: scroll;
@@ -1011,6 +1079,26 @@ select::-ms-expand {
   width: 100%;
   color: white; }
 
+.modal-menu-label-wrapper {
+  display: flex; }
+.modal-menu-label__list {
+  list-style-type: none; }
+.modal-menu-label__item {
+  margin-top: 5px; }
+.modal-menu-label__link {
+  flex: 5; }
+  .modal-menu-label__link span {
+    padding: 7px 12px 12px 11px;
+    display: block;
+    color: white;
+    width: 100%;
+    height: 35px;
+    border-radius: 3px; }
+  .modal-menu-label__link:link {
+    text-decoration: none; }
+.modal-menu-label span {
+  flex: 1; }
+
 .label-glyphicon {
   display: flex;
   align-content: center;
@@ -1077,6 +1165,50 @@ select::-ms-expand {
   .reference-to-board input {
     margin-top: 5px;
     font-size: 13px; }
+
+.archiveList__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  border-bottom: 1px solid #D6DADC; }
+
+.archiveCard {
+  width: 85%;
+  margin: auto; }
+  .archiveCard div {
+    margin: 10px 0 10px 0; }
+    .archiveCard div a:first-child {
+      margin-right: 10px; }
+    .archiveCard div a {
+      text-decoration: underline; }
+  .archiveCard__item {
+    margin-bottom: 35px;
+    min-height: 50px;
+    border-bottom: 1px solid #D6DADC; }
+  .archiveCard__card {
+    overflow: hidden;
+    background-color: white;
+    word-wrap: break-word;
+    padding: 7px;
+    border-radius: 3px; }
+
+.archiveListNav {
+  list-style-type: none;
+  display: flex;
+  justify-content: center; }
+  .archiveListNav li {
+    margin-right: 10px;
+    padding: 8px; }
+    .archiveListNav li a {
+      text-decoration: underline;
+      color: black; }
+      .archiveListNav li a:hover {
+        color: black; }
+    .archiveListNav li:hover {
+      background-color: #E2E4E6;
+      color: red;
+      border-radius: 2px; }
 
 .active {
   display: block; }

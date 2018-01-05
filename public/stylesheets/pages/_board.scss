@@ -85,58 +85,7 @@ body {
   margin: 0;
   // overflow: hidden; 
   }
-
-// .site-nav {
-//   display: flex;
-//   justify-content: flex-end;
-//   align-items: center;
-//   box-sizing: border-box;
-//   width: 100%;
-//   padding: 3px;
-//  }
  
-// .centering-heading {
-//   display:block;
-//   text-align: center;
-// }
-// .side-menu-trigger {   
-//   padding: 5px;
-//   background: rgba(255,255,255,.0);
-//   border: 0;
-//   text-decoration: underline;
-//   }
-
-// .side-menu {   
-//   display: block;
-//   position: absolute;
-//   height: 100%;
-//   width: 300px;
-//   top: 40px;
-//   right: 0px;
-//   padding: 0;
-//   background: #EDEFF0;
-//   transition: 0.3s transform ease-in-out; 
-//   transform: translateX(100%);
-//   }
-//   .side-menu--opened {
-//     transform: translate(0);
-//   }
-
-// // .side-menu-trigger:focus ~ .side-menu, .side-menu:hover {
-// //   transform: translateX(-300px); 
-// //   }
- 
-//  .right-menu-ul {
-//    list-style-type: none;
-//    margin-left: 15px;
-//  }
-
-// .activity {
-//   margin-left: 15px;
-// }
-
-
-// .
     
 ul {
   margin: 0;
@@ -179,20 +128,22 @@ ol[dnd-list] .dndDraggingSource {
   min-height: 10px;
   list-style-type: none;
   margin-left: 10px; }
-
-.addCard {
-  span { 
-    padding: 12px;
-    line-height: 25px;
-  }
  
- &:hover {
+.addCard { 
+  a { 
+        color: #838c91; 
+        display: block;
+        padding: 5px 5px 5px 10px;  
+        font-size: 12px;
+        
+
+     &:hover {
     color: #838c91;
     text-decoration: underline;
     background-color: #c7c7c7; 
   }
+  }
 }
- 
  
 
 #second > li {
@@ -210,7 +161,18 @@ ol[dnd-list] .dndDraggingSource {
   font: 14px "Helvetica Neue",Arial,Helvetica,sans-serif;
   border-radius: 5px;
   padding: 5px;
-  background-color: #FFF; }
+  background-color: #FFF; 
+
+  span:nth-child(2) {
+    font-size: 12px;
+    padding: 3px;
+    height: 100%;
+    border-radius: 2px;
+    &:hover {
+      background-color: #E2E4E6;
+    }
+  }
+}
 
 
 #first > li.dndPlaceholder {
@@ -241,8 +203,8 @@ ol[dnd-list] .dndDraggingSource {
   margin-left: 6px;
   padding: 5px; }
 
-#tasks {
-  margin-left: 5px;
+#tasks { 
+  margin-left: 5px;  
   width: 270px;
   min-height: 35px;
   /*padding: 7px;*/
@@ -253,11 +215,10 @@ ol[dnd-list] .dndDraggingSource {
   
   a {
       text-decoration: none;
-      color: #838c91; 
     }
   }
 
-#tasks textarea {
+#tasks .textarea-modif {
   margin: 0;
   width: 250px;
   border-radius: 3px;
@@ -334,6 +295,22 @@ ol[dnd-list] .dndDraggingSource {
   display: block;
     transition: 0.3s transform ease-in-out; 
   transform: translateX(100%);
+}
+
+.placement { 
+  display: flex;
+  align-content: center;
+  float: right;
+  background-color: #E2E4E6;
+  border: 0;
+  color: grey;
+  height: 20px;
+  
+
+  &:hover {
+    background-color: rgb(209, 212, 214);
+    border-radius: 5px;
+  }
 }
 
 .dzaga {

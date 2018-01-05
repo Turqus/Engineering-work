@@ -13,7 +13,7 @@ angular.module('TodoListApp')
             board: '/board',
             card: '/card'
         };
-
+        
         var api = {
             card: {
                 deadline: function (data) {
@@ -21,7 +21,61 @@ angular.module('TodoListApp')
                         url: routes.card + '/set-deadline',
                         data: data
                     });
-                }
+                },
+                deleteCard: function (data) {
+                    return post({
+                        url: routes.card + '/delete-card',
+                        data: data
+                    });
+                },
+                archiveCard: function (data) {
+                    return post({
+                        url: routes.card + '/archive-card',
+                        data: data
+                    });
+                },
+                sendBackToBoardCard: function (data) {
+                    return post({
+                        url: routes.card + '/send-back-card',
+                        data: data
+                    });
+                },
+                sendListBackToBoard: function (data) {
+                    return post({
+                        url: routes.card + '/send-back-list',
+                        data: data
+                    });
+                },
+                deleteCardFromArchive: function (data) {
+                    return post({
+                        url: routes.card + '/delete-card',
+                        data: data
+                    });
+                },
+                deleteListOfTasks: function (data) {
+                    return post({
+                        url: routes.card + '/delete-list-tasks',
+                        data: data
+                    });
+                },
+                deleteTaskFromList: function (data) {
+                    return post({
+                        url: routes.card + '/delete-task',
+                        data: data
+                    });
+                },
+                transferCard: function (data) {
+                    return put({
+                        url: routes.card + '/transfer-card',
+                        data: data
+                    });
+                },
+                copyCard: function (data) {
+                    return put({
+                        url: routes.card + '/copy-card',
+                        data: data
+                    });
+                },
             },
             staff: {
                 // all: function (query) {
@@ -151,6 +205,36 @@ angular.module('TodoListApp')
                 changeBackground: function (data) {
                     return put({
                         url: routes.board + '/change/background',
+                        data: data
+                    });
+                },
+                toggleBoard: function (data) {
+                    return post({
+                        url: routes.board + '/toggle-board',
+                        data: data
+                    });
+                },
+                copyBoard: function (data) {
+                    return post({
+                        url: routes.board + '/copy-board',
+                        data: data
+                    });
+                },
+                copyList: function (data) {
+                    return post({
+                        url: routes.board + '/copy-list',
+                        data: data
+                    });
+                },
+                transferList: function (data) {
+                    return post({
+                        url: routes.board + '/transfer-list',
+                        data: data
+                    });
+                },
+                archiveList: function (data) {
+                    return post({
+                        url: routes.board + '/archive-list',
                         data: data
                     });
                 }

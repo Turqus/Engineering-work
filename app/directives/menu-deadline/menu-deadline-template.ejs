@@ -1,0 +1,29 @@
+<div style="position: relative">
+
+        <a href="#" class="modal-menu__link" ng-click="activeMenu('Termin',  $event)">Termin</a>
+
+        <!---->
+        <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Termin' && toggle === true }">
+          <span class="menu-heading">Ustal Termin</span>
+
+          <div class="setDeadline-wrapper">
+            <form>
+              <div class="form-group">
+                <label>Czas</label>
+                <input type="text" ng-model="term.time" class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Data</label>
+                <datepicker datepicker-show="true" datepicker-toggle="true" date-format="yyyy-MM-dd" selector="form-control">
+                  <input ng-model="term.date" class="form-control" />
+                </datepicker>
+              </div>
+              <button class="btn btn-success" ng-click="setDeadline(term, $parent.$index, $index)">Zapisz</button>
+              <button class="btn btn-danger pull-right">Usuń</button>
+            </form>
+
+          </div>
+
+        </div>
+        <!---->
+      </div>

@@ -13,16 +13,17 @@
         <div ng-class="{ deactiveRM : nameMenu != 'Menu' }">
             <div style="margin-top: 60px">
 
-                <a href="" class="btn-addUser"><span class="glyphicon glyphicon-user"></span>Zaproś...</a>
+                <a href="" class="btn-addUser">
+                    <span class="glyphicon glyphicon-user"></span>Zaproś...</a>
                 <div style="display: none;">
                     <form ng-submit="addMemberBoard(addMember)">
-                        <label for="">Dodaj członka</label><br>
+                        <label for="">Dodaj członka</label>
+                        <br>
                         <input type="text" class="form-control" ng-model="addMember" placeholder="add a new task" />
                     </form>
                 </div>
             </div>
             <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
-
 
             <div class="menu-list">
                 <ul>
@@ -48,10 +49,9 @@
                     </li>
                 </ul>
             </div>
-
             <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
             <span>
-        <span class="glyphicon glyphicon-time"></span> Aktywność
+                <span class="glyphicon glyphicon-time"></span> Aktywność
             </span>
         </div>
 
@@ -77,8 +77,6 @@
                     <a href="#">
                         <span class="glyphicon glyphicon-apple"></span> Zarchiwizowane elementy</a>
                 </li>
-
-
                 <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
                 <li>
                     <a href="#">
@@ -87,13 +85,12 @@
                 <li>
                     <a href="#">
                         <span class="glyphicon glyphicon-lock"></span> Zamknij tablicę</a>
-
                 </li>
             </ul>
 
             <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
 
-            <span>  Odnośnik do tej tablicy </span>
+            <span> Odnośnik do tej tablicy </span>
             <input type="text" readonly="readonly" ng-model="user._id">
 
 
@@ -103,19 +100,14 @@
     <!--kolory opcje -->
     <div class="menuRM" ng-class="{ activeRM : nameMenu == 'Zmień tło' }">
         <div class="changeColour" ng-class="{ deactiveRM : nameMenu != 'Zmień tło' }">
-
             <a href="#" ng-click="changeRightMenu('Kolory', true, 2)">
                 <span>Kolory</span>
                 <div class="change-colour"></div>
-
             </a>
-
             <a href="#" ng-click="changeRightMenu('Zdjęcia', true, 2)">
                 <span>Zdjęcia</span>
                 <div class="change-image"></div>
-
             </a>
-
         </div>
     </div>
 
@@ -161,28 +153,25 @@
                 <li>
                     <a href="#">
                         Zmień Zespół...
-                        </a>
+                    </a>
                 </li>
                 <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
                 <li>
-                    <a href="#"> 
+                    <a href="#">
                         Okładki zdjęciowe do kart włączone
-                        </a>
+                    </a>
                 </li>
                 <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
                 <li>
-                    <a href="#"> 
-                         Uprawnienia komentowania...
-                         </a>
+                    <a href="#">
+                        Uprawnienia komentowania...
+                    </a>
                 </li>
-
-
                 <li>
-                    <a href="#"> 
-                         Dodaj/cofnij uprawnienia
-                         </a>
+                    <a href="#">
+                        Dodaj/cofnij uprawnienia
+                    </a>
                 </li>
-
             </ul>
             <span>Zezwól członkom zespołu aby mogli się dołączyć.</span>
 
@@ -204,63 +193,56 @@
                             </a>
                             <span class="label-glyphicon glyphicon glyphicon-pencil" ng-click="labelMenu(item.colour, item.name, $index, 'editLabel', !toggle, $event);"></span>
                         </div>
- 
-                            <!---->
-                            <div class="menu label-control" ng-click="blockClosingList($event)" ng-class="{active : name === 'editLabel' && toggle === true && indexEditLabel == $index}">
-                                <span class="settings-menu__header-title">Zmień Etykietę</span> 
-                                <div class="label-control-wrapper center-block">
-                                    <form>
-                                        <h5>Nazwa</h5>
-                                        <input type="text" class="form-control" ng-model="insertedName">
-                                        <h5>Wybierz kolor</h5>
-                                        <div class="label-create">
-                                            <span ng-repeat="item in labels" style="background-color: {{item.colour}}" ng-click="changeLabelColour(item.colour)">
-                                                <span class="glyphicon glyphicon-ok" ng-if="selectedColour == item.colour"></span>
-                                            </span>
-                                        </div>		 
+                        <!---->
+                        <div class="menu label-control" ng-click="blockClosingList($event)" ng-class="{active : name === 'editLabel' && toggle === true && indexEditLabel == $index}">
+                            <span class="settings-menu__header-title">Zmień Etykietę</span>
+                            <div class="label-control-wrapper center-block">
+                                <form>
+                                    <h5>Nazwa</h5>
+                                    <input type="text" class="form-control" ng-model="insertedName">
+                                    <h5>Wybierz kolor</h5>
+                                    <div class="label-create">
+                                        <span ng-repeat="item in labels" style="background-color: {{item.colour}}" ng-click="changeLabelColour(item.colour)">
+                                            <span class="glyphicon glyphicon-ok" ng-if="selectedColour == item.colour"></span>
+                                        </span>
+                                    </div>
 
-                                        <button class="btn btn-success pull-right" ng-click="labelControl(insertedName, $index)">Zapisz</button>
-                                        <button class="btn btn-danger pull-right" ng-click="deleteLabel(item._id)">Usuń</button>
-                                    </form>
-                                </div>
-
+                                    <button class="btn btn-success pull-right" ng-click="labelControl(insertedName, $index)">Zapisz</button>
+                                    <button class="btn btn-danger pull-right" ng-click="deleteLabel(item._id)">Usuń</button>
+                                </form>
                             </div>
-                            <!----> 
+                        </div>
+                        <!---->
                     </li>
                 </ul>
-
-
-
             </div>
 
 
 
             <div class="label-bottom">
                 <a href="#" ng-click="labelMenu(null, null, null, 'createLabel', !toggle, $event);">Utwórz nową etykietę</a>
-
-                       <!---->
-                            <div class="menu label-control" ng-click="blockClosingList($event)" ng-class="{active : name === 'createLabel' && toggle === true }">
-                                <span class="settings-menu__header-title">Nowa Etykieta</span> 
-                                <div class="label-control-wrapper center-block">
-                                    <form>
-                                        <h5>Nazwa</h5>
-                                        <input type="text" class="form-control" ng-model="insertedName">
-                                        <h5>Wybierz kolor</h5>
-                                        <div class="label-create">
-                                            <span ng-repeat="item in labels" style="background-color: {{item.colour}}" ng-click="changeLabelColour(item.colour)">
-                                                <span class="glyphicon glyphicon-ok" ng-if="selectedColour == item.colour"></span>
-                                            </span>
-                                        </div>		 
-                                        <div> 
-                                            <p class="quiet-heading">Jeśli nie wybierzesz koloru domyślnie zostanie ustawiony szary.</p>
-                                        </div>
-                                        <button class="btn btn-success pull-right" ng-click="labelControl(insertedName, $index)">Zapisz</button>
-                                        <button class="btn btn-danger pull-right">Usuń</button>
-                                    </form>
-                                </div>
-
+                <!---->
+                <div class="menu label-control" ng-click="blockClosingList($event)" ng-class="{active : name === 'createLabel' && toggle === true }">
+                    <span class="settings-menu__header-title">Nowa Etykieta</span>
+                    <div class="label-control-wrapper center-block">
+                        <form>
+                            <h5>Nazwa</h5>
+                            <input type="text" class="form-control" ng-model="insertedName">
+                            <h5>Wybierz kolor</h5>
+                            <div class="label-create">
+                                <span ng-repeat="item in labels" style="background-color: {{item.colour}}" ng-click="changeLabelColour(item.colour)">
+                                    <span class="glyphicon glyphicon-ok" ng-if="selectedColour == item.colour"></span>
+                                </span>
                             </div>
-                            <!---->
+                            <div>
+                                <p class="quiet-heading">Jeśli nie wybierzesz koloru domyślnie zostanie ustawiony szary.</p>
+                            </div>
+                            <button class="btn btn-success pull-right" ng-click="labelControl(insertedName, $index)">Zapisz</button>
+                            <button class="btn btn-danger pull-right">Usuń</button>
+                        </form>
+                    </div>
+                </div>
+                <!---->
             </div>
 
 

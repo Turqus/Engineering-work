@@ -5,7 +5,7 @@ var router = express.Router();
 var LocalStrategy = require('passport-local').Strategy;
 // MODELS
 var User = require('../model/user.model');
-var Board = require('../model/board.model');
+var Board = require('../model/board.model'); 
 const saltRounds = 10;
 
 /* GET home page. */
