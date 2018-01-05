@@ -47,10 +47,15 @@
                       </a>
                     </li>
                     <li class="options-list__item">
-                      <a href ng-click="activeMenu('Zarchiwizuj tę listę', $event, $index)">
+                      <a href ng-click="archiveList($index)">
                         Zarchiwizuj tę listę...
                       </a>
                     </li>
+                    <!-- <li class="options-list__item">
+                      <a href ng-click="activeMenu('Zarchiwizuj tę listę', $event, $index)">
+                        Zarchiwizuj tę listę...
+                      </a>
+                    </li> -->
                   </ul>
                 </div>
 
@@ -105,15 +110,16 @@
                 </div>
 
 
-                <div style="position: relative">
+                <!-- <div style="position: relative">
                   <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Zarchiwizuj tę listę' && toggle === true && indexListMenu === $index}">
 
                   </div>
-                </div>
+                </div> -->
 
                 <!-- end -->
               </div>
-              <ol id="second" dnd-list="item.cards" dnd-allowed-types="['card']">
+
+              <ol id="second" dnd-list="item.cards" dnd-allowed-types="['card']" style="padding-bottom: 5px;">
                 <li style="margin: 3px 0 3px 0;" ng-repeat="card in item.cards | filter:searchCards as results" dnd-draggable="card" dnd-type="'card'"
                   dnd-effect-allowed="move" dnd-moved="removeItem($parent.$index, $index)" ng-class="{'selected': item.selected === card}">
 
@@ -121,11 +127,23 @@
                     href="#{{card._id}}">
                     <div class="card">
                       <span>{{card.name}}</span>
+                      <!-- <span class="glyphicon glyphicon-pencil pull-right" ng-click="activeMenu('Dada', $event, $index)"></span> -->
                     </div>
                   </a>
 
                 </li>
               </ol>
+
+                <!-- start-->
+                <!-- <div style="position: relative">
+                  <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Dada' && toggle === true && indexListMenu === $index}">
+                      <textarea name="" id="" cols="30" rows="3"></textarea>
+
+                  </div>
+                </div>  -->
+
+                <!-- end-->
+
               <div class="addCardForm" ng-click="blockClosingList($event)" ng-class="{active : indexAddCard == $index && toggleAddCard === true}"
                 id="id_warstwy2{{$index}}">
                 <form>
@@ -134,24 +152,23 @@
                   <button class="btn btn-default" ng-click="addCard($index)">Anuluj</button>
                 </form>
               </div>
-              <a href="#" ng-click="addCard($index);">
                 <div ng-class="{deactive : indexAddCard == $index && toggleAddCard === true}" class="addCard" id="id_warstwy{{$index}}">
-                  <span>Dodaj kartę...</span>
+                    <a href="#" ng-click="addCard($index);" ng-hide="board.closed === true">
+                   Dodaj kartę... 
+                </a>
                 </div>
-              </a>
             </div>
           </div>
         </li>
 
-        <ul class="third-list" dnd-list="board.lists" dnd-allowed-types="['de']">
+        <ul class="third-list" dnd-list="board.lists" dnd-allowed-types="['de']"  ng-hide="board.closed === true">
           <li ng-class="{deactive : openMenuAddList === true }">
             <div ng-click="addListMenuActiv($event);" class="third-list__btn">
               <span>Dodaj listę...</span>
             </div>
           </li>
           <li>
-            <div ng-click="blockClosingList($event)" ng-class="{active : openMenuAddList === true}" class="third-list__input">
-              <!--<form ng-submit="addList(newList)">-->
+            <div ng-click="blockClosingList($event)" ng-class="{active : openMenuAddList === true}" class="third-list__input"> 
               <form>
                 <input type="text" class="form-control" ng-model="newList" placeholder="Dodaj kartę..." />
                 <button class="btn btn-success" ng-click="addList(newList)">Dodaj</button>
@@ -261,6 +278,11 @@
                         <menu-copy-card></menu-copy-card>
 
                         <a href="#" class="modal-menu__link">Subskrybuj</a>
+
+                        <a href class="modal-menu__link" ng-click="archiveCard($parent.$index, $index)">Zarchiwizuj</a>
+
+
+                        
                         <menu-delete-card></menu-delete-card>
                       </div>
                     </div>

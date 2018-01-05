@@ -131,6 +131,8 @@ router.post('/create/board', function (req, res, next) {
     closed : false,
     background: '#0079BF',
     lists: [],
+    archives: [],
+    cardArchive: [],
     users: req.user._id,
     boardLabels: [ 
         {

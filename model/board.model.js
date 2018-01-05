@@ -8,6 +8,8 @@ var BoardSchema = new Schema({
   boardLabels : [{ id: {type : Schema.Types.ObjectId}, name: String, colour: String}],
   background : String,
   closed: Boolean,
+  archives: Array,
+  cardArchive: Array,
   // lists : { type: Array },
   
  
@@ -43,7 +45,6 @@ var BoardSchema = new Schema({
       listsTasks: [{name : String, percent : Number, tasks : []}]
     }]
   }],
-
   users : [{ type : Schema.Types.ObjectId, ref: 'User' }],
 
 

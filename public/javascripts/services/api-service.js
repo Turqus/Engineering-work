@@ -28,6 +28,30 @@ angular.module('TodoListApp')
                         data: data
                     });
                 },
+                archiveCard: function (data) {
+                    return post({
+                        url: routes.card + '/archive-card',
+                        data: data
+                    });
+                },
+                sendBackToBoardCard: function (data) {
+                    return post({
+                        url: routes.card + '/send-back-card',
+                        data: data
+                    });
+                },
+                sendListBackToBoard: function (data) {
+                    return post({
+                        url: routes.card + '/send-back-list',
+                        data: data
+                    });
+                },
+                deleteCardFromArchive: function (data) {
+                    return post({
+                        url: routes.card + '/delete-card',
+                        data: data
+                    });
+                },
                 transferCard: function (data) {
                     return put({
                         url: routes.card + '/transfer-card',
@@ -193,6 +217,12 @@ angular.module('TodoListApp')
                 transferList: function (data) {
                     return post({
                         url: routes.board + '/transfer-list',
+                        data: data
+                    });
+                },
+                archiveList: function (data) {
+                    return post({
+                        url: routes.board + '/archive-list',
                         data: data
                     });
                 }

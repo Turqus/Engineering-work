@@ -347,6 +347,75 @@ padding: 10px 22px 10px 22px;
     }
 }
 
+// archiveLIST
+.archiveList {
+
+    &__item { 
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 50px;
+        border-bottom: 1px solid #D6DADC;
+ 
+    }
+}
+
+.archiveCard {  
+    width: 85%;
+    margin: auto;
+
+    div {
+        margin: 10px 0 10px 0;
+
+        a:first-child {
+            margin-right: 10px;
+        }
+
+        a {
+            text-decoration: underline;
+        }
+    }
+
+    &__item {  
+        margin-bottom: 35px;
+        min-height: 50px;
+        border-bottom: 1px solid #D6DADC;
+    }
+
+    &__card { 
+        overflow: hidden;
+        background-color: white;
+        word-wrap: break-word;
+        padding: 7px;
+        border-radius: 3px;
+    }
+ 
+}
+
+.archiveListNav {
+    list-style-type: none; 
+    display: flex;
+    justify-content: center;
+    li { 
+        margin-right: 10px;
+        padding: 8px;
+        a {
+            text-decoration: underline;
+            color: black;
+
+            &:hover {
+                color: black; 
+            }
+        }
+
+        &:hover {
+            background-color: #E2E4E6;
+            color: red;
+            border-radius: 2px;
+        }
+    }
+}
+
 .active {
     display:block;
 }

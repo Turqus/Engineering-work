@@ -25,8 +25,91 @@ router.post('/upload-attachment', upload.any(), function (req, res, next) {
     res.send(req.files);
 });
 
+router.post('/send-back-list', (req, res) => {
+    let listObj = req.body;
+    var query = {};
 
+    query.$set =
+        {
+            lists: listObj.lists,
+            archives: listObj.archives,
+        };
 
+    Board.findOneAndUpdate({ _id: listObj.idBoard },
+        query,
+        { upsert: true },
+        ((err, updated) => {
+            if (err) { console.log(err) }
+            else { res.status(200).send('Archived'); }
+        })
+    )
+});
+
+router.post('/delete-card', (req, res) => {
+    let deleteObj = req.body;
+    var query = {};
+
+    query.$set =
+        {
+            cardArchive: deleteObj.cardArchive
+        };
+
+    Board.findOneAndUpdate({ _id: deleteObj.idBoard },
+        query,
+        { upsert: true },
+        ((err, updated) => {
+            if (err) { console.log(err) }
+            else { res.status(200).send('Deleted'); }
+        })
+    )
+});
+
+router.post('/send-back-card', (req, res) => {
+    let cardObj = req.body;
+    var query = {};
+
+    if (cardObj.lists) {
+        query.$set =
+            {
+                lists: cardObj.lists,
+                cardArchive: cardObj.cardArchive,
+            };
+    } else if (cardObj.archives) {
+        query.$set =
+            {
+                archives: cardObj.archives,
+                cardArchive: cardObj.cardArchive,
+            };
+
+    }
+    Board.findOneAndUpdate({ _id: cardObj.idBoard },
+        query,
+        { upsert: true },
+        ((err, updated) => {
+            if (err) { console.log(err) }
+            else { res.status(200).send('Archived'); }
+        })
+    )
+});
+
+router.post('/archive-card', (req, res) => {
+    let archiveCardObj = req.body;
+
+    Board.findOneAndUpdate({ _id: archiveCardObj.idBoard },
+        {
+            $set:
+                {
+                    lists: archiveCardObj.lists,
+                    cardArchive: archiveCardObj.cardArchive,
+                }
+        },
+        { upsert: true },
+        ((err, updated) => {
+            if (err) { console.log(err) }
+            else { res.status(200).send('Archived'); }
+        })
+    )
+});
 
 router.put('/transfer-card', (req, res) => {
     let transferObj = req.body;
@@ -105,7 +188,7 @@ router.post('/set-deadline', function (req, res, next) {
 
 
 router.put('/copy-card', (req, res) => {
-    let copyCardObj = req.body; 
+    let copyCardObj = req.body;
     if (!copyCardObj.selectedBoard) {
         Board.findOneAndUpdate({ _id: copyCardObj.idBoard },
             {

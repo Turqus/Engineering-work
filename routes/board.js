@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Board = require('../model/board.model');
 
-router.post('/copy-list', (req, res) => { 
+router.post('/copy-list', (req, res) => {
     Board.findOneAndUpdate({ _id: req.body.idBoard },
         {
             $set: {
@@ -17,24 +17,24 @@ router.post('/copy-list', (req, res) => {
             res.send(lists)
         })
     )
-}); 
- 
+});
+
 
 router.post('/copy-board', function (req, res, next) {
-    var newBoard = req.body;  
+    var newBoard = req.body;
     var board = new Board(newBoard);
     console.log('reqbody', req.body)
     console.log('varible', board)
-  
+
     board.save()
-      .then(function (boards) {
-        res.send(boards);
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  });
-  
+        .then(function (boards) {
+            res.send(boards);
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+});
+
 
 
 router.put('/change/background', (req, res) => {
@@ -52,7 +52,7 @@ router.put('/change/background', (req, res) => {
             res.send(background)
         })
     )
-}); 
+});
 
 
 router.post('/toggle-board', (req, res) => {
@@ -70,14 +70,14 @@ router.post('/toggle-board', (req, res) => {
             res.send(board)
         })
     )
-}); 
- 
+});
+
 
 
 
 router.post('/transfer-list', (req, res) => {
     let transferObj = req.body;
-console.log(transferObj)
+    console.log(transferObj)
     if (transferObj.isSame === true) {
         Board.findOneAndUpdate({ _id: transferObj.idBoard },
             {
@@ -95,7 +95,7 @@ console.log(transferObj)
         )
     } else {
         Board.findOneAndUpdate({ _id: transferObj.idBoard },
-            { $set: { lists : transferObj.lists, } }, { upsert: true })
+            { $set: { lists: transferObj.lists, } }, { upsert: true })
             .then(() => {
                 Board.findOneAndUpdate({ _id: transferObj.toBoard },
                     { $set: { lists: transferObj.lists, } }, { upsert: true },
@@ -106,6 +106,32 @@ console.log(transferObj)
                 );
             })
     }
+});
+
+
+router.post('/archive-list', (req, res) => {
+    let archiveObj = req.body; 
+ 
+        Board.findOneAndUpdate({ _id: archiveObj.idBoard },
+            {
+                $set: {
+                    archives: archiveObj.archives,
+                }
+            },
+            {
+                upsert: true
+            })
+            .then(()=>{
+
+                Board.findOneAndUpdate({ _id: archiveObj.idBoard },
+                    { $set: { lists: archiveObj.lists, } }, { upsert: true },
+                    ((err, updated) => {
+                        if (err) { console.log(err) }
+                        else { res.status(200).send('Transfered'); }
+                    })
+                );
+            })
+         
 });
 
 

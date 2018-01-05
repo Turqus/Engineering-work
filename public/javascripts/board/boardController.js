@@ -194,6 +194,37 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 		return ApiService.board.transferList(transferListObj);
 	};
 
+	$scope.archiveList = (indexList) => {
+		$scope.board.archives.push($scope.board.lists[indexList]) 
+		$scope.board.lists.splice(indexList, 1);
+
+		let archiveListObj = {
+			idBoard : $scope.board._id,
+			archives : $scope.board.archives,
+			lists : $scope.board.lists
+		};
+
+		return ApiService.board.archiveList(archiveListObj);
+	}
+
+
+
+	$scope.archiveCard = (indexList, indexCard) => {
+		$scope.board.lists[indexList].cards[indexCard].idList = $scope.board.lists[indexList]._id; 
+		$scope.board.cardArchive.unshift($scope.board.lists[indexList].cards[indexCard]); 
+		$scope.board.lists[indexList].cards.splice(indexCard, 1);
+		
+		let modalWindow = document.querySelector(".modal-backdrop");
+		modalWindow.classList.remove("modal-backdrop");
+
+		let archiveCardObj = {
+			idBoard : $scope.board._id,
+			lists : $scope.board.lists,
+			cardArchive : $scope.board.cardArchive
+		}; 
+		return ApiService.card.archiveCard(archiveCardObj);
+	}
+
 
 });
 

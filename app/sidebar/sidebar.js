@@ -10,7 +10,7 @@
                     $scope.link = 'http://localhost:3000/b/' + this.board._id;
 
                     $scope.toggle = {
-                        // rightMenu: false,
+                        rightMenu: false,
                         nestedMenu: false,
                     }
                     $scope.nestedNameMenu = '';
@@ -53,7 +53,7 @@
                     return ApiService.board.toggleBoard(toggleBoardObj);
                 }
 
-                $scope.copyBoard = (copy) => { 
+                $scope.copyBoard = (copy) => {
                     let copyBoardObj = angular.copy($scope.board);
                     delete copyBoardObj._id;
                     copyBoardObj.name = copy.name;
@@ -63,6 +63,85 @@
 
 
                 // //etykiety
+
+// SEND BACK
+
+                $scope.sendBackToBoard = (indexCard) => {
+                    var exist = false;
+                    var position;
+
+                    var cardObj = {
+                        idBoard : $scope.board._id,
+                    };
+
+                    if ($scope.board.lists.length > 0) {
+                        $scope.board.lists.forEach((element, key) => {
+                            if (element._id === $scope.board.cardArchive[indexCard].idList) {
+                                exist = true;
+                                position = key;
+                            } else {
+                                exist = false;
+                            }
+
+                            if (exist === true) {
+                                $scope.board.lists[position].cards.unshift($scope.board.cardArchive[indexCard]);
+                                $scope.board.cardArchive.splice(indexCard, 1);
+
+                                cardObj.lists = $scope.board.lists[position];
+                                cardObj.cardArchive = $scope.board.cardArchive;
+
+                                return ApiService.card.sendBackToBoardCard(cardObj);
+                            }
+                        })
+                    };
+
+
+                    if (exist === false) $scope.board.archives.forEach((element, key) => {
+                        if (element._id === $scope.board.cardArchive[indexCard].idList) {
+                            position = key;
+                            exist = true
+                        } else {
+                            exist = false;
+                        }
+
+                        if (exist === true) {
+                            $scope.board.archives[position].cards.unshift($scope.board.cardArchive[indexCard]); 
+                            $scope.board.cardArchive.splice(indexCard, 1);
+
+                            cardObj.archives = $scope.board.archives;
+                            cardObj.cardArchive = $scope.board.cardArchive;
+
+                            return ApiService.card.sendBackToBoardCard(cardObj);
+                        }
+                    });
+                };
+
+
+                $scope.sendListBackToBoard = (indexList) => {
+                    $scope.board.lists.unshift($scope.board.archives[indexList]);
+                    $scope.board.archives.splice(indexList, 1);
+
+                    let listObj = {
+                        idBoard : $scope.board._id,
+                        lists :  $scope.board.lists,
+                        archives : $scope.board.archives
+                    };
+
+                    return ApiService.card.sendListBackToBoard(listObj);
+                }
+
+                $scope.deleteCardFromArchive = (indexCard) => {
+                    $scope.board.cardArchive.splice(indexCard, 1);
+
+                    let deleteObj = {
+                        idBoard : $scope.board._id,
+                        cardArchive : $scope.board.cardArchive
+                    }
+
+                    return ApiService.card.deleteCardFromArchive(deleteObj);
+                }
+
+
 
                 $scope.blockClosingList = function ($event) {
                     $event.stopPropagation();
