@@ -52,6 +52,18 @@ angular.module('TodoListApp')
                         data: data
                     });
                 },
+                deleteListOfTasks: function (data) {
+                    return post({
+                        url: routes.card + '/delete-list-tasks',
+                        data: data
+                    });
+                },
+                deleteTaskFromList: function (data) {
+                    return post({
+                        url: routes.card + '/delete-task',
+                        data: data
+                    });
+                },
                 transferCard: function (data) {
                     return put({
                         url: routes.card + '/transfer-card',

@@ -21,6 +21,52 @@ const upload = multer({ storage: storage })
 
 
 
+router.post('/delete-list-tasks', (req, res) => {
+
+    let deleteObj = req.body;
+    console.log(deleteObj)
+    var query = {};
+
+    // ['lists.' + deleteObj.indexList + '.cards']: deleteObj.lists,
+    query.$set =
+        {
+            ['lists.' + deleteObj.indexList + '.cards.' + deleteObj.indexCard + '.listsTasks']: deleteObj.listsTasks
+        };
+
+    console.log(query)
+    Board.findOneAndUpdate({ _id: deleteObj.idBoard },
+        query,
+        { upsert: true },
+        ((err, updated) => {
+            if (err) { console.log(err) }
+            else { res.status(200).send('Deleted'); }
+        })
+    )
+});
+
+router.post('/delete-task', (req, res) => {
+
+    let deleteObj = req.body; 
+
+    var query = {};
+
+    // ['lists.' + deleteObj.indexList + '.cards']: deleteObj.lists,
+    query.$set =
+        {
+            ['lists.' + deleteObj.indexList + '.cards.' + deleteObj.indexCard + '.listsTasks.' + deleteObj.indexListOfTasks + '.tasks']: deleteObj.tasks
+        };
+
+    console.log(query)
+    Board.findOneAndUpdate({ _id: deleteObj.idBoard },
+        query,
+        { upsert: true },
+        ((err, updated) => {
+            if (err) { console.log(err) }
+            else { res.status(200).send('Deleted'); }
+        })
+    )
+});
+
 router.post('/upload-attachment', upload.any(), function (req, res, next) {
     res.send(req.files);
 });

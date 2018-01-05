@@ -128,28 +128,13 @@ ol[dnd-list] .dndDraggingSource {
   min-height: 10px;
   list-style-type: none;
   margin-left: 10px; }
-
-// .addCard {
-//   span { 
-    
-//     color: #838c91; 
-//     padding: 12px;
-//     line-height: 25px; 
-//   }
- 
-//  &:hover {
-//     color: #838c91;
-//     text-decoration: underline;
-//     background-color: #c7c7c7; 
-//   }
-// }
  
 .addCard { 
   a { 
         color: #838c91; 
         display: block;
         padding: 5px 5px 5px 10px;  
-        font-size: 15px;
+        font-size: 12px;
         
 
      &:hover {

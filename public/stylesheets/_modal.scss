@@ -1,12 +1,33 @@
  
 
 .comment-card {
-  font-size: 13px;
+  &__txt {
+    font-size: 13px;
   padding: 8px;
   background-color: white;
   display: inline-block;
   border-radius: 3px;
-  box-shadow: 1px 1px 1px grey; }
+  box-shadow: 1px 1px 1px grey; 
+  margin: 5px 0 5px 0;
+  }
+ 
+
+  &__option {
+    text-decoration: underline;
+    cursor: pointer;
+    margin-left: 5px;
+
+    &:hover {
+      color: grey;
+    }
+  }
+
+  &__author {
+    font-weight: bold;
+    margin-left: 2px;
+    display: block;
+  }
+}
  
 
 .underline {
@@ -140,9 +161,14 @@ box-shadow: inset 0 1px 6px rgba(0,0,0,.1);
 
 // deadline
 .modal-deadline {
-  height: 100%;
+  margin-top: 5px;
+  min-height: 35px;
+  display: flex;
   &__item {
-    border: 1px solid grey;
+    // border: 1px solid grey;
+    background-color: rgba(211, 211, 35, 0.253);
+    border-radius: 15px;
+    margin-left: 3px;
   }
 }
 

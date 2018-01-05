@@ -1,9 +1,9 @@
 <% include partials/head.ejs %>
 
   <body ng-controller="boardController" ng-init="init('<%= JSON.stringify(user) %>','<%= JSON.stringify(board) %>')" style="background-color: {{board.background}}">
-    <navbar user='user'></navbar>
-
-    </div>
+    <navbar user='user'></navbar> 
+    
+  </div>
     <div>
       <sidebar board='board'></sidebar>
 
@@ -214,7 +214,9 @@
 
                       <div class="modal-deadline" ng-hide="card.deadline === null">
                         <p class="quiet-heading">Termin</p>
-                        <span class="modal-deadline__item">{{card.deadline | date:'dd'}} - {{card.deadline | date:'MM'}} o {{card.deadline | date:'HH:mm'}}
+                        <span class="modal-deadline__item">
+                          Termin upływa dnia: {{card.deadline | date:'dd'}}-{{card.deadline | date:'MM'}}-{{card.deadline | date:'yyyy'}}  <br>
+                          O godzinie: {{card.deadline | date:'HH:mm'}}
                         </span>
                       </div>
                     </div>
@@ -316,6 +318,7 @@
     <script src="/navbar/profile-menu/profile-menu-component.js"></script>
     <script src="/navbar/notifications/notifications-component.js"></script>
     <script src="/navbar/menu-create/menu-create-component.js"></script>
+    <script src="/navbar/boards-list/boards-list-component.js"></script>
 
     <script src="/sidebar/sidebar.js"></script>
 

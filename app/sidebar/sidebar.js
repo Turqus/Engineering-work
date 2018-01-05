@@ -87,7 +87,7 @@
                                 $scope.board.lists[position].cards.unshift($scope.board.cardArchive[indexCard]);
                                 $scope.board.cardArchive.splice(indexCard, 1);
 
-                                cardObj.lists = $scope.board.lists[position];
+                                cardObj.lists = $scope.board.lists;
                                 cardObj.cardArchive = $scope.board.cardArchive;
 
                                 return ApiService.card.sendBackToBoardCard(cardObj);

@@ -15,15 +15,17 @@
 
         <div class="window-comments">
           <div style="border-bottom: 1px solid #E2E4E6; margin-top: 5px;" ng-repeat="comment in card.comments ">
-            <div>
-              <p class="comment-card">{{ comment.text }}</p>
+
+            <div class="comment-card">
+              <span class="comment-card__author">{{comment.name}}</span>
+              <span class="comment-card__txt">{{ comment.text }}</span>
             </div>
             <div>
               <p class="quiet-heading">
                 {{ comment.created | timeAgo }}
 
-                <u>Edytuj</u> -
-                <u>Usuń</u>
+                <span class="comment-card__option">Edytuj</span>
+                <span class="comment-card__option">Usuń</span>
               </p>
             </div>
           </div>

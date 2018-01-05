@@ -5,7 +5,7 @@ App.directive("menuDeadline", function () {
         controller: function ($scope,ApiService) { 
             var today = new Date();
             var getDay = today.getDate();
-            var getMonth = today.getMonth();
+            var getMonth = today.getMonth()+1;
             var getYear = today.getFullYear();
     
             $scope.term = {};

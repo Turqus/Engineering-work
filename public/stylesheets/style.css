@@ -112,7 +112,7 @@ ol[dnd-list] .dndDraggingSource {
   color: #838c91;
   display: block;
   padding: 5px 5px 5px 10px;
-  font-size: 15px; }
+  font-size: 12px; }
   .addCard a:hover {
     color: #838c91;
     text-decoration: underline;
@@ -257,13 +257,24 @@ ol[dnd-list] .dndDraggingSource {
   transform: translate(0); }
 
 /*# sourceMappingURL=style.css.map */
-.comment-card {
+.comment-card__txt {
   font-size: 13px;
   padding: 8px;
   background-color: white;
   display: inline-block;
   border-radius: 3px;
-  box-shadow: 1px 1px 1px grey; }
+  box-shadow: 1px 1px 1px grey;
+  margin: 5px 0 5px 0; }
+.comment-card__option {
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 5px; }
+  .comment-card__option:hover {
+    color: grey; }
+.comment-card__author {
+  font-weight: bold;
+  margin-left: 2px;
+  display: block; }
 
 .underline {
   text-decoration: underline; }
@@ -363,9 +374,13 @@ ol[dnd-list] .dndDraggingSource {
   list-style-type: none; }
 
 .modal-deadline {
-  height: 100%; }
+  margin-top: 5px;
+  min-height: 35px;
+  display: flex; }
   .modal-deadline__item {
-    border: 1px solid grey; }
+    background-color: rgba(211, 211, 35, 0.253);
+    border-radius: 15px;
+    margin-left: 3px; }
 
 .panel-attachment__input {
   height: 50px;
@@ -720,6 +735,9 @@ ol[dnd-list] .dndDraggingSource {
   border-bottom-color: #d6dadc;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
   transform: translate3d(0, 0, 0); }
+
+.boards-list {
+  top: 40px; }
 
 .menu_avatar {
   background-color: #FFFFFF;

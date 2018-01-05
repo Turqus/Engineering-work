@@ -1,5 +1,4 @@
  .menu {
-     
     background-color: #FFFFFF;
     position: absolute;
     display: none;
@@ -11,6 +10,12 @@
     border-bottom-color: rgb(214, 218, 220);
     box-shadow: 0 1px 6px rgba(0,0,0,.15);
     transform: translate3d(0,0,0); 
+}
+
+///boards list
+
+.boards-list {
+    top: 40px;
 }
 
 // // menu AVATAR

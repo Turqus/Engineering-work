@@ -53,11 +53,30 @@ App.directive("listTasks", function () {
 			$scope.deleteTaskFromList = (indexList, indexCard, indexListOfTasks, indexTask) => {
 				$scope.board.lists[indexList].cards[indexCard].listsTasks[indexListOfTasks].tasks.splice(indexTask, 1);
 				progressBar(indexList, indexCard);
+
+				let taskObj = {
+					idBoard : $scope.board._id,
+					tasks : $scope.board.lists[indexList].cards[indexCard].listsTasks[indexListOfTasks].tasks,
+					indexList : indexList,
+					indexCard : indexCard,
+					indexListOfTasks : indexListOfTasks
+				}
+				
+				return ApiService.card.deleteTaskFromList(taskObj);
 			}
 
 			$scope.deleteListOfTasks = (indexList, indexCard, indexListOfTasks) => {
 				$scope.board.lists[indexList].cards[indexCard].listsTasks.splice(indexListOfTasks, 1);
 				progressBar(indexList, indexCard);
+ 
+				let listTaskObj = {
+					idBoard : $scope.board._id,
+					listsTasks : $scope.board.lists[indexList].cards[indexCard].listsTasks,
+					indexList : indexList,
+					indexCard : indexCard
+				}
+				
+				return ApiService.card.deleteListOfTasks(listTaskObj);
 			}
 
 			function progressBar(indexList, indexCard) {

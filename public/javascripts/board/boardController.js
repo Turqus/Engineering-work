@@ -1,6 +1,6 @@
 App.controller('boardController', function ($scope, $http, ApiService, timeAgo, nowTime) {
 
-	$scope.init = function (user, board) {
+	$scope.init = function (user, board) {  
 		$scope.toggle = true;
 		$scope.toggleAddCard = false;
 		$scope.indexListMenu = '';

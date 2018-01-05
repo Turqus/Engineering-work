@@ -1,10 +1,16 @@
 (function () {
+  
   class ComponentCtrl {
-    constructor() { };
+    constructor() { 
+      
+    };
+
 
 
     $onInit() { 
-      this.toggle = false;
+      this.toggle = false;  
+       
+
     };
 
 
@@ -29,7 +35,7 @@
 
   var MyComponent = {
     bindings: {
-      user: '<'
+      user: '<', 
     },
     controller: ComponentCtrl,
     controllerAs: 'navbar',
