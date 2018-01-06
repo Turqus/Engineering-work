@@ -12,6 +12,61 @@
     transform: translate3d(0,0,0); 
 }
 
+
+.boards-list { 
+    background-color: #FFFFFF;
+    position: absolute;
+    display: none;
+    padding: 0 10px 10px 10px; 
+    width: 300px;
+    z-index: 5000;
+    border-radius: 3px;
+    border: 1px solid #D6DADC;
+    border-bottom-color: rgb(214, 218, 220);
+    box-shadow: 0 1px 6px rgba(0,0,0,.15);
+    transform: translate3d(0,0,0); 
+
+   input {
+       margin-top: 15px;
+    }
+
+    ul {
+        list-style-type: none;
+    
+    li {
+        margin-top: 5px;
+    }
+    }
+    
+    &__board {
+        display: flex;
+        flex-wrap: nowrap;
+
+        
+        border-radius: 5px;
+        overflow: hidden;
+        span:first-child {
+            display: block; 
+            width: 20%; 
+        } 
+        span {
+            width: 80%; 
+            color: black;
+            font-weight: bold;
+            padding: 7px;
+            opacity: 0.9;
+        }
+        span:nth-child(2) {
+            opacity: 0.8;
+        }
+        &:hover {
+            opacity: 0.8;
+        }
+
+    }
+  }
+  
+
 ///boards list
 
 .boards-list {

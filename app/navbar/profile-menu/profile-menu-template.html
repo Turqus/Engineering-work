@@ -1,6 +1,6 @@
 <a href="#" ng-click="$ctrl.parent.activeMenu('Profile', $event);">
   <div class="btn__circle">
-    <span class="btn--circle">B</span>
+    <span class="btn--circle">{{$ctrl.parent.user.username | limitTo: 1}}</span>
   </div>
 </a>
 

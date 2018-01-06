@@ -101,14 +101,16 @@ App.controller('boardController', function ($scope, $http, ApiService, timeAgo, 
 
 		this.newTask = '';
 
-		return ApiService.staff.add($scope.CardObj).then(function () {
+		return ApiService.staff.add($scope.CardObj).then(function (resp) {
 			//$scope.loadLists();
+			console.log(resp.lists[0])
+			
 		})
 	};
 
 
 	$scope.checkDescStatus = (indexList, indexCard, descrip, name) => {
-		$scope.commentsLength = $scope.board.lists[indexList].cards[indexCard].comments.length;
+		// $scope.commentsLength = $scope.board.lists[indexList].cards[indexCard].comments.length;
 		$scope.nameNew = name;
 		$scope.descripNew = descrip;
 		if ($scope.board.lists[indexList].cards[indexCard].description == undefined)

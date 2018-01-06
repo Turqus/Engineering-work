@@ -4,6 +4,7 @@ App.directive("listTasks", function () {
 		restrict: "E",
 		controller: function ($scope, ApiService) {
 			$scope.toggleAddTask = false;
+			$scope.indexAddTask = '';
 			
 			$scope.openAddTask = (index) => {
 				if ($scope.toggleAddTask === true && $scope.indexAddTask == index) {
@@ -13,13 +14,15 @@ App.directive("listTasks", function () {
 					$scope.toggleAddTask = !$scope.toggleAddTask;
 				}
 
-				$scope.indexAddTask = index;
-				console.log($scope.toggleAddTask, index)
+				$scope.indexAddTask = index; 
 			}
 
 			$scope.addTaskToList = (indexList, indexCard, indexListOfTasks, task) => {
 				if ($scope.board.lists[indexList].cards[indexCard].listsTasks[indexListOfTasks].tasks == undefined)
 					$scope.board.lists[indexList].cards[indexCard].listsTasks[indexListOfTasks].tasks = [];
+
+
+				console.log($scope.board.lists[indexList].cards[indexCard].listsTasks)
 
 				$scope.board.lists[indexList].cards[indexCard].listsTasks[indexListOfTasks].tasks.push({ 'name': task, 'status': false });
 				progressBar(indexList, indexCard);
@@ -79,12 +82,13 @@ App.directive("listTasks", function () {
 				return ApiService.card.deleteListOfTasks(listTaskObj);
 			}
 
-			function progressBar(indexList, indexCard) {
-				$scope.board.lists[indexList].cards[indexCard].listsTasks.forEach(item => {
-					var completedTask = item.tasks.filter(t => t.status).length;
-					var countTasks = item.tasks.filter(t => t).length;
-					item.percent = completedTask * 100 / countTasks;
-				})
+			function progressBar(indexList, indexCard) { 
+					$scope.board.lists[indexList].cards[indexCard].listsTasks.forEach(item => {
+						var completedTask = item.tasks.filter(t => t.status).length;
+						var countTasks = item.tasks.filter(t => t).length;
+						item.percent = completedTask * 100 / countTasks;
+					}) 
+
 			}
 
 		 

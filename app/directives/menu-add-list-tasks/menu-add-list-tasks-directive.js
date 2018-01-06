@@ -7,7 +7,7 @@ App.directive("menuAddListTasks", function() {
                 if ($scope.board.lists[indexList].cards[indexCard].listsTasks == undefined)
                     $scope.board.lists[indexList].cards[indexCard].listsTasks = [];
         
-                $scope.board.lists[indexList].cards[indexCard].listsTasks.push({ 'name': nameList, 'percent': '0' });
+                $scope.board.lists[indexList].cards[indexCard].listsTasks.push({ 'name': nameList, 'percent': '0', 'tasks' : [] });
         
                 var listsTasksObj = {
                     type: 'name',

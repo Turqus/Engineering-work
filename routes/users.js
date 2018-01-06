@@ -39,7 +39,7 @@ var index = req.body.cardIndex;
     {
       upsert: true
     },
-    ((cards) => {
+    ((err, cards) => {
       console.log(cards)
       res.send(cards)
     })
@@ -61,6 +61,46 @@ router.post('/add/comment', function (req, res, next) {
     ((lists) => {
       console.log(lists)
       res.send(lists)
+    })
+  )
+});
+
+
+router.post('/edit-comment', function (req, res, next) { 
+  let edit = req.body;
+  
+  Board.findOneAndUpdate({ _id: edit.idBoard },
+    {
+      $set: {
+         ['lists.'+ edit.indexList + '.cards.' + edit.indexCard + '.comments.' + edit.indexComment + '.text'] : edit.text
+      }
+    },
+    {
+      upsert: true
+    },
+    ((comment) => {
+      console.log(comment)
+      res.send(comment)
+    })
+  )
+});
+
+
+router.post('/delete-comment', function (req, res, next) {
+  var deleteCommentObj = req.body;
+  
+  Board.findOneAndUpdate({ _id: deleteCommentObj.idBoard },
+    {
+      $set: {
+        ['lists.' + deleteCommentObj.indexList + '.cards.' + deleteCommentObj.indexCard + '.comments' ]: deleteCommentObj.comments
+      }
+    },
+    {
+      upsert: true
+    },
+    ((comments) => {
+      console.log(comments)
+      res.send(comments)
     })
   )
 });

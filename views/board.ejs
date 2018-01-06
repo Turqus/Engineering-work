@@ -1,9 +1,9 @@
 <% include partials/head.ejs %>
 
   <body ng-controller="boardController" ng-init="init('<%= JSON.stringify(user) %>','<%= JSON.stringify(board) %>')" style="background-color: {{board.background}}">
-    <navbar user='user'></navbar> 
-    
-  </div>
+    <navbar user='user'></navbar>
+
+    </div>
     <div>
       <sidebar board='board'></sidebar>
 
@@ -100,7 +100,7 @@
                             <option ng-repeat="item in boards" value="{{item._id}}">{{item.name}}</option>
                           </select>
                         </div>
- 
+
                         <button class="btn btn-success" ng-click="transferList(selectedBoard, $index)">Przenieś</button>
 
                       </form>
@@ -126,7 +126,30 @@
                   <a style="text-decoration: none; color: black;" data-toggle="modal" ng-click="checkDescStatus($parent.$index, $index, card.description, card.name)"
                     href="#{{card._id}}">
                     <div class="card">
-                      <span>{{card.name}}</span>
+
+                      <div class="card__label" ng-show="card.labels.length > 0">
+                        <span class="card__label__item" ng-repeat="label in card.labels" style="background-color: {{label.colour}};">
+                        </span>
+                      </div>
+
+                      <div class="card__content">
+                        <span>{{card.name}}</span>
+                      </div>
+
+                      <div class="card__info" ng-show="card.comments.length > 0 || card.listsTasks.length > 0 || card.description != undefined || card.description.length === 0 || card.deadline != null">
+
+                        <div class="card__info__comment" ng-show="card.comments.length > 0">
+                          <span class="glyphicon glyphicon-comment"></span>{{card.comments.length}}</div>
+                        <div class="card__info__listsTasks" ng-show="card.listsTasks.length > 0">
+                          <span class="glyphicon glyphicon-edit"></span>{{card.listsTasks.length}}</div>
+                        <div class="card__info__description" ng-show="card.description != undefined || card.description.length === 0">
+                          <span class="glyphicon glyphicon-pencil"></span>
+                        </div>
+                        <div class="card__info__deadline" ng-show="card.deadline != null">
+                          <span style="background-color: #F2D600; border-radius: 5px; padding: 3px;">{{card.deadline | date: Dd-Mm-Yyyy}}</span>
+                        </div>
+                      </div>
+
                       <!-- <span class="glyphicon glyphicon-pencil pull-right" ng-click="activeMenu('Dada', $event, $index)"></span> -->
                     </div>
                   </a>
@@ -134,15 +157,15 @@
                 </li>
               </ol>
 
-                <!-- start-->
-                <!-- <div style="position: relative">
+              <!-- start-->
+              <!-- <div style="position: relative">
                   <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Dada' && toggle === true && indexListMenu === $index}">
                       <textarea name="" id="" cols="30" rows="3"></textarea>
 
                   </div>
                 </div>  -->
 
-                <!-- end-->
+              <!-- end-->
 
               <div class="addCardForm" ng-click="blockClosingList($event)" ng-class="{active : indexAddCard == $index && toggleAddCard === true}"
                 id="id_warstwy2{{$index}}">
@@ -152,23 +175,23 @@
                   <button class="btn btn-default" ng-click="addCard($index)">Anuluj</button>
                 </form>
               </div>
-                <div ng-class="{deactive : indexAddCard == $index && toggleAddCard === true}" class="addCard" id="id_warstwy{{$index}}">
-                    <a href="#" ng-click="addCard($index);" ng-hide="board.closed === true">
-                   Dodaj kartę... 
+              <div ng-class="{deactive : indexAddCard == $index && toggleAddCard === true}" class="addCard" id="id_warstwy{{$index}}">
+                <a href="#" ng-click="addCard($index);" ng-hide="board.closed === true">
+                  Dodaj kartę...
                 </a>
-                </div>
+              </div>
             </div>
           </div>
         </li>
 
-        <ul class="third-list" dnd-list="board.lists" dnd-allowed-types="['de']"  ng-hide="board.closed === true">
+        <ul class="third-list" dnd-list="board.lists" dnd-allowed-types="['de']" ng-hide="board.closed === true">
           <li ng-class="{deactive : openMenuAddList === true }">
             <div ng-click="addListMenuActiv($event);" class="third-list__btn">
               <span>Dodaj listę...</span>
             </div>
           </li>
           <li>
-            <div ng-click="blockClosingList($event)" ng-class="{active : openMenuAddList === true}" class="third-list__input"> 
+            <div ng-click="blockClosingList($event)" ng-class="{active : openMenuAddList === true}" class="third-list__input">
               <form>
                 <input type="text" class="form-control" ng-model="newList" placeholder="Dodaj kartę..." />
                 <button class="btn btn-success" ng-click="addList(newList)">Dodaj</button>
@@ -209,14 +232,14 @@
                     <div class="modal-label">
                       <div class="modal-label__items" ng-show="card.labels.length > 0">
                         <p class="quiet-heading">Etykiety</p>
-                        <span style="background-color: {{item.colour}}" ng-repeat="item in card.labels">{{item.name}}</span>
+                        <span style="background-color: {{item.colour}}; min-width: 50px;" ng-repeat="item in card.labels">{{item.name}}</span>
                       </div>
 
                       <div class="modal-deadline" ng-hide="card.deadline === null">
                         <p class="quiet-heading">Termin</p>
                         <span class="modal-deadline__item">
-                          Termin upływa dnia: {{card.deadline | date:'dd'}}-{{card.deadline | date:'MM'}}-{{card.deadline | date:'yyyy'}}  <br>
-                          O godzinie: {{card.deadline | date:'HH:mm'}}
+                          Termin upływa dnia: {{card.deadline | date:'dd'}}-{{card.deadline | date:'MM'}}-{{card.deadline | date:'yyyy'}}
+                          <br> O godzinie: {{card.deadline | date:'HH:mm'}}
                         </span>
                       </div>
                     </div>
@@ -284,7 +307,7 @@
                         <a href class="modal-menu__link" ng-click="archiveCard($parent.$index, $index)">Zarchiwizuj</a>
 
 
-                        
+
                         <menu-delete-card></menu-delete-card>
                       </div>
                     </div>

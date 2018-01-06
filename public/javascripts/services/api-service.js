@@ -95,6 +95,18 @@ angular.module('TodoListApp')
                         data: data
                     });
                 },
+                editComment: function (data) {
+                    return post({
+                        url: routes.staff + '/edit-comment',
+                        data: data
+                    });
+                },
+                deleteComment: function (data) {
+                    return post({
+                        url: routes.staff + '/delete-comment',
+                        data: data
+                    });
+                },
                 addMemberBoard: function (data) {
                     return post({
                         url: routes.staff + '/add/member/board',

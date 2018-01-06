@@ -163,15 +163,61 @@ ol[dnd-list] .dndDraggingSource {
   padding: 5px;
   background-color: #FFF; 
 
-  span:nth-child(2) {
-    font-size: 12px;
-    padding: 3px;
-    height: 100%;
-    border-radius: 2px;
-    &:hover {
-      background-color: #E2E4E6;
+  // span:nth-child(2) {
+  //   font-size: 12px;
+  //   padding: 3px;
+  //   height: 100%;
+  //   border-radius: 2px;
+  //   &:hover {
+  //     background-color: #E2E4E6;
+  //   }
+  // }
+
+    &__label {
+      margin-bottom: 10px;
+
+      &__item {
+        display: inline-flex; 
+        width: 42px; 
+        height: 8px; 
+        margin-right: 5px; 
+        border-radius: 5px; 
+        margin-left: 1px;
+      }
     }
-  }
+
+    &__content {
+      margin-left: 2px;
+    }
+
+    &__info {
+      margin-top: 10px; 
+      color: grey; 
+      display: flex;
+
+      &__comment {
+        width: 20%; 
+        margin-left: 2px;
+      }
+  
+      &__listsTasks {
+        width: 20%; 
+        margin-left: 2px;
+      }
+  
+      &__description {
+        width: 20%; 
+        margin-left: 2px;
+      }
+  
+      &__deadline {
+        width: 40%; 
+        margin-left: 2px;
+      }
+    }
+
+
+  
 }
 
 
@@ -316,4 +362,6 @@ ol[dnd-list] .dndDraggingSource {
 .dzaga {
     transform: translate(0);
 }
+
+
 /*# sourceMappingURL=style.css.map */

@@ -134,13 +134,33 @@ ol[dnd-list] .dndDraggingSource {
   border-radius: 5px;
   padding: 5px;
   background-color: #FFF; }
-  .card span:nth-child(2) {
-    font-size: 12px;
-    padding: 3px;
-    height: 100%;
-    border-radius: 2px; }
-    .card span:nth-child(2):hover {
-      background-color: #E2E4E6; }
+  .card__label {
+    margin-bottom: 10px; }
+    .card__label__item {
+      display: inline-flex;
+      width: 42px;
+      height: 8px;
+      margin-right: 5px;
+      border-radius: 5px;
+      margin-left: 1px; }
+  .card__content {
+    margin-left: 2px; }
+  .card__info {
+    margin-top: 10px;
+    color: grey;
+    display: flex; }
+    .card__info__comment {
+      width: 20%;
+      margin-left: 2px; }
+    .card__info__listsTasks {
+      width: 20%;
+      margin-left: 2px; }
+    .card__info__description {
+      width: 20%;
+      margin-left: 2px; }
+    .card__info__deadline {
+      width: 40%;
+      margin-left: 2px; }
 
 #first > li.dndPlaceholder {
   margin-left: 5px;
@@ -275,6 +295,17 @@ ol[dnd-list] .dndDraggingSource {
   font-weight: bold;
   margin-left: 2px;
   display: block; }
+.comment-card p {
+  display: block;
+  margin-left: 4px; }
+
+.positionCircle {
+  position: absolute;
+  left: -32px; }
+
+.editComment textarea {
+  margin-bottom: 5px;
+  max-width: 100%; }
 
 .underline {
   text-decoration: underline; }
@@ -321,13 +352,15 @@ ol[dnd-list] .dndDraggingSource {
 
 .modal-desc h5 {
   margin: 0px;
+  margin-top: 15px;
   padding: 0px; }
 
 .modal-desc-form button {
   margin-top: 5px; }
 
 .modal-desc-form {
-  word-wrap: break-word; }
+  word-wrap: break-word;
+  margin-top: 15px; }
 
 .modal-desc-form textarea {
   background: rgba(0, 0, 0, 0.03);
@@ -350,6 +383,9 @@ ol[dnd-list] .dndDraggingSource {
 
 .modal-activity {
   margin-top: 50px; }
+
+.window-comments {
+  margin-left: 10px; }
 
 .modal-right-column {
   width: 30%;
@@ -389,6 +425,9 @@ ol[dnd-list] .dndDraggingSource {
 .modal-label__items {
   display: inline-flex;
   flex-wrap: wrap; }
+  .modal-label__items span {
+    text-align: center;
+    margin-bottom: 10px; }
 
 .modal-label .quiet-heading {
   display: block; }
@@ -735,6 +774,43 @@ ol[dnd-list] .dndDraggingSource {
   border-bottom-color: #d6dadc;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
   transform: translate3d(0, 0, 0); }
+
+.boards-list {
+  background-color: #FFFFFF;
+  position: absolute;
+  display: none;
+  padding: 0 10px 10px 10px;
+  width: 300px;
+  z-index: 5000;
+  border-radius: 3px;
+  border: 1px solid #D6DADC;
+  border-bottom-color: #d6dadc;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+  transform: translate3d(0, 0, 0); }
+  .boards-list input {
+    margin-top: 15px; }
+  .boards-list ul {
+    list-style-type: none; }
+    .boards-list ul li {
+      margin-top: 5px; }
+  .boards-list__board {
+    display: flex;
+    flex-wrap: nowrap;
+    border-radius: 5px;
+    overflow: hidden; }
+    .boards-list__board span:first-child {
+      display: block;
+      width: 20%; }
+    .boards-list__board span {
+      width: 80%;
+      color: black;
+      font-weight: bold;
+      padding: 7px;
+      opacity: 0.9; }
+    .boards-list__board span:nth-child(2) {
+      opacity: 0.8; }
+    .boards-list__board:hover {
+      opacity: 0.8; }
 
 .boards-list {
   top: 40px; }

@@ -5,7 +5,7 @@ App.directive("description", () => {
         controller: ($scope, ApiService) => {
             $scope.toggleDesc = false;
 
-            $scope.editDesc = (indexList, indexCard, desc) => {
+            $scope.editDesc = (indexList, indexCard, desc) => { 
                 $scope.board.lists[indexList].cards[indexCard].description = desc;
 
                 var newDescripObj = {
@@ -16,8 +16,7 @@ App.directive("description", () => {
                 }
 
                 $scope.toggleDesc = $scope.toggleDesc;
-
-                $scope.descripNew = '';
+ 
                 return ApiService.staff.addDescrip(newDescripObj);
             }
         }

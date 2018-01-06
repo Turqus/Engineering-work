@@ -1,17 +1,24 @@
 (function () {
-  
+
   class ComponentCtrl {
-    constructor() { 
-      
+    
+    constructor(ApiService) {
+      this.ApiService = ApiService;
     };
 
 
 
-    $onInit() { 
-      this.toggle = false;  
-       
-
+    $onInit() {
+      this.toggle = false; 
+      this.loadBoards();
     };
+
+ 
+    loadBoards() {
+      return this.ApiService.staff.boards().then((resp) => {
+        this.boards = resp;
+      });
+    }
 
 
     activeMenu(name, $event) {
@@ -33,9 +40,10 @@
     // };    
   };
 
+
   var MyComponent = {
     bindings: {
-      user: '<', 
+      user: '<',
     },
     controller: ComponentCtrl,
     controllerAs: 'navbar',
