@@ -10,7 +10,8 @@ var UserSchema = new Schema({
   role: { type: String, maxlength: 5, required: true },
   updated: { type: Date, default: Date.now },
   created: { type: Date, default: Date.now },
-
+  activated: Boolean,
+  keyHash: String,
   firstName: { type: String, maxlength: 30},
   surname: { type: String, maxlength: 30 },
   country: { type: String, maxlength: 30 },

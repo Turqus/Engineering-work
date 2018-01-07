@@ -28,8 +28,6 @@ var index = req.body.cardIndex;
 //   )
 
 
-
-
   Board.findOneAndUpdate({ _id: req.body.idBlackBoard },
     {
       $set: {

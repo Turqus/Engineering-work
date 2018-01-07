@@ -5,8 +5,15 @@ var router = express.Router();
 var LocalStrategy = require('passport-local').Strategy;
 // MODELS
 var User = require('../model/user.model');
-var Board = require('../model/board.model'); 
+var Board = require('../model/board.model');
 const saltRounds = 10;
+var nodemailer = require('nodemailer');
+
+var createHash = require('hash-generator');
+var hashLength = 18;
+var hashKey = createHash(18);
+ 
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -37,6 +44,20 @@ router.get('/register', function (req, res, next) {
 });
 
 router.post('/registerUser', function (req, res, next) {
+//sending email  
+  
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'turqus18@gmail.com',
+    pass: 'Chudy129'
+  }
+});
+
+
+
+//end sending email
+
   var errors = '';
 
   var newUser = {
@@ -45,6 +66,8 @@ router.post('/registerUser', function (req, res, next) {
     email: req.body.email,
     role: 'admin',
 
+    keyHash: null,
+    activated: false,
     firstName: null,
     surname: null,
     country: null,
@@ -62,17 +85,82 @@ router.post('/registerUser', function (req, res, next) {
         console.log(err)
       } else {
         newUser.password = hash;
-        var user = new User(newUser);
-        user.save()
-          .then(function (User) {
-            //res.send(User);
-            req.flash('success_msg', 'You are registered and can now login');
-            res.redirect('/');
-          })
+        bcrypt.hash(newUser.password, saltRounds, function (err, hash) {
+          if (err) {
+            console.log(err)
+          } else {
+            newUser.keyHash = hashKey;
+            var user = new User(newUser);
+            user.save()
+              .then(function (User) {
+                //res.send(User);
+                req.flash('success_msg', 'You are registered and can now login');
+                res.redirect('/');
+              })
+              .then(()=>{
+                // start
+                var mailOptions = {
+                  from: 'turqus18@gmail.com',
+                  to: 'bartlomiejflis94@gmail.com',
+                  subject: 'Aktywacja Twojego konta tasker !',
+                  html: 'Witaj <b>'+newUser.username+'<br /><br/>Aktywacja twojego konta na naszej stronie internetowej Tasker.</b><br /><br/><span>Kliknij w poniższy link w celu aktywacji: </span> <br /><br /> http://localhost:3000/activated/' + newUser.keyHash 
+                };
+                
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                  if (error) {
+                    res.json('Wiadomość nie zostałą wysłana.');
+                  } else {
+                    console.log('Email sent: ' + info.response);
+                    res.json('Wiadomość została wysłana.');
+                  }
+                }); 
+                // end
+              })
+          }
+        });
       }
     });
   }
 });
+
+router.get('/activated/:hash', (req, res)=> { 
+  User.find({'keyHash' : req.params.hash}, (err, user)=> {
+    if(err) {
+      console.log(err);
+    }
+    else {
+      if(user.length > 0) {
+
+        User.findOneAndUpdate({ _id: user[0]._id },
+          {
+            $set: {
+                 keyHash : null,
+                 activated : true
+            }
+          },
+          {
+            upsert: true
+          },
+          ((err, user) => {
+            if(err) {
+              console.log(err)
+            }
+            else {
+              console.log(user)
+              res.send('Konto zostało aktywowane.');
+            }
+          })
+        )
+      } else {
+        res.send('Podany klucz nie istnieje.');
+      }
+    }
+  })
+});
+
+
+
 
 passport.use(new LocalStrategy(
   function (username, password, done) {
