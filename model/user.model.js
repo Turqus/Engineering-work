@@ -12,6 +12,7 @@ var UserSchema = new Schema({
   created: { type: Date, default: Date.now },
   activated: Boolean,
   keyHash: String,
+  remindPasswordHash: String,
   firstName: { type: String, maxlength: 30},
   surname: { type: String, maxlength: 30 },
   country: { type: String, maxlength: 30 },

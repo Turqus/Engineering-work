@@ -1,10 +1,9 @@
 <% include partials/head.ejs %>
 
-<body ng-controller="TodoListCtrl" ng-init="init('<%= JSON.stringify() %>')">
+  <body class="bg-colour-main" ng-controller="TodoListCtrl" ng-init="init('<%= JSON.stringify() %>')">
 
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
+    <!-- <nav class="navbar navbar-default">
+    <div class="container-fluid"> 
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
           aria-expanded="false">
@@ -15,69 +14,96 @@
       </button>
         <a class="navbar-brand heading-nav" href="#">Tasker</a>
       </div>
-
-      <!-- Collect the nav links, forms, and other content for toggling -->
+ 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
         <ul class="nav navbar-nav navbar-right">
           <li><a href="/login"><button type="button" class="btn">Zaloguj</button></a></li>
           <li><a href="/register"><button type="button" class="btn btn-success">Zarejestruj się</button></a></li>
         </ul>
-      </div>
-      <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-  </nav>
+      </div> 
+    </div> 
+  </nav> -->
 
 
-  <div class="container-index">
-    <div class="row">
-      <div class="col-md-3 center-block login">
-        <h1 class="login-header heading">Zaloguj się do Taskera</h1>
+    
+<div class="main-container">
 
-        <form action="/login" method="post">
-
-          <div class="form-group">
-            <label class="heading heading-login" for="">E-mail <span>(lub użytkownik)</span></label>
-            <input type="text" class="form-control" name="username" placeholder="np. joaana29">
+    <header id="header">
+        <nav class="nav">
+            <div class="nav-wrapper">
+                <a class="nav-wrapper__link" href="/">Tasker</a>
+      
+                <ul class="nav-wrapper__list">
+                  <li class="nav-wrapper__item">
+                    <a href="/login" class="btn btn-default">Zaloguj</a>
+                  </li>
+                  <li class="nav-wrapper__item">
+                    <a href="/register" class="btn btn-success">Zarejestruj się</a>
+                  </li>
+                </ul>
+            </div>
+          </nav>
+    </header>
+    
+    
+    <main id="content">
+        <div class="row">
+            <div class="col-md-3 col-xs-6 col-sm-6 login center-block">
+              <h1 class="login__header login__header--font">Zaloguj się do Taskera</h1>
+    
+              <form action="/login" method="post">
+                <div class="form-group">
+                  <label class="heading heading-login">Login</label>
+                  <input type="text" class="form-control" name="username" placeholder="np. joaana29">
+                </div>
+    
+                <div class="form-group">
+                  <label class="heading heading-login" for="">Hasło</label>
+                  <input type="password" class="form-control" name="password" placeholder="np. *********">
+                </div>
+    
+                <button type="submit" class="btn btn-success">Zaloguj się</button>
+    
+                <span class="heading">Zapomniałeś hasła ?
+                  <a href="/remind-password">Zresetuj je.</a>
+                </span>
+                
+              </form>
+            </div> 
+          </div> 
+    </main>
+    
+    
+    
+    <article id="note">
+        <div class="row">
+            <div class="col-md-4 col-xs-6 col-sm-6 center-block">
+              <p class="note">
+                Zrezygnuj z niekończących się wymian wiadomości e-mail, nieaktualnych arkuszy kalkulacyjnych, karteczek samoprzylepnych i
+                nieporęcznego oprogramowania do zarządzania projektami. Aplikacja Tasker umożliwi Ci zarządzanie nimi z jednego
+                miejsca.
+              </p>
+            </div>
           </div>
-
-          <div class="form-group">
-            <label class="heading heading-login" for="">Hasło</label>
-            <input type="password" class="form-control" name="password" placeholder="np. *********">
-          </div>
-
-          <button type="submit" class="btn btn-success">Zaloguj się</button>
-          <span class="heading">Zapomniałeś hasła ? <a href="/forgot">Zresetuj je.</a></span>
-        </form>
-      </div>
-    </div>
-
-    <div class="row note">
-      <div class="col-md-4 center-block">
-        <p class="heading">
-          Zrezygnuj z niekończących się wymian wiadomości e-mail, nieaktualnych arkuszy kalkulacyjnych, karteczek samoprzylepnych i
-          nieporęcznego oprogramowania do zarządzania projektami. Aplikacja Tasker umożliwi Ci zarządzanie nimi z jednego
-          miejsca.
-        </p>
-      </div>
-    </div>
+    </article>
+</div>
 
 
 
 
 
-    <script src="/javascripts/user/registerController.js"></script>
+      <script src="/javascripts/user/registerController.js"></script>
 
 
-    <script src="/navbar/navbar-module.js"></script>
-    <script src="/navbar/navbar-component.js"></script>
+      <script src="/navbar/navbar-module.js"></script>
+      <script src="/navbar/navbar-component.js"></script>
 
-    <script src="/navbar/profile-menu/profile-menu-component.js"></script>
-    <script src="/navbar/notifications/notifications-component.js"></script>
-    <script src="/navbar/menu-create/menu-create-component.js"></script>
+      <script src="/navbar/profile-menu/profile-menu-component.js"></script>
+      <script src="/navbar/notifications/notifications-component.js"></script>
+      <script src="/navbar/menu-create/menu-create-component.js"></script>
 
-    <script src="/sidebar/sidebar.js"></script>
-</body>
+      <script src="/sidebar/sidebar.js"></script>
+  </body>
 
-</html>
+  </html>

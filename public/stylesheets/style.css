@@ -525,34 +525,48 @@ ol[dnd-list] .dndDraggingSource {
 
 .login {
   margin-top: 60px; }
-
-.login-header {
-  margin-bottom: 100px;
-  text-align: center;
-  font-size: 40px; }
-
-.heading {
-  font-family: 'Palatino Linotype'; }
+  .login__header {
+    margin-bottom: 100px;
+    text-align: center;
+    font-size: 40px; }
+    .login__header--font {
+      font-family: 'Palatino Linotype'; }
 
 .heading-login {
   font-size: 20px; }
 
-.heading-nav {
-  font-size: 30px !important;
-  font-weight: 600px !important;
-  margin-top: 5px;
-  font-family: 'Copperplate Gothic Light'; }
-
-.navbar {
-  margin: 0px !important; }
-
-.container-index {
-  background-color: #E4F0F6;
-  min-width: 100vh;
-  min-height: 100vh; }
-
 .note {
   margin-top: 150px; }
+
+.row {
+  margin: 0; }
+
+.navbar {
+  margin: 0 !important; }
+
+.bg-colour-main {
+  background-color: #E4F0F6; }
+
+.nav {
+  background-color: #fff; }
+  .nav-wrapper {
+    display: flex; }
+    .nav-wrapper__link {
+      padding: 10px;
+      margin-left: 10px;
+      font-size: 30px;
+      font-weight: 600px;
+      font-family: 'Copperplate Gothic Light'; }
+      .nav-wrapper__link:hover {
+        text-decoration: none; }
+    .nav-wrapper__list {
+      width: 100%;
+      display: inline-flex;
+      justify-content: flex-end;
+      align-items: center; }
+    .nav-wrapper__item {
+      list-style-type: none;
+      margin-right: 10px; }
 
 .register-header {
   font-size: 40px;
@@ -591,6 +605,17 @@ ol[dnd-list] .dndDraggingSource {
 
 .footer-info {
   list-style-type: none; }
+
+.forgotPassword-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+.forgotPassword__list {
+  width: 400px; }
+.forgotPassword__link {
+  display: block;
+  text-align: right;
+  margin-top: 20px; }
 
 .nav_boards {
   list-style-type: none;

@@ -13,6 +13,7 @@ var profile = require('./routes/profile');
 var boardRouter = require('./routes/board');
 var users = require('./routes/users');
 var card = require('./routes/card');
+var remindPassword = require('./routes/remindPassword');
  
 var User = require('./model/user.model');
 var Board = require('./model/board.model');
@@ -69,6 +70,7 @@ app.use('/profile', profile);
 app.use('/board', boardRouter);
 app.use('/card', card);
 
+app.use('/', remindPassword);
 
 
 // catch 404 and forward to error handler

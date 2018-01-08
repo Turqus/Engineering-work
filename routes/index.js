@@ -12,7 +12,7 @@ var nodemailer = require('nodemailer');
 var createHash = require('hash-generator');
 var hashLength = 18;
 var hashKey = createHash(18);
- 
+
 
 
 /* GET home page. */
@@ -25,6 +25,7 @@ router.get('/boards', function (req, res, next) {
 });
 
 
+ 
 
 
 // GIVEN BOARD
@@ -44,19 +45,19 @@ router.get('/register', function (req, res, next) {
 });
 
 router.post('/registerUser', function (req, res, next) {
-//sending email  
-  
-var transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'turqus18@gmail.com',
-    pass: 'Chudy129'
-  }
-});
+  //sending email  
+
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'turqus18@gmail.com',
+      pass: 'Chudy129'
+    }
+  });
 
 
 
-//end sending email
+  //end sending email
 
   var errors = '';
 
@@ -66,7 +67,8 @@ var transporter = nodemailer.createTransport({
     email: req.body.email,
     role: 'admin',
 
-    keyHash: null,
+    // keyHash: null,
+    // forgotPasswordHash: null,
     activated: false,
     firstName: null,
     surname: null,
@@ -97,15 +99,15 @@ var transporter = nodemailer.createTransport({
                 req.flash('success_msg', 'You are registered and can now login');
                 res.redirect('/');
               })
-              .then(()=>{
+              .then(() => {
                 // start
                 var mailOptions = {
                   from: 'turqus18@gmail.com',
                   to: 'bartlomiejflis94@gmail.com',
                   subject: 'Aktywacja Twojego konta tasker !',
-                  html: 'Witaj <b>'+newUser.username+'<br /><br/>Aktywacja twojego konta na naszej stronie internetowej Tasker.</b><br /><br/><span>Kliknij w poniższy link w celu aktywacji: </span> <br /><br /> http://localhost:3000/activated/' + newUser.keyHash 
+                  html: 'Witaj <b>' + newUser.username + '<br /><br/>Aktywacja twojego konta na naszej stronie internetowej Tasker.</b><br /><br/><span>Kliknij w poniższy link w celu aktywacji: </span> <br /><br /> http://localhost:3000/activated/' + newUser.keyHash
                 };
-                
+
 
                 transporter.sendMail(mailOptions, function (error, info) {
                   if (error) {
@@ -114,7 +116,7 @@ var transporter = nodemailer.createTransport({
                     console.log('Email sent: ' + info.response);
                     res.json('Wiadomość została wysłana.');
                   }
-                }); 
+                });
                 // end
               })
           }
@@ -124,26 +126,26 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-router.get('/activated/:hash', (req, res)=> { 
-  User.find({'keyHash' : req.params.hash}, (err, user)=> {
-    if(err) {
+router.get('/activated/:hash', (req, res) => {
+  User.find({ 'keyHash': req.params.hash }, (err, user) => {
+    if (err) {
       console.log(err);
     }
     else {
-      if(user.length > 0) {
+      if (user.length > 0) {
 
         User.findOneAndUpdate({ _id: user[0]._id },
           {
             $set: {
-                 keyHash : null,
-                 activated : true
+              keyHash: null,
+              activated: true
             }
           },
           {
             upsert: true
           },
           ((err, user) => {
-            if(err) {
+            if (err) {
               console.log(err)
             }
             else {
@@ -216,16 +218,16 @@ router.post('/login',
 
 
 // PROFIL USER
-router.get('/:username', function (req, res, next) {
-  console.log(req.user)
+// router.get('/:username', function (req, res, next) {
+//   console.log(req.user)
 
-  User.findById(req.user._id)
-    .then((user) => {
-      return res.render('profil', { title: 'Express', user: user });
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-});
+//   User.findById(req.user._id)
+//     .then((user) => {
+//       return res.render('profil', { title: 'Express', user: user });
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     })
+// });
 
 module.exports = router;
