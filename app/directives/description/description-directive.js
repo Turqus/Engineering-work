@@ -17,7 +17,7 @@ App.directive("description", () => {
 
                 $scope.toggleDesc = $scope.toggleDesc;
  
-                return ApiService.staff.addDescrip(newDescripObj);
+                return ApiService.card.addDescrip(newDescripObj);
             }
         }
     }

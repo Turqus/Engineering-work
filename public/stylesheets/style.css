@@ -37,6 +37,16 @@
   width: 30px;
   cursor: pointer; }
 
+.btnCircle {
+  margin: 3px 5px;
+  line-height: 20px;
+  padding: 5px;
+  background-color: #D6DADC;
+  border-radius: 100px;
+  width: 30px;
+  display: inline-flex;
+  justify-content: center; }
+
 .btns:hover {
   color: #fff;
   cursor: pointer;
@@ -75,12 +85,12 @@ ul {
   margin: 0;
   padding: 0; }
 
-#first ul {
+#listItem ul {
   margin: 0;
   padding: 0;
   width: 90vh; }
 
-#first {
+#listItem {
   width: 100%;
   /*width: 260px;*/
   height: 90vh;
@@ -88,7 +98,7 @@ ul {
   overflow-y: hidden;
   display: flex; }
 
-#first > li {
+#listItem > li {
   list-style-type: none;
   float: left;
   height: 100%; }
@@ -99,7 +109,8 @@ ul {
 ol[dnd-list] .dndDraggingSource {
   display: none; }
 
-#second {
+#cardItem {
+  padding-bottom: 5px;
   padding: 0;
   background-color: #E2E4E6;
   border-radius: 3px;
@@ -118,7 +129,14 @@ ol[dnd-list] .dndDraggingSource {
     text-decoration: underline;
     background-color: #c7c7c7; }
 
-#second > li {
+.img-board {
+  padding: 3px; }
+
+.deadline-card {
+  background-color: #F2D600; }
+
+#cardItem > li {
+  margin: 3px 0 3px 0;
   /*padding: 5px 8px;*/
   border-bottom: 1px #CCCCCC solid;
   border-radius: 3px;
@@ -150,13 +168,16 @@ ol[dnd-list] .dndDraggingSource {
     color: grey;
     display: flex; }
     .card__info__comment {
-      width: 20%;
+      width: 15%;
       margin-left: 2px; }
     .card__info__listsTasks {
-      width: 20%;
+      width: 15%;
+      margin-left: 2px; }
+    .card__info__members {
+      width: 15%;
       margin-left: 2px; }
     .card__info__description {
-      width: 20%;
+      width: 15%;
       margin-left: 2px; }
     .card__info__deadline {
       width: 40%;
@@ -165,7 +186,7 @@ ol[dnd-list] .dndDraggingSource {
         border-radius: 5px;
         padding: 3px; }
 
-#first > li.dndPlaceholder {
+#listItem > li.dndPlaceholder {
   margin-left: 5px;
   min-width: 270px;
   height: 130px;
@@ -174,7 +195,7 @@ ol[dnd-list] .dndDraggingSource {
   border-radius: 3px;
   padding: 0 5px; }
 
-#second > li.dndPlaceholder {
+#cardItem > li.dndPlaceholder {
   width: 250px;
   height: 28px;
   opacity: .2;
@@ -182,7 +203,7 @@ ol[dnd-list] .dndDraggingSource {
   border-radius: 6px; }
 
 /*
-#second > li:hover {
+#list > li:hover {
 	background-color: grey;		
 }*/
 .titleCard {
@@ -203,6 +224,20 @@ ol[dnd-list] .dndDraggingSource {
   font-size: 12px; }
   #tasks a {
     text-decoration: none; }
+
+.membersList {
+  margin-bottom: 5px;
+  display: inline-flex;
+  max-width: 100%;
+  flex-wrap: wrap;
+  list-style-type: none; }
+  .membersList a {
+    color: black; }
+    .membersList a:hover {
+      color: black; }
+
+.floatleft {
+  float: left; }
 
 #tasks .textarea-modif {
   margin: 0;
@@ -395,6 +430,8 @@ ol[dnd-list] .dndDraggingSource {
   padding: 15px; }
 
 .modal-menu__link {
+  border: 0;
+  text-align: left;
   display: block;
   width: 100%;
   position: relative;
@@ -435,7 +472,7 @@ ol[dnd-list] .dndDraggingSource {
 .modal-label .quiet-heading {
   display: block; }
 
-.modal-label span {
+.modal-label .label-item {
   padding: 5px;
   min-width: 10px;
   min-height: 10px;
@@ -544,27 +581,31 @@ ol[dnd-list] .dndDraggingSource {
 .navbar {
   margin: 0 !important; }
 
+.loginFrm a {
+  display: block;
+  margin-top: 20px; }
+
 .bg-colour-main {
   background-color: #E4F0F6; }
 
-.nav {
+.navi {
   background-color: #fff; }
-  .nav-wrapper {
+  .navi-wrapper {
     display: flex; }
-    .nav-wrapper__link {
+    .navi-wrapper__link {
       padding: 10px;
       margin-left: 10px;
       font-size: 30px;
       font-weight: 600px;
       font-family: 'Copperplate Gothic Light'; }
-      .nav-wrapper__link:hover {
+      .navi-wrapper__link:hover {
         text-decoration: none; }
-    .nav-wrapper__list {
+    .navi-wrapper__list {
       width: 100%;
       display: inline-flex;
       justify-content: flex-end;
       align-items: center; }
-    .nav-wrapper__item {
+    .navi-wrapper__item {
       list-style-type: none;
       margin-right: 10px; }
 
@@ -762,6 +803,11 @@ ol[dnd-list] .dndDraggingSource {
     width: 500px;
     max-width: 500px; }
 
+.yourAcitivity {
+  display: block;
+  padding: 5px;
+  font-size: 15px; }
+
 .menu-profile-heading {
   margin-top: 10px;
   font: 14px "Helvetica Neue",Arial,Helvetica,sans-serif;
@@ -790,7 +836,41 @@ ol[dnd-list] .dndDraggingSource {
 .deactive {
   display: none; }
 
+.has-error__item {
+  color: red;
+  font-size: 13px; }
+
 .menu {
+  background-color: #FFFFFF;
+  position: absolute;
+  display: none;
+  padding: 0 10px 10px 10px;
+  width: 300px;
+  z-index: 5000;
+  border-radius: 3px;
+  border: 1px solid #D6DADC;
+  border-bottom-color: #d6dadc;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+  transform: translate3d(0, 0, 0); }
+
+.margin {
+  margin-top: 10px; }
+
+.menuToInvitePeople {
+  background-color: #FFFFFF;
+  position: absolute;
+  left: 0px;
+  display: none;
+  padding: 0 10px 10px 10px;
+  width: 300px;
+  z-index: 5000;
+  border-radius: 3px;
+  border: 1px solid #D6DADC;
+  border-bottom-color: #d6dadc;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+  transform: translate3d(0, 0, 0); }
+
+.menuListMembers {
   background-color: #FFFFFF;
   position: absolute;
   display: none;
@@ -889,10 +969,14 @@ ol[dnd-list] .dndDraggingSource {
     max-width: 250px; }
 
 .menu_notice {
+  max-height: 500px;
+  overflow-x: hidden;
+  overflow-y: scroll;
   background-color: #EDEFF0;
   right: 5px;
   top: 40px; }
   .menu_notice-placeholder {
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1078,6 +1162,8 @@ select::-ms-expand {
   text-decoration: underline; }
 
 .btn-addUser {
+  width: 100%;
+  border: 0;
   display: block;
   background-color: #E2E4E6;
   box-shadow: 0 1px 0 0 #C4C9CC;
@@ -1278,7 +1364,7 @@ select::-ms-expand {
   border-bottom: 1px solid #D6DADC; }
 
 .archiveCard {
-  width: 85%;
+  width: 100%;
   margin: auto; }
   .archiveCard div {
     margin: 10px 0 10px 0; }
@@ -1313,6 +1399,46 @@ select::-ms-expand {
       background-color: #E2E4E6;
       color: red;
       border-radius: 2px; }
+
+.finded-users__item {
+  display: block;
+  padding: 10px;
+  margin-top: 3px; }
+  .finded-users__item:hover {
+    background-color: #E2E4E6;
+    border-radius: 3px; }
+.finded-users__information {
+  display: block;
+  padding: 10px;
+  margin-top: 3px; }
+
+.invitedPeople {
+  width: 15%;
+  height: 60px;
+  float: left; }
+  .invitedPeople__desc {
+    margin-bottom: 5px;
+    padding: 0 2px;
+    margin-left: 15px; }
+    .invitedPeople__desc span:first-child {
+      font-weight: bold;
+      font-size: 16px; }
+    .invitedPeople__desc span {
+      margin-bottom: 2px;
+      display: block;
+      font-size: 13px; }
+
+.fulfillment {
+  padding: 15px 5px; }
+  .fulfillment button {
+    margin-right: 5px; }
+
+.activityPlace {
+  margin-top: 10px;
+  display: inline-flex; }
+
+.isInformation {
+  color: yellow; }
 
 .active {
   display: block; }

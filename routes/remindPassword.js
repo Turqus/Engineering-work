@@ -1,19 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
-const saltRounds = 10;
-
 var User = require('../model/user.model');
 var nodemailer = require('nodemailer');
-
-
 var createHash = require('hash-generator');
 var hashLength = 18;
 var hashKey = createHash(18);
-
+const saltRounds = 10;
 
 router.get('/remind-password', function (req, res, next) {
-    res.render('remind-password', { user: req.user });
+    res.render('remind-password', { title : 'Przypomnij hasło' });
 });
 
 router.post('/remind-password', (req, res) => {
@@ -58,8 +54,6 @@ router.post('/remind-password', (req, res) => {
         }
     })
 });
-
-
 
 router.get('/reset-password/:hash', (req, res) => {
     var transporter = nodemailer.createTransport({

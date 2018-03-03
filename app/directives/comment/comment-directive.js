@@ -25,7 +25,7 @@ App.directive("comment", function() {
                     indexComment : indexComment
                 };
 
-                return ApiService.staff.editComment(editCommentObj)
+                return ApiService.board.editComment(editCommentObj)
                 .then(()=> {
                     $scope.toggler.editComment = !$scope.toggler.editComment;
                 })
@@ -39,22 +39,31 @@ App.directive("comment", function() {
                     $scope.board.lists[indexList].cards[indexCard].comments = [];
                 };
             
+                let log = {'user': $scope.user.username, 'information' : 'dodał komentarz w karcie '+ $scope.board.lists[indexList].cards[indexCard].name, 'date': new Date()};
+            
+                $scope.board.activity.unshift(log); 
+
+
                 let commentCardObj = {
                     text: commentCard,
                     authorID: $scope.user._id,
-                    name: $scope.user.username
+                    name: $scope.user.username,
+                    created : new Date()
                 };
+
             
                 $scope.board.lists[indexList].cards[indexCard].comments.unshift(commentCardObj);
-            
+
                 commentCardObj = {
                     idBoard: $scope.board._id,
                     indexList: indexList,
                     indexCard: indexCard,
-                    lists: $scope.board.lists
+                    lists: $scope.board.lists,
+                    activity : log,
+                    cardName : $scope.board.lists[indexList].cards[indexCard].name
                 };
             
-                return ApiService.staff.addComment(commentCardObj).then(function (resp) {
+                return ApiService.board.addComment(commentCardObj).then(function (resp) {
                     console.log(resp)
                 });
             };
@@ -69,7 +78,7 @@ App.directive("comment", function() {
                     indexCard : indexCard, 
                 };
 
-                return ApiService.staff.deleteComment(deleteCommentObj);
+                return ApiService.board.deleteComment(deleteCommentObj);
             }
 
         }

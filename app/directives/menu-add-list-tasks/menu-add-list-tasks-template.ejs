@@ -1,18 +1,16 @@
 <div style="position: relative">
-        <a href="#" class="modal-menu__link" ng-click="activeMenu('addListOfTasks', $event)">Lista zadań</a>
-
-        <!---->
+        <a href class="modal-menu__link" ng-click="activeMenu('addListOfTasks', $event)">Lista zadań</a>
+ 
         <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'addListOfTasks' && toggle === true }">
           <span class="menu-heading">Dodaj Listę Zadań</span>
 
           <div class="todo-list-wrapper">
-            <form>
+            <form name="addListOfTasksFrm" novalidate>
               <label for="">Nazwa</label>
-              <input type="text" class="form-control" ng-model="nameList" placeholder="Dodaj liste zadań..">
-              <button class="btn btn-success pull-right" ng-click="addListOfTasks($parent.$index, $index, nameList)">Dodaj</button>
+              <input type="text" class="form-control" ng-model="nameList" placeholder="Dodaj liste zadań.." ng-required="true" ng-minlength="1" ng-maxlength="40">
+              <button class="btn btn-success pull-right" ng-disabled="addListOfTasksFrm.$invalid" ng-click="addListOfTasks($parent.$index, $index, nameList)">Dodaj</button>
             </form>
 
           </div>
-        </div>
-        <!---->
+        </div> 
       </div>

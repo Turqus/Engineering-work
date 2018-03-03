@@ -1,6 +1,39 @@
- .menu {
+.menu {
     background-color: #FFFFFF;
     position: absolute;
+    display: none;
+    padding: 0 10px 10px 10px; 
+    width: 300px;
+    z-index: 5000;
+    border-radius: 3px;
+    border: 1px solid #D6DADC;
+    border-bottom-color: rgb(214, 218, 220);
+    box-shadow: 0 1px 6px rgba(0,0,0,.15);
+    transform: translate3d(0,0,0); 
+
+}
+
+
+.margin {
+    margin-top: 10px;
+}
+.menuToInvitePeople {
+    background-color: #FFFFFF;
+    position: absolute;
+    left: 0px;
+    display: none;
+    padding: 0 10px 10px 10px; 
+    width: 300px;
+    z-index: 5000;
+    border-radius: 3px;
+    border: 1px solid #D6DADC;
+    border-bottom-color: rgb(214, 218, 220);
+    box-shadow: 0 1px 6px rgba(0,0,0,.15);
+    transform: translate3d(0,0,0); 
+}
+.menuListMembers {
+    background-color: #FFFFFF;
+    position: absolute; 
     display: none;
     padding: 0 10px 10px 10px; 
     width: 300px;
@@ -146,11 +179,15 @@
 // // menu NOTICE
 
 .menu_notice {
+    max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: scroll;
     background-color: #EDEFF0;
     right: 5px;
     top: 40px;
 
     &-placeholder {
+        padding: 10px;
         display: flex;
         align-items: center;
         justify-content: center;

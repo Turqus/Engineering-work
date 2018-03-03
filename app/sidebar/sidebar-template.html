@@ -1,4 +1,4 @@
-<button ng-click="toggle.rightMenu = !toggle.rightMenu" class="side-menu-trigger pull-right">
+<button ng-click="openSidebar()" class="side-menu-trigger pull-right">
     <span class="glyphicon">&#xe234;</span>
     Pokaż menu
 </button>
@@ -16,17 +16,59 @@
     <!--menu-->
     <div class="menuRM" ng-class="{activeRM : nameMenu == 'Menu'}">
         <div ng-class="{ deactiveRM : nameMenu != 'Menu' }">
-            <div style="margin-top: 60px">
 
-                <a href="" class="btn-addUser">
-                    <span class="glyphicon glyphicon-user"></span>Zaproś...</a>
-                <div style="display: none;">
-                    <form ng-submit="addMemberBoard(addMember)">
+            <div>
+                <ul style="display: inline-flex; max-width: 100%; flex-wrap: wrap;">
+                    <li ng-repeat="userItem in members">
+                        <a href ng-click="openMenu('detailsUser', $index)">
+                            <span class="btnCircle">
+                                {{userItem.username | limitTo: 1}}
+                            </span>
+                        </a>
+
+                        <div class="menuToInvitePeople fulfillment" ng-class="{active : nestedNameMenu === 'detailsUser' && nestedMenuToggle == true && detailsUserIndex == $index }">
+                            <div class="invitedPeople">
+                                <span class="btnCircle"> {{userItem.username | limitTo: 1}} </span>
+                            </div>
+
+                            <div class="invitedPeople__desc">
+                                <span>{{userItem.firstName }} </span>
+                                <span>{{userItem.email}}</span>
+                            </div>
+
+                            <button  ng-disabled="user._id == userItem._id"  class="btn btn-sm btn-danger pull-right" ng-click="deleteMemberWithBoard($index, userItem._id)">Usuń</button>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
+
+            <div style="margin-top: 10px">
+
+                <!-- <a href class="btn-addUser" ng-click="toggle.openMenuToAddUsersToBoard = !toggle.openMenuToAddUsersToBoard"> -->
+                <button ng-disabled="board.permissions.addingPeopleToTheBoard === false" class="btn-addUser" ng-click="openMenuToAddPeople('addMember')">
+                    <span class="glyphicon glyphicon-user"></span>Zaproś...</button>
+
+                    
+
+                <div class="menu" ng-class="{active : nestedNameMenu === 'addMember' && nestedMenuToggle == true }">
+                    <span class="menu-heading">Członkowie</span>
+                    <form>
                         <label for="">Dodaj członka</label>
-                        <br>
-                        <input type="text" class="form-control" ng-model="addMember" placeholder="add a new task" />
+                        <input type="text" class="form-control" ng-model="keyWord" ng-change="findMember(keyWord)" placeholder="Zacznij wpisywać znaki by wyszukać..."
+                        />
+
+                        <div class="finded-users__list">
+                            <a href class="finded-users__item" ng-repeat="finded in findedUsers" ng-click="addMemberToBard(finded, $index)"> {{finded.username}} ({{finded.firstName}}) </a>
+                        </div>
+
+                        <span class="quiet-heading">Wyszukaj ludzi po imieniu, adresie e-mail lub wpisz adres e-mail, by zaprosić kogoś nowego do tablicy.</span>
+                         
                     </form>
                 </div>
+
+
             </div>
             <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
 
@@ -44,9 +86,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" ng-click="changeMenu('Dodatki', true, 1)">
-                            <span class="glyphicon glyphicon-open"></span> Dodatki
-                        </a>
+                        <a href="#" ng-click="changeMenu('Zarchiwizuj', true, 1)">
+                            <span class="glyphicon glyphicon-apple"></span> Zarchiwizowane elementy</a>
                     </li>
                     <li>
                         <a href="#" ng-click="changeMenu('Więcej', true, 1)">
@@ -56,11 +97,22 @@
                 </ul>
             </div>
 
-            <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
+            <hr style="height: 1px; background-color: #D6DADC; margin: 50px 0 5px 0;">
             <span>
-                <span class="glyphicon glyphicon-time"></span>
-                Aktywność
-            </span>
+                <span class="glyphicon glyphicon-time"></span>Aktywność</span>
+            <ul>
+                <li class="activityPlace" ng-repeat="log in board.activity">
+                    <div class="activityPlace__logo">
+                        <span class="btnCircle"> {{log.user | limitTo: 1}} </span>
+                    </div>
+                    <div>
+                        <span>
+                            <b>{{log.user}}</b> {{log.information}}</span>
+                        <span>{{log.date | timeAgo}}</span>
+                    </div>
+                </li>
+
+            </ul>
         </div>
 
     </div>
@@ -81,10 +133,7 @@
                         <span class="glyphicon glyphicon-pushpin"></span> Etykiety
                     </a>
                 </li>
-                <li>
-                    <a href="#" ng-click="changeMenu('Zarchiwizuj', true, 2)">
-                        <span class="glyphicon glyphicon-apple"></span> Zarchiwizowane elementy</a>
-                </li>
+
 
 
                 <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
@@ -161,8 +210,9 @@
     <div class="menuRM" ng-class="{ activeRM : nameMenu == 'Filtruj Karty' }">
         <div class="changeColour" ng-class="{ deactiveRM : nameMenu != 'Filtruj Karty' }">
 
-            <input type="text">
-            <span>Wpisz frazę, aby wyszukać po słowach kluczowych, członkach oraz terminach.</span>
+                <span style="padding: 5px;">Wyszukaj</span>
+            <input type="text" class="form-control" ng-model="filterTheCards" ng-change="filterTheCardsFunction(filterTheCards)">
+            <span style="padding: 5px;">Wpisz frazę, aby wyszukać po słowach kluczowych.</span>
 
         </div>
     </div>
@@ -205,19 +255,23 @@
     </div>
     <!--/kolory-->
 
+    <!--Zdjęcia -->
+    <div class="menuRM" ng-class="{ activeRM : nameMenu == 'Zdjęcia' }">
+        <div class="colours" ng-class="{ deactiveRM : nameMenu != 'Zdjęcia' }">
+            <a href ng-click="changeBackgroundToPhoto('1.jpg')">
+                <img src="/images/1.jpg" alt="tło1.jpg" class="img-responsive">
+            </a>
 
 
-    <!--dodatki-->
-    <div class="menuRM" ng-class="{ activeRM : nameMenu == 'Dodatki' }">
-        <div ng-class="{ deactiveRM : nameMenu != 'Dodatki' }">
-            <h3> Dodatki </h3>
-            <ul>
-                <li>one</li>
-                <li>one</li>
-            </ul>
-
+            <a href ng-click="changeBackgroundToPhoto('2.jpg')">
+                <img src="/images/2.jpg" alt="tło2.jpg" class="img-responsive">
+            </a>
         </div>
     </div>
+    <!--/Zdjęcia-->
+
+
+ 
 
     <!--zarchiwizowane elementy-->
     <div class="menuRM" ng-class="{ activeRM : nameMenu == 'Zarchiwizuj' }">
@@ -246,6 +300,7 @@
                             <ul class="archiveList">
                                 <li class="archiveList__item" ng-repeat="list in board.archives">{{list.list | limitTo: 24}}
                                     <button class="btn btn-success btn-sm" ng-click="sendListBackToBoard($index)">Przenieś do Tablicy</button>
+                                </li><li ng-show="board.archives.length === 0" class="archiveList__item">Brak z archiwizowanych list.
                                 </li>
                             </ul>
 
@@ -271,6 +326,8 @@
 
 
                                     <ul class="archiveCard">
+                                            <li ng-show="board.cardArchive.length === 0" class="archiveList__item">Brak z archiwizowanych kart.
+                                                </li>
                                         <li class="archiveCard__item" ng-repeat="card in board.cardArchive">
 
                                             <div class="archiveCard__card">
@@ -284,7 +341,7 @@
                                     </ul>
 
 
- 
+
 
                                     <!--//first card-->
                                 </div>
@@ -312,29 +369,130 @@
         <div class="menu-more_list" ng-class="{ deactiveRM : nameMenu != 'Ustawienia' }">
             <ul>
                 <li>
-                    <a href="#">
-                        Zmień Zespół...
+                    <a href ng-click="openNestedMenu('Możliwość Komentowania')">
+                        Zabroń komentowania.
                     </a>
+
+
+                    <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : nestedNameMenu === 'Możliwość Komentowania' && toggle.nestedMenu === true }">
+                            <span class="menu-heading">Możliwość Komentowania</span>
+                            <div class="close-board-wrapper"> 
+                                    <span ng-show="board.permissions.addingComments == true">Czy chcesz aby żaden członek tablicy nie mógł dodawać komentarzy?</span>
+                                    <span ng-show="board.permissions.addingComments == false">Czy chcesz aby każdy członek tablicy mógł dodawać komentarze?</span>
+                                <button ng-show="board.permissions.addingComments == true" class="btn btn-danger" ng-click="permissionToComment()">Zablokuj</button>
+                                <button ng-show="board.permissions.addingComments == false" class="btn btn-success" ng-click="permissionToComment()">Odblokuj</button>
+                            </div>
+                        </div>
+
+
+
+
                 </li>
                 <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
                 <li>
-                    <a href="#">
-                        Okładki zdjęciowe do kart włączone
+                        <a href ng-click="openNestedMenu('Możliwość Dodawania List')">
+                        Zabroń dodawania list.
                     </a>
+
+                    
+                    <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : nestedNameMenu === 'Możliwość Dodawania List' && toggle.nestedMenu === true }">
+                            <span class="menu-heading">Możliwość Dodawania List</span>
+                            <div class="close-board-wrapper"> 
+                                    <span ng-show="board.permissions.addingLists == true">Czy chcesz aby żaden członek tablicy nie mógł dodawać listy?</span>
+                                    <span ng-show="board.permissions.addingLists == false">Czy chcesz aby każdy członek tablicy mógł dodawać listy?</span>
+                                <button ng-show="board.permissions.addingLists == true" class="btn btn-danger" ng-click="permissionsToAddLists()">Zablokuj</button>
+                                <button ng-show="board.permissions.addingLists == false" class="btn btn-success" ng-click="permissionsToAddLists()">Odblokuj</button>
+                            </div>
+                        </div>
+
+
+                </li>
+                <li>
+                        <a href ng-click="openNestedMenu('Możliwość Dodawania Kart')">
+                            Zabroń dodawania kart.
+                    </a>
+
+
+                    
+                    <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : nestedNameMenu === 'Możliwość Dodawania Kart' && toggle.nestedMenu === true }">
+                            <span class="menu-heading">Możliwość Dodawania Kart</span>
+                            <div class="close-board-wrapper"> 
+                                    <span ng-show="board.permissions.addingCards == true">Czy chcesz aby żaden członek tablicy nie mógł dodawać listy?</span>
+                                    <span ng-show="board.permissions.addingCards == false">Czy chcesz aby każdy członek tablicy mógł dodawać listy?</span>
+                                <button ng-show="board.permissions.addingCards == true" class="btn btn-danger" ng-click="permissionsToAddCards()">Zablokuj</button>
+                                <button ng-show="board.permissions.addingCards == false" class="btn btn-success" ng-click="permissionsToAddCards()">Odblokuj</button>
+                            </div>
+                        </div>
+
+
+
                 </li>
                 <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
                 <li>
-                    <a href="#">
-                        Uprawnienia komentowania...
+                    <a href ng-click="openNestedMenu('Możliwość Dodawania Członków Do Tablicy')">
+                            Zabroń dodawania nowych członków do tablicy.
                     </a>
+
+                
+                    <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : nestedNameMenu === 'Możliwość Dodawania Członków Do Tablicy' && toggle.nestedMenu === true }">
+                        <span class="menu-heading">Możliwość Dodawania Członków Do Tablicy</span>
+                        <div class="close-board-wrapper"> 
+                                <span ng-show="board.permissions.addingPeopleToTheBoard == true">Czy chcesz aby nikt nie mógł dodawać nowych członków do tablicy?</span>
+                                <span ng-show="board.permissions.addingPeopleToTheBoard == false">Czy chcesz aby każdy mógł dodawać nowych członków do tablicy?</span>
+                            <button ng-show="board.permissions.addingPeopleToTheBoard == true" class="btn btn-danger" ng-click="permissionsToAddingPeopleToTheBoard()">Zablokuj</button>
+                            <button ng-show="board.permissions.addingPeopleToTheBoard == false" class="btn btn-success" ng-click="permissionsToAddingPeopleToTheBoard()">Odblokuj</button>
+                        </div>
+                    </div>
+
+
+
+
                 </li>
                 <li>
-                    <a href="#">
-                        Dodaj/cofnij uprawnienia
+                    <a href ng-click="openNestedMenu('Możliwość Dodawania Członków Do Kart')">
+                            Zabroń dodawania członków do kart.
                     </a>
+
+
+                
+                    <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : nestedNameMenu === 'Możliwość Dodawania Członków Do Kart' && toggle.nestedMenu === true }">
+                        <span class="menu-heading">Możliwość Dodawania Członków Do Kart</span>
+                        <div class="close-board-wrapper"> 
+                                <span ng-show="board.permissions.addingPeopleToTheCards == true">Czy chcesz aby nikt nie mógł dodawać członków do kart?</span>
+                                <span ng-show="board.permissions.addingPeopleToTheCards == false">Czy chcesz aby każdy mógł dodawać członków do kart?</span>
+                            <button ng-show="board.permissions.addingPeopleToTheCards == true" class="btn btn-danger" ng-click="permissionsToAddingPeopleToTheCards()">Zablokuj</button>
+                            <button ng-show="board.permissions.addingPeopleToTheCards == false" class="btn btn-success" ng-click="permissionsToAddingPeopleToTheCards()">Odblokuj</button>
+                        </div>
+                    </div>
+
+
+
+
+
                 </li>
-            </ul>
-            <span>Zezwól członkom zespołu aby mogli się dołączyć.</span>
+                <hr style="height: 1px; background-color: #D6DADC; margin: 10px 0 5px 0;">
+                <li>
+                    <a href ng-click="openNestedMenu('Widoczność Tablicy')">
+                            Zmień widoczność tablicy.
+                    </a>
+
+
+                
+                    <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : nestedNameMenu === 'Widoczność Tablicy' && toggle.nestedMenu === true }">
+                        <span class="menu-heading">Widoczność Tablicy</span>
+                        <div class="close-board-wrapper"> 
+                                <span ng-show="board.permissions.theVisibilityOfTheBoard == false">Czy chcesz by każdy mógł ją zobaczyć?</span>
+                                <span ng-show="board.permissions.theVisibilityOfTheBoard == true">Czy chcesz by nikt prócz członków tablicy nie mógł jej zobaczyć?</span>
+                            <button ng-show="board.permissions.theVisibilityOfTheBoard == true" class="btn btn-danger" ng-click="permissionsToTheVisibilityOfTheBoard()">Prywatna</button>
+                            <button ng-show="board.permissions.theVisibilityOfTheBoard == false" class="btn btn-success" ng-click="permissionsToTheVisibilityOfTheBoard()">Publiczna</button>
+                        </div>
+                    </div>
+
+
+
+
+                </li>
+            </ul> 
 
 
         </div>

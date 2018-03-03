@@ -129,6 +129,11 @@
   }
 }
  
+.yourAcitivity {
+  display: block;
+  padding: 5px;
+  font-size: 15px;
+}
 
 
 
@@ -168,13 +173,38 @@
 }
 
 
+
+
+.activityPlace {
+  // max-width: 100%;
+  // overflow: hidden;
+
+  span {
+    // max-width: 100%;
+    // word-wrap: break-word;
+  }
+}
+
+
+
+
+
+
+
 // active
+
 
 .active {
   display: block;
 }
 
+
+
+
+
 // deactive 
+
+
 
 .deactive { 
   display: none;

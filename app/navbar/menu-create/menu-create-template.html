@@ -1,51 +1,40 @@
-         <a href="#" ng-click="$ctrl.parent.activeMenu('Create', $event);">
-          <div class="btns">
-            <span class="glyphicon glyphicon-plus"></span>
-          </div>
+<a href="#" ng-click="$ctrl.parent.activeMenu('Create', $event);">
+  <div class="btns">
+    <span class="glyphicon glyphicon-plus"></span>
+  </div>
+</a>
+
+
+<div class="menu menu_create" ng-click="blockClosingList($event)" ng-class="{active : $ctrl.parent.name === 'Create' && $ctrl.parent.toggle === true}">
+  <!--<a href="#" ng-click="$ctrl.parent.activeMenu('Create', false, $event);">close</a>-->
+  <span class="menu-heading">Utwórz</span>
+  <ul class="menu_create-list">
+    <li>
+      <a href="#" ng-click="$ctrl.parent.activeMenu('menuCreateBoard', $event);">
+        <div class="menu_wrapper-create">
+          <span class="menu_create-heading">Utwórz tablicę</span>
+          <span class="menu_create-desc">Tablica składa się z kart uporządkowanych w listach. Użyj jej do zarządzania projektami, śledzenia informacji i
+            organizowania wszystkiego.</span>
+        </div>
       </a>
-  
-
-    <div class="menu menu_create" ng-click="blockClosingList($event)" ng-class="{active : $ctrl.parent.name === 'Create' && $ctrl.parent.toggle === true}">
-      <!--<a href="#" ng-click="$ctrl.parent.activeMenu('Create', false, $event);">close</a>-->
-      <span class="menu-heading">Utwórz</span>
-      <ul class="menu_create-list">
-        <li>
-          <a href="#" ng-click="$ctrl.parent.activeMenu('menuCreateBoard', $event);">
-            <div class="menu_wrapper-create">
-              <span class="menu_create-heading">Utwórz tablicę</span>
-              <span class="menu_create-desc">Tablica składa się z kart uporządkowanych w listach. Użyj jej do zarządzania projektami, śledzenia informacji i organizowania wszystkiego.</span>
-            </div>
-          </a>
-        </li>
-
-        <li>
-          <a href="#">
-            <div class="menu_wrapper-create">
-              <span class="menu_create-heading">Utwórz zespół</span>
-              <span class="menu_create-desc">Zespół składa się z ludzi i tablic. Organizuj z jego pomocą firmę, swoją drugą pracę, plany dla rodziny i spotkania z przyjaciółmi.</span>
-            </div>
-          </a>
-        </li>
-      </ul>
-    </div>
+    </li>
+ 
+  </ul>
+</div>
 
 
 
-    <!--create board-->
-    <div class="menu cb__menu-coordinate menu--create-board" ng-click="blockClosingList($event)" ng-class="{active : $ctrl.parent.name === 'menuCreateBoard' && $ctrl.parent.toggle === true}">
-      <span class="settings-menu__header-title">Utwórz Tablicę</span>
-       <div class="menu__wrapper--create-board center-block">
-               <form action="">
-         <div class="form-group">
-           <label for="">Tytuł</label>
-           <input type="text" class="form-control">
-         </div>
-          <div class="form-group">
-           <label for="">Zespół</label>
-           <input type="text" class="form-control">
-         </div>
-         <span class="bottom--create-board">Ta tablica będzie Prywatna. Zmień</span> 
-         <button class="btn btn-success">Utwórz</button>
-       </form> 
-       </div>
-    </div>
+<!--create board-->
+<div class="menu cb__menu-coordinate menu--create-board" ng-click="blockClosingList($event)" ng-class="{active : $ctrl.parent.name === 'menuCreateBoard' && $ctrl.parent.toggle === true}">
+  <span class="menu-heading">Utwórz Tablicę</span>
+  <div class="menu__wrapper--create-board center-block">
+      <form name="createBoardFrm" novalidate>
+      <div class="form-group">
+        <label>Tytuł</label>
+        <input type="text" class="form-control" ng-model="newBoard" ng-required="true" ng-minlength="1" ng-maxlength="215" placeholder="Wprowadź tytuł...">
+      </div> 
+      <span class="bottom--create-board">Ta tablica będzie Prywatna.</span>
+      <button class="btn btn-success" ng-disabled="createBoardFrm.$invalid" ng-click="$ctrl.parent.addBoard(newBoard)">Utwórz</button>
+    </form>
+  </div>
+</div>

@@ -12,9 +12,9 @@ App.directive("menuDeleteCard", function() {
                 let deleteCardObj = {
                     idBoard: $scope.board._id,
                     indexList: indexList,
-                    lists: $scope.board.lists[indexList].cards
+                    cards: $scope.board.lists[indexList].cards
                 }
-
+                console.log(deleteCardObj)
                 return ApiService.card.deleteCard(deleteCardObj);
             }
         }

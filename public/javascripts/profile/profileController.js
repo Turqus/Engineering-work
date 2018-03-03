@@ -3,6 +3,7 @@ App.controller('profileController', function ($scope, $http, ApiService) {
 	$scope.init = function (user, board) {
 		$scope.toggle = false;
 		// $scope.assignedCardsToUser();
+		$scope.profile = angular.copy(JSON.parse(user));
 		$scope.user = JSON.parse(user);
 	};
 
@@ -10,34 +11,55 @@ App.controller('profileController', function ($scope, $http, ApiService) {
 	// 	return ApiService.staff.usercards()
 	// 		.then(function (resp) {
 	// 			$scope.assignedCards = resp;
-	// 			console.log(typeof ($scope.assignedCards[0].boardcards.Author))
+	// 			// console.log(resp)
+	// 			// $scope.assignedCards.cards = [];
+	// 			// for(var i=0; i<$scope.assignedCards.length; i++) {
+	// 			// 	for(var j=0; j<$scope.assignedCards.length; j++) {
+	// 			// 		if($scope.assignedCards[i]._id == $scope.assignedCards[j]._id) {
+	// 			// 			$scope.assignedCards.cards.push($scope.assignedCards[j].boardcards[0]);
+	// 			// 		}
+	// 			// 	}
+	// 			// }
+	// 			// console.log($scope.assignedCards)
 	// 		})
 	// };
 
-	$scope.changeTheDataAboutMe = (user) => {
-		var params = {
-			_id : $scope.user._id,
-			firstName: user.firstName,
-			surname: user.surname,
-			initials: user.initials, 
-			biography: user.biography
-		}
+	$scope.changeTheDataAboutMe = (profile) => { 
+		profile._id = $scope.user._id;
  
-		return ApiService.profile.updateInformation(params);
+		return ApiService.profile.updateInformation(profile)
+		.then((resp)=> { 
+			$scope.user = profile; 
+			$scope.infoMain = resp;
+		})
+	}
+
+	$scope.changePassword = (pass) => {
+
+		return ApiService.profile.changePassword(pass)
+		.then((resp)=> {
+			console.log(resp);
+		})
 	}
 
 
-	$scope.showFormEditProfile = (user) => {
-		var params = {
-			_id : $scope.user._id,
-			firstName: user.firstName,
-			surname: user.surname, 
-			country: user.country, 
-			city: user.city, 
-			phone: user.phone, 
-		}
+	$scope.showFormEditProfile = (profile) => {
+		// var params = {
+		// 	_id : $scope.user._id,
+		// 	firstName: user.firstName,
+		// 	surname: user.surname, 
+		// 	country: user.country, 
+		// 	city: user.city, 
+		// 	phone: user.phone, 
+		// }
+		
+		profile._id = $scope.user._id;
  
-		return ApiService.profile.updatePersonalInformation(params);
+		return ApiService.profile.updatePersonalInformation(profile)
+		.then((resp)=>{
+			$scope.info = resp;
+			console.log(resp);
+		})
 	}
 
 

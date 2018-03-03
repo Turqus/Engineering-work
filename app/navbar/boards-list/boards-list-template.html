@@ -1,4 +1,4 @@
-<a href="#" ng-click="$ctrl.parent.activeMenu('dada', $event);">
+<a href="#" ng-click="$ctrl.parent.activeMenu('boards', $event);">
   <div class="btns">
     <span class="glyphicon glyphicon-align-left btn__glyph"></span>
     <span class="btn--name">Tablice</span>
@@ -6,7 +6,7 @@
 </a>
 
 
-<div class="boards-list" ng-click="blockClosingList($event)" ng-class="{active : $ctrl.parent.name === 'dada' && $ctrl.parent.toggle === true}">
+<div class="boards-list" ng-click="blockClosingList($event)" ng-class="{active : $ctrl.parent.name === 'boards' && $ctrl.parent.toggle === true}">
   <!--<a href="#" ng-click="$ctrl.parent.activeMenu('Create', false, $event);">close</a>-->
 
   <input type="text" class="form-control" ng-model="findYourBoard.name" placeholder="Szukaj tablic po nazwie...">
@@ -15,8 +15,8 @@
     <li ng-repeat="board in $ctrl.parent.boards | filter: findYourBoard">
       <a href="/b/{{board._id}}">
         <div  class="boards-list__board">
-          <span style="background-color: {{board.background}}"></span>
-          <span style="background-color: {{board.background}}">{{board.name}}</span>
+          <span style="background-color: {{board.background}}; background-image: url('/images/{{board.image}}'); background-position: center;"></span>
+          <span style="background-color: {{board.background}}; background-image: url('/images/{{board.image}}'); background-position: center;">{{board.name}}</span>
         </div>
       </a>
     </li>

@@ -67,6 +67,8 @@
   }
 
 .btn-addUser {
+    width: 100%;
+    border: 0;
   display: block;
 background-color: #E2E4E6;
 box-shadow: 0 1px 0 0 #C4C9CC;
@@ -361,7 +363,7 @@ padding: 10px 22px 10px 22px;
 }
 
 .archiveCard {  
-    width: 85%;
+    width: 100%;
     margin: auto;
 
     div {
@@ -415,6 +417,68 @@ padding: 10px 22px 10px 22px;
         }
     }
 }
+
+
+.finded-users {
+    &__list {
+        
+    }
+
+    &__item {
+        display: block;
+        padding: 10px; 
+        margin-top: 3px;
+    
+    &:hover {
+        background-color: #E2E4E6;
+        border-radius: 3px;
+    }
+    }  
+
+    &__information {
+        display: block;
+        padding: 10px; 
+        margin-top: 3px;
+    }
+}
+
+.invitedPeople {
+    width: 15%;
+    height: 60px;
+    float: left;
+    
+    &__desc {
+        margin-bottom: 5px;
+        padding: 0 2px;
+        margin-left: 15px;
+        span:first-child {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        span {
+            margin-bottom: 2px;
+            display: block;
+            font-size: 13px;
+        }
+    }
+}
+
+.fulfillment {
+    padding: 15px 5px;
+    button {
+        margin-right: 5px;
+    }
+}
+
+.activityPlace {
+    margin-top: 10px;
+    display: inline-flex;
+}
+
+.isInformation {
+    color: yellow;
+}
+
 
 .active {
     display:block;

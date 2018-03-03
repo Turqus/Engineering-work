@@ -46,6 +46,17 @@
   cursor: pointer;
 }
 
+.btnCircle {
+  margin: 3px 5px;
+  line-height: 20px; 
+  padding: 5px;
+  background-color: #D6DADC; 
+  border-radius: 100px; 
+  width: 30px; 
+  display: inline-flex;
+  justify-content: center;
+}
+
 .btns:hover {
   color: #fff;
   cursor: pointer;
@@ -93,13 +104,13 @@ ul {
   padding: 0;
 }
 
-#first ul {
+#listItem ul {
   margin: 0;
   padding: 0;
   width: 90vh;
 }
 
-#first {
+#listItem {
   width: 100%;
   /*width: 260px;*/
   height: 90vh;
@@ -109,7 +120,7 @@ ul {
   display: flex;
 }
 
-#first > li {
+#listItem > li {
   list-style-type: none;
   float: left;
   height: 100%;
@@ -122,7 +133,8 @@ ol[dnd-list] .dndDraggingSource {
   display: none;
 }
 
-#second {
+#cardItem {
+  padding-bottom: 5px;
   padding: 0;
   background-color: #E2E4E6;
   border-radius: 3px;
@@ -147,7 +159,17 @@ ol[dnd-list] .dndDraggingSource {
   }
 }
 
-#second > li {
+.img-board {
+  padding: 3px;
+}
+
+.deadline-card {
+  background-color: #F2D600;
+}
+
+
+#cardItem > li {
+  margin: 3px 0 3px 0;
   /*padding: 5px 8px;*/
   border-bottom: 1px #CCCCCC solid;
   border-radius: 3px;
@@ -198,17 +220,22 @@ ol[dnd-list] .dndDraggingSource {
     display: flex;
 
     &__comment {
-      width: 20%;
+      width: 15%;
       margin-left: 2px;
     }
 
     &__listsTasks {
-      width: 20%;
+      width: 15%;
+      margin-left: 2px;
+    }
+
+    &__members {
+      width: 15%;
       margin-left: 2px;
     }
 
     &__description {
-      width: 20%;
+      width: 15%;
       margin-left: 2px;
     }
 
@@ -225,7 +252,9 @@ ol[dnd-list] .dndDraggingSource {
 
 }
 
-#first > li.dndPlaceholder {
+
+
+#listItem > li.dndPlaceholder {
   margin-left: 5px;
   // margin-top: 80px; 
   min-width: 270px;
@@ -236,7 +265,7 @@ ol[dnd-list] .dndDraggingSource {
   padding: 0 5px;
 }
 
-#second > li.dndPlaceholder {
+#cardItem > li.dndPlaceholder {
   width: 250px;
   height: 28px;
   opacity: .2;
@@ -245,7 +274,7 @@ ol[dnd-list] .dndDraggingSource {
 }
 
 /*
-#second > li:hover {
+#list > li:hover {
 	background-color: grey;		
 }*/
 .titleCard {
@@ -269,6 +298,28 @@ ol[dnd-list] .dndDraggingSource {
   a {
     text-decoration: none;
   }
+}
+
+.membersList {
+  margin-bottom: 5px;
+  display: inline-flex; 
+  max-width: 100%; 
+  flex-wrap: wrap;
+  list-style-type: none;
+
+  a {
+    color: black; 
+
+    &:hover {
+      color: black;
+    }
+  }
+}
+
+
+
+.floatleft {
+  float: left;
 }
 
 #tasks .textarea-modif {

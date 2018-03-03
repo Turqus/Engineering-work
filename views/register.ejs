@@ -1,61 +1,83 @@
 <% include partials/head.ejs %>
 
-<body ng-controller="TodoListCtrl" ng-init="init('<%= JSON.stringify() %>')">
+  <body ng-app="TodoListApp">
 
-  <div class="row">
-    <div class="col-md-3 center-block">
-      <h1 class="register-header">Stwórz konto Tasker</h1>
+    <div class="row">
+      <div class="col-md-3 center-block">
+        <h1 class="register-header">Stwórz konto Tasker</h1>
 
-      <form action="/registerUser" method="post">
-        <form-group class="reg-form">
-          <label for="">Login</label>
-          <input type="text" class="form-control" name="username" placeholder="np. Jan Kowalski">
-        </form-group>
+        <form novalidate name="registerFrm" action="/registerUser" method="post">
 
-        <form-group class="reg-form">
-          <label for="">Email</label>
-          <input type="text" class="form-control" name="email" placeholder="np. jan.kowalski@gmail.com">
-        </form-group>
 
-        <form-group class="reg-form">
-          <label for="">Hasło</label>
-          <input type="password" class="form-control" name="password" placeholder="np. ********">
-        </form-group>
+          <div class="form-group reg-form" ng-class="{ 'has-error': registerFrm.username.$invalid && registerFrm.username.$touched }">
+            <label>Nazwa użytkownika</label>
+            <span class="has-error__item" ng-if="registerFrm.username.$touched && registerFrm.username.$error.required">Te pole jest wymagane.</span>
+            <span class="has-error__item" ng-show="registerFrm.username.$touched && registerFrm.username.$error.minlength">Za krótka nazwa użytkownika.</span>
+            <span class="has-error__item" ng-show="registerFrm.username.$touched && registerFrm.username.$error.maxlength">Za długa nazwa użytkownika</span>
+            <input type="text" class="form-control" ng-model="username" name="username" placeholder="np. Jan Kowalski" ng-required="true"
+              ng-minlength="7" ng-maxlength="20">
+          </div>
 
-        <form-group class="reg-form">
-          <label for="">Wprowadź ponownie hasło</label>
-          <input type="password" class="form-control" name="confirmPassword" placeholder="np. ********">
-        </form-group>
+          <div class="form-group reg-form" ng-class="{ 'has-error': registerFrm.email.$invalid && registerFrm.email.$touched }">
+            <label>Adres e-mail</label>
+            <span class="has-error__item" ng-if="registerFrm.email.$touched && registerFrm.email.$error.required">Te pole jest wymagane.</span>
+            <span class="has-error__item" ng-show="registerFrm.email.$touched && registerFrm.email.$error.email">Adres e-mail nie jest poprawny</span>
+            <input type="email" class="form-control" ng-model="email" name="email" placeholder="np. jan.kowalski@gmail.com" ng-required="true">
+          </div>
 
-        <button type="submit" class="btn btn-reg">Zarejestruj się</button>
-      </form>
+          <div class="form-group reg-form" ng-class="{ 'has-error': registerFrm.password.$invalid && registerFrm.password.$touched }">
+            <label>Hasło</label>
+            <span class="has-error__item" ng-if="registerFrm.password.$touched && registerFrm.password.$error.required">Te pole jest wymagane.</span>
+            <span class="has-error__item" ng-show="registerFrm.password.$touched && registerFrm.password.$error.minlength">Za krótkie hasło.</span>
+            <input type="password" class="form-control" ng-model="password" name="password" placeholder="np. ********" ng-required="true"
+              ng-minlength="7">
+
+          </div>
+          <div class="form-group reg-form" ng-class="{ 'has-error': registerFrm.confirmPassword.$invalid && registerFrm.confirmPassword.$touched }">
+            <label>Wprowadź ponownie hasło</label>
+            <span class="has-error__item" ng-if="registerFrm.confirmPassword.$touched && registerFrm.confirmPassword.$error.required">Te pole jest wymagane.</span>
+            <span class="has-error__item" ng-show="registerFrm.confirmPassword.$touched && registerFrm.confirmPassword.$error.minlength">Za krótkie hasło.</span>
+            <input type="password" class="form-control" ng-model="confirmPassword" name="confirmPassword" placeholder="np. ********" ng-required="true" ng-minlength="7">
+          </div>
+
+          <button type="submit" ng-disabled="registerFrm.$invalid" class="btn btn-reg">Zarejestruj się</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <div class="row infoLogin">
-    <div class="col-md-2 center-block">
-      <p>Posiadasz już konto? <a href="/login" tabindex="0">Zaloguj się.</a></p>
+    <div class="row infoLogin">
+      <div class="col-md-2 center-block">
+        <p>Posiadasz już konto?
+          <a href="/login">Zaloguj się.</a>
+        </p>
+      </div>
     </div>
-  </div>
 
-  <div class="row footer">
-    <div class="col-md-10 center-block" style="text-align: center;">
-      <ul class="footer-info">
-        <li>Wprowadzenie</li>
-        <li>Cennik</li>
-        <li>Aplikacje</li>
-        <li>Praca</li>
-        <li>Blog</li>
-        <li>Developerzy</li>
-        <li>O</li>
-        <li>Pomoc</li>
-        <li>Legalnie</li>
-      </ul>
-      <span>© Copyright 2017, Tasker, Inc. Wszystkie prawa zastrzeżone. </span>
+    <div class="row footer">
+      <div class="col-md-10 center-block" style="text-align: center;">
+        <ul class="footer-info">
+          <li>Wprowadzenie</li>
+          <li>Cennik</li>
+          <li>Aplikacje</li>
+          <li>Praca</li>
+          <li>Blog</li>
+          <li>Developerzy</li>
+          <li>O</li>
+          <li>Pomoc</li>
+          <li>Legalnie</li>
+        </ul>
+        <span>© Copyright 2017, Tasker, Inc. Wszystkie prawa zastrzeżone. </span>
+      </div>
     </div>
-  </div>
 
+    <!-- 
+  <script src="/javascripts/user/registerController.js"></script> -->
 
-  <script src="/javascripts/user/registerController.js"></script>
-</body>
-</html>
+    <script src="/javascripts/angular-timeago.js"></script>
+    <script src="/navbar/navbar-module.js"></script>
+    <script src="/navbar/navbar-component.js"></script>
+    <script src="/sidebar/sidebar.js"></script> 
+    <script src="/javascripts/angular-datepicker.js"></script>
+
+  </body>
+  </html>

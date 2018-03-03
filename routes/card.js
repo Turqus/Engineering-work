@@ -1,275 +1,371 @@
 var express = require('express');
 var router = express.Router();
 var ObjectId = require('mongodb').ObjectID;
-var multer = require('multer');
 var Board = require('../model/board.model');
 
+var multer = require('multer');
 let storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/uploads/')
     },
     filename: function (req, file, cb) {
         let extArray = file.mimetype.split("/");
+        console.log(extArray)
         let extension = extArray[extArray.length - 1];
         cb(null, file.fieldname + '-' + Date.now() + '.' + extension);
-
     }
 })
-
-
 const upload = multer({ storage: storage })
-
-
-
-router.post('/delete-list-tasks', (req, res) => {
-
-    let deleteObj = req.body;
-    console.log(deleteObj)
-    var query = {};
-
-    // ['lists.' + deleteObj.indexList + '.cards']: deleteObj.lists,
-    query.$set =
-        {
-            ['lists.' + deleteObj.indexList + '.cards.' + deleteObj.indexCard + '.listsTasks']: deleteObj.listsTasks
-        };
-
-    console.log(query)
-    Board.findOneAndUpdate({ _id: deleteObj.idBoard },
-        query,
-        { upsert: true },
-        ((err, updated) => {
-            if (err) { console.log(err) }
-            else { res.status(200).send('Deleted'); }
-        })
-    )
-});
-
-router.post('/delete-task', (req, res) => {
-
-    let deleteObj = req.body; 
-
-    var query = {};
-
-    // ['lists.' + deleteObj.indexList + '.cards']: deleteObj.lists,
-    query.$set =
-        {
-            ['lists.' + deleteObj.indexList + '.cards.' + deleteObj.indexCard + '.listsTasks.' + deleteObj.indexListOfTasks + '.tasks']: deleteObj.tasks
-        };
-
-    console.log(query)
-    Board.findOneAndUpdate({ _id: deleteObj.idBoard },
-        query,
-        { upsert: true },
-        ((err, updated) => {
-            if (err) { console.log(err) }
-            else { res.status(200).send('Deleted'); }
-        })
-    )
-});
-
-router.post('/upload-attachment', upload.any(), function (req, res, next) {
-    res.send(req.files);
-});
-
-router.post('/send-back-list', (req, res) => {
-    let listObj = req.body;
-    var query = {};
-
-    query.$set =
-        {
-            lists: listObj.lists,
-            archives: listObj.archives,
-        };
-
-    Board.findOneAndUpdate({ _id: listObj.idBoard },
-        query,
-        { upsert: true },
-        ((err, updated) => {
-            if (err) { console.log(err) }
-            else { res.status(200).send('Archived'); }
-        })
-    )
-});
-
-router.post('/delete-card', (req, res) => {
-    let deleteObj = req.body;
-    var query = {};
-
-    query.$set =
-        {
-            cardArchive: deleteObj.cardArchive
-        };
-
-    Board.findOneAndUpdate({ _id: deleteObj.idBoard },
-        query,
-        { upsert: true },
-        ((err, updated) => {
-            if (err) { console.log(err) }
-            else { res.status(200).send('Deleted'); }
-        })
-    )
-});
-
-router.post('/send-back-card', (req, res) => {
-    let cardObj = req.body;
-    var query = {};
-
-    if (cardObj.lists) {
-        query.$set =
-            {
-                lists: cardObj.lists,
-                cardArchive: cardObj.cardArchive,
+router
+    .post('/upload-attachment', upload.any(), function (req, res) {
+        var rb = req.body,
+            obj = {
+                query: { $set: { ['lists.' + rb.indexList + '.cards.' + rb.indexCard + '.image']: req.files[0].filename } },
+                idBoard: rb.idBoard
             };
-    } else if (cardObj.archives) {
-        query.$set =
-            {
-                archives: cardObj.archives,
-                cardArchive: cardObj.cardArchive,
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.redirect('/b/' + rb.idBoard);
+            })
+    })
+    .post('/delete-list-tasks', (req, res) => {
+        var rb = req.body,
+            obj = {
+                query: {
+                    $set: {
+                        ['lists.' + rb.indexList + '.cards.' + rb.indexCard + '.listsTasks']: rb.listsTasks,
+                    }
+                },
+                idBoard: rb.idBoard
             };
 
-    }
-    Board.findOneAndUpdate({ _id: cardObj.idBoard },
-        query,
-        { upsert: true },
-        ((err, updated) => {
-            if (err) { console.log(err) }
-            else { res.status(200).send('Archived'); }
-        })
-    )
-});
 
-router.post('/archive-card', (req, res) => {
-    let archiveCardObj = req.body;
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
+            })
+    })
+    .post('/delete-task', (req, res) => {
+        var rb = req.body,
+            obj = {
+                query: {
+                    $set: {
+                        ['lists.' + rb.indexList + '.cards.' + rb.indexCard + '.listsTasks.' + rb.indexListOfTasks + '.tasks']: rb.tasks,
+                    }
+                },
+                idBoard: rb.idBoard
+            };
 
-    Board.findOneAndUpdate({ _id: archiveCardObj.idBoard },
-        {
-            $set:
-                {
-                    lists: archiveCardObj.lists,
-                    cardArchive: archiveCardObj.cardArchive,
-                }
-        },
-        { upsert: true },
-        ((err, updated) => {
-            if (err) { console.log(err) }
-            else { res.status(200).send('Archived'); }
-        })
-    )
-});
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
+            })
+    })
+    .post('/send-back-list', (req, res) => {
+        var rb = req.body,
+            obj = {
+                query: {
+                    $set: {
+                        lists: rb.lists,
+                        archives: rb.archives
+                    }
+                },
+                idBoard: rb.idBoard
+            };
 
-router.put('/transfer-card', (req, res) => {
-    let transferObj = req.body;
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
+            })
+    })
+    .post('/delete-card', (req, res) => {
+        var rb = req.body,
+            obj = {
+                query: {
+                    $set: {}
+                },
+                idBoard: rb.idBoard
+            };
 
-    if (transferObj.toBoard != undefined) {
-        Board.findOneAndUpdate({ _id: transferObj.idBoard },
-            { $set: { ['lists.' + transferObj.fromIndexList + '.cards']: transferObj.fromCards, } }, { upsert: true })
-            .then(() => {
-                Board.findOneAndUpdate({ _id: transferObj.toBoard },
-                    { $set: { ['lists.' + transferObj.toList + '.cards']: transferObj.toCards, } }, { upsert: true },
-                    ((err, updated) => {
-                        if (err) { console.log(err) }
-                        else { res.status(200).send('Transfered'); }
+
+        if (rb.cardArchive) obj.query.$set.cardArchive = rb.cardArchive
+        else obj.query.$set = {
+            ['lists.' + rb.indexList + '.cards']: rb.cards
+        }
+
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
+            })
+    })
+
+    .post('/send-back-card', (req, res) => {
+        var rb = req.body,
+            obj = {
+                query: {
+                    $set: {}
+                },
+                idBoard: rb.idBoard
+            };
+
+        if (rb.lists) {
+            obj.query.$set = {
+                lists: rb.lists,
+                cardArchive: rb.cardArchive
+            }
+        } else if (rb.archives) {
+            obj.query.$set = {
+                archives: rb.archives,
+                cardArchive: rb.cardArchive,
+            }
+        }
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
+            })
+    })
+    .post('/archive-card', (req, res) => {
+        var rb = req.body,
+            obj = {
+                query: {
+                    $set: {
+                        lists: rb.lists,
+                        cardArchive: rb.cardArchive
+                    }
+                },
+                idBoard: rb.idBoard
+            };
+
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
+            })
+    })
+
+
+
+
+
+
+
+    .put('/transfer-card', (req, res) => {
+        var rb = req.body,
+            obj = {};
+
+        if (rb.toBoard != undefined) {
+            obj = {
+                query: {
+                    $set: {
+                        ['lists.' + rb.fromIndexList + '.cards']: rb.fromCards,
+                    }
+                },
+                idBoard: rb.idBoard
+            };
+
+            Board.updateBoard(obj)
+                .then(resp => {
+                    obj = {
+                        query: {
+                            $set: {
+                                ['lists.' + rb.toList + '.cards']: rb.toCards
+                            }
+                        },
+                        idBoard: rb.toBoard
+                    };
+
+                    Board.updateBoard(obj)
+                        .then(resp => {
+                            res.json('Przeniesiono.');
+                        })
+                })
+        } else {
+            obj = {
+                query: {
+                    $set: {
+                        lists: rb.lists
+                    }
+                },
+                idBoard: rb.idBoard
+            };
+
+            Board.updateBoard(obj)
+                .then(resp => {
+                    res.json(resp);
+                })
+        }
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .post('/set-deadline', function (req, res) {
+        var rb = req.body,
+            obj = {
+                query: {
+                    $set: {
+                        ['lists.' + rb.indexList + '.cards.' + rb.indexCard + '.deadline']: rb.date
+                    }
+                },
+                idBoard: rb.idBoard
+            };
+
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
+            })
+
+    })
+    .put('/copy-card', (req, res) => {
+        var rb = req.body,
+            obj = { query: { $set: {} } };
+
+        if (!rb.selectedBoard) {
+            obj.query.$set.lists = rb.lists;
+            obj.query.idBoard = rb.idBoard;
+        } else {
+            obj.query.$set = { ['lists.' + rb.selectedList + '.cards']: rb.cards  };
+            obj.query.idBoard = rb.selectedBoard;
+        }
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
+            })
+    })
+
+    .post('/delete-image-from-card', function (req, res) {
+        let rb = req.body,
+            obj = {
+                query: {
+                    $set: {
+                        ['lists.' + rb.indexList + '.cards.' + rb.indexCard + '.image']: null
+                    }
+                },
+                idBoard: rb.idBoard
+            };
+
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
+            })
+    })
+
+
+
+    .post('/add/label/card', function (req, res) {
+        var rb = req.body,
+            obj = {
+                query: {
+                    $set: {
+                        ['lists.' + rb.indexList + '.cards.' + rb.indexCard + '.labels']: rb.labels
+                    }
+                },
+                idBoard: rb.idBoard
+            };
+
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
+            });
+    })
+
+
+    .post('/create/card', function (req, res) {
+
+        var rb = req.body,
+            obj = {
+                query: {
+                    $set: {
+                        ['lists.' + rb.cardIndex + '.cards']: rb.cards
+                    },
+                    $push: {
+                        activity: { $each: [rb.activity], $position: 0 }
+                    }
+                },
+                idBoard: rb.idBoard
+            }
+
+        Board.updateBoard(obj)
+            .then(resp => {
+                User.findOneAndUpdate({ _id: req.user._id },
+                    {
+                        "$push": { "activity": { $each: [{ 'information': 'Utworzyłeś kartę o nazwie ' + rb.name, 'date': new Date() }], $position: 0 } },
+                    },
+                    {
+                        upsert: true
+                    },
+                    ((err, newBoard) => {
+                        if (err) throw err;
+                        else res.send(resp)
                     })
-                );
+                )
             })
+    })
 
-    } else {
-        Board.findOneAndUpdate({ _id: transferObj.idBoard },
-            {
-                $set: {
-                    lists: transferObj.lists,
-                }
-            },
-            {
-                upsert: true
-            },
-            ((err, updated) => {
-                if (err) { console.log(err) }
-                else { res.status(200).send('Deleted'); }
+
+
+    .post('/add/descrip/card', function (req, res) {
+        var rb = req.body,
+            obj = {
+                query: {
+                    $set: {
+                        ['lists.' + rb.indexList + '.cards.' + rb.indexCard]: rb.descrip
+                    }
+                },
+                idBoard: rb.idBoard
+            };
+
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
+            });
+    })
+
+
+
+    .post('/add/lists/tasks', function (req, res) {
+        var rb = req.body;
+        obj = {
+            query: { $set: {} },
+            idBoard: rb.idBoard
+        };
+
+        if (rb.type == 'name') obj.query.$set = { ['lists.' + rb.indexList + '.cards.' + rb.indexCard + '.listsTasks']: rb.tasks }
+        else if (rb.type == 'task') { obj.query.$set = { ['lists.' + rb.indexList + '.cards.' + rb.indexCard + '.listsTasks.' + rb.indexListOfTasks]: rb.tasks } }
+        else obj.query.$set = { ['lists.' + rb.indexList + '.cards.' + rb.indexCard + '.listsTasks.' + rb.indexListOfTasks]: rb.status }
+
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
             })
-        )
-    }
-});
-
-
-router.post('/delete-card', (req, res) => {
-    let deleteObj = req.body;
-
-    Board.findOneAndUpdate({ _id: deleteObj.idBoard },
-        {
-            $set: {
-                ['lists.' + deleteObj.indexList + '.cards']: deleteObj.lists,
-            }
-        },
-        {
-            upsert: true
-        },
-        ((err, updated) => {
-            if (err) { console.log(err) }
-            else { res.status(200).send('Deleted'); }
-        })
-    )
-});
-
-
-router.post('/set-deadline', function (req, res, next) {
-    let dateObj = req.body;
-
-    Board.findOneAndUpdate({ _id: dateObj.idBoard },
-        {
-            $set: {
-                ['lists.' + dateObj.indexList + '.cards.' + dateObj.indexCard + '.deadline']: dateObj.date,
-            }
-        },
-        {
-            upsert: true
-        },
-        ((err, updated) => {
-            if (err) { console.log(err) }
-            else { res.status(200).send('Added'); }
-        })
-    )
-});
+    })
 
 
 
-router.put('/copy-card', (req, res) => {
-    let copyCardObj = req.body;
-    if (!copyCardObj.selectedBoard) {
-        Board.findOneAndUpdate({ _id: copyCardObj.idBoard },
-            {
-                $set: {
-                    lists: copyCardObj.lists,
-                }
-            },
-            {
-                upsert: true
-            },
-            ((err, updated) => {
-                if (err) { console.log(err) }
-                else { res.status(200).send('Added'); }
+    .put('/updatecards', function (req, res) { 
+        var rb = req.body,
+            obj = {
+                query: {
+                    $set: {
+                        lists: rb.lists
+                    }
+                },
+                idBoard: rb._id
+            };
+
+        Board.updateBoard(obj)
+            .then(resp => {
+                res.json(resp);
             })
-        );
-    } else {
-        Board.findOneAndUpdate({ _id: copyCardObj.selectedBoard },
-            {
-                $set: {
-                    ['lists.' + copyCardObj.selectedList + '.cards']: copyCardObj.cards,
-                }
-            },
-            {
-                upsert: true
-            },
-            ((err, updated) => {
-                if (err) { console.log(err) }
-                else { res.status(200).send('Added'); }
-            })
-        )
-    }
-
-
-
-
-});
+    })
 
 module.exports = router;

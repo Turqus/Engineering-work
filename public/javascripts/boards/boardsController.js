@@ -7,9 +7,10 @@ App.controller('boardsController', function ($scope, $http, ApiService) {
 	};
 
 	$scope.loadBoards = function () {
-		return ApiService.staff.boards()
+		return ApiService.board.boards()
 			.then(function (resp) {
 				$scope.boards = resp;
+				console.log($scope.boards)
 			})
 	};
 
@@ -20,8 +21,9 @@ App.controller('boardsController', function ($scope, $http, ApiService) {
 			closed : false
 		};
 
-		return ApiService.staff.addBoard($scope.boardObj).then(function () {
+		return ApiService.board.addBoard($scope.boardObj).then(function () {
 			$scope.loadBoards();
+			$scope.toggle =false;
 		})
 	};
 
@@ -46,71 +48,4 @@ App.controller('boardsController', function ($scope, $http, ApiService) {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// App.service('loadBoard', function (ApiService) {
-// 	// this.whichBoard = (index) => {
-// 	// 	this.whichBoard = index;
-// 	// }
-// 	this.index = 1;
-
-// 	this.listBoards = [];
-// 	this.listLists = [];
-
-// 	this.Board = ApiService.staff.boards().then((resp) => {
-// 		this.result = resp;
-
-// 		// angular.forEach(this.result, (value, key) => {
-// 		// 	console.log(value)
-// 		// 	this.listBoards[key] = { 'name': value.name, '_id': value._id };
-// 		// })
-// 		// console.log(this.listBoards)
-// 		//-----------------------------------------------------------------
-
-
-// 		angular.forEach(this.result, (value, key) => {
-// 			this.listLists[key] = value;
-// 		})
-
-// 		console.log(this.listLists)
-
-
-		// 'cardsLength': value.lists.cards.length
-
-
-
-
-
-
-		// lalala    		console.log(this.result[key].lists) 
-		// console.log(this.listBoards) 
-
-
-
-// 		// this.result.forEach(function(element) {
-// 		// 	console.log(element)
-// 		// }); 
-// 	});
-
-// 	// console.log('listBoards', this.listBoards)
-// 	// console.log('listLists', this.listLists)
-
-// });
-
-
-
-
-
+  

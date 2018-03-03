@@ -8,7 +8,7 @@ App.directive("menuTransferCard", () => {
             }
 
             $scope.loadBoards = () => {
-                return ApiService.staff.boards().then((resp) => {
+                return ApiService.board.boards().then((resp) => {
                     $scope.boards = resp;
                     $scope.selectedBoard = $scope.board._id;
                     $scope.changeBoard($scope.board._id);
@@ -23,7 +23,7 @@ App.directive("menuTransferCard", () => {
                     _id: _id
                 }
 
-                return ApiService.staff.selectedBoard(params).then((resp) => {
+                return ApiService.board.selectedBoard(params).then((resp) => {
                     if (resp.lists.length != 0) {
                         $scope.downloadedLists = resp.lists;
                         $scope.selectedList = "0";

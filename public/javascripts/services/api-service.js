@@ -8,13 +8,52 @@ angular.module('TodoListApp')
     .service('ApiService', ['$q', '$http', function ($q, $http) {
 
         var routes = {
-            staff: '/users',
+            user: '/users',
             profile: '/profile',
             board: '/board',
-            card: '/card'
+            card: '/card',
+            permissions: '/permissions'
         };
         
         var api = {
+            permissions: {
+                permissionToComment: function (data) {
+                    return post({
+                        url: routes.permissions + '/to-comment',
+                        data: data
+                    });
+                },
+                permissionsToAddLists: function (data) {
+                    return post({
+                        url: routes.permissions + '/to-add-lists',
+                        data: data
+                    });
+                },
+                permissionsToAddCards: function (data) {
+                    return post({
+                        url: routes.permissions + '/to-add-cards',
+                        data: data
+                    });
+                },
+                permissionsToAddingPeopleToTheBoard: function (data) {
+                    return post({
+                        url: routes.permissions + '/to-adding-people-to-the-board',
+                        data: data
+                    });
+                },
+                permissionsToAddingPeopleToTheCards: function (data) {
+                    return post({
+                        url: routes.permissions + '/to-adding-people-to-the-cards',
+                        data: data
+                    });
+                },
+                permissionsToTheVisibilityOfTheBoard: function (data) {
+                    return post({
+                        url: routes.permissions + '/to-the-visibility-of-the-board',
+                        data: data
+                    });
+                } 
+            },
             card: {
                 deadline: function (data) {
                     return post({
@@ -45,13 +84,7 @@ angular.module('TodoListApp')
                         url: routes.card + '/send-back-list',
                         data: data
                     });
-                },
-                deleteCardFromArchive: function (data) {
-                    return post({
-                        url: routes.card + '/delete-card',
-                        data: data
-                    });
-                },
+                }, 
                 deleteListOfTasks: function (data) {
                     return post({
                         url: routes.card + '/delete-list-tasks',
@@ -76,128 +109,62 @@ angular.module('TodoListApp')
                         data: data
                     });
                 },
-            },
-            staff: {
-                // all: function (query) {
-                //     return get({
-                //         url: routes.item + (query || '')
-                //     });
-                // },
-                add: function (data) {
+                deleteImageFromCard: function (data) {
                     return post({
-                        url: routes.staff + '/create/card',
-                        data: data
-                    });
-                },
-                addComment: function (data) {
-                    return post({
-                        url: routes.staff + '/add/comment',
-                        data: data
-                    });
-                },
-                editComment: function (data) {
-                    return post({
-                        url: routes.staff + '/edit-comment',
-                        data: data
-                    });
-                },
-                deleteComment: function (data) {
-                    return post({
-                        url: routes.staff + '/delete-comment',
-                        data: data
-                    });
-                },
-                addMemberBoard: function (data) {
-                    return post({
-                        url: routes.staff + '/add/member/board',
-                        data: data
-                    });
-                },
-                addMemberToCard: function (data) {
-                    return post({
-                        url: routes.staff + '/add/member',
-                        data: data
-                    });
-                },
-                addList: function (data) {
-                    return post({
-                        url: routes.staff + '/create/lists',
-                        data: data
-                    });
-                },
-                addBoard: function (data) {
-                    return post({
-                        url: routes.staff + '/create/board',
-                        data: data
-                    });
-                },
-                // list: function (params) {
-                //     return get({
-                //         url: routes.staff + '/lists',
-                //         params: params
-
-                //     });
-                // },
-                boards: function (params) {
-                    return get({
-                        url: routes.staff + '/boards',
-                        params: params
-                    });
-                },
-                selectedBoard: function (params) {
-                    return get({
-                        url: routes.staff + '/selected/board',
-                        params: params
-                    });
-                },
-                 usercards: function (params) {
-                    return get({
-                        url: routes.staff + '/usercards',
-                        params: params
-                    });
-                },
-                cards: function (params) {
-                    return get({
-                        url: routes.staff + '/cards',
-                        params: params
-                    });
-                },
-                update: function (data) {
-                    return put({
-                        url: routes.staff + '/updatecards',
+                        url: routes.card + '/delete-image-from-card',
                         data: data
                     });
                 },
                 addLabelToCard: function (data) {
                     return post({
-                        url: routes.staff + '/add/label/card',
+                        url: routes.card + '/add/label/card',
                         data: data
                     });
                 },
-                addLabelToBoard: function (data) {
+                add: function (data) {
                     return post({
-                        url: routes.staff + '/add/label/board',
+                        url: routes.card + '/create/card',
                         data: data
                     });
                 },
                 addDescrip: function (data) {
                     return post({
-                        url: routes.staff + '/add/descrip/card',
+                        url: routes.card + '/add/descrip/card',
                         data: data
-                    });
-                },
-                deleteLabel: function (id) {
-                    return remove({
-                        url: routes.staff + '/label/delete/' + id
                     });
                 },
                 addListsOfTasks: function (data) {
                     return post({
-                        url: routes.staff + '/add/lists/tasks',
+                        url: routes.card + '/add/lists/tasks',
                         data: data
                     });
                 },
- 
+                update: function (data) {
+                    return put({
+                        url: routes.card + '/updatecards',
+                        data: data
+                    });
+                }, 
+            },
+            user: { 
+                 usercards: function (params) {
+                    return get({
+                        url: routes.user + '/usercards',
+                        params: params
+                    });
+                },
+                cards: function (params) {
+                    return get({
+                        url: routes.user + '/cards',
+                        params: params
+                    });
+                },
+                changeStatus: function (data) {
+                    return post({
+                        url: routes.user + '/change-status',
+                        data: data
+                    });
+                },
             },
             profile: {
                 updateInformation: function (data) {
@@ -209,6 +176,12 @@ angular.module('TodoListApp')
                 updatePersonalInformation: function (data) {
                     return post({
                         url: routes.profile + '/update/personal/information',
+                        data: data
+                    });
+                },
+                changePassword: function (data) {
+                    return post({
+                        url: routes.profile + '/change-password',
                         data: data
                     });
                 },
@@ -249,7 +222,115 @@ angular.module('TodoListApp')
                         url: routes.board + '/archive-list',
                         data: data
                     });
-                }
+                },
+                changeBackgroundToPhoto: function (data) {
+                    return put({
+                        url: routes.board + '/changePhoto',
+                        data: data
+                    });
+                },
+                findMember: function (data) { 
+                    return post({
+                        url: routes.board + '/find-member',
+                        data: data
+                    });
+                },
+                loadMembers: function (params) {
+                    return get({
+                        url: routes.board + '/load-members',
+                        params: params
+                    });
+                },
+                loadMembersToAddCard: function (data) {
+                    return post({
+                        url: routes.board + '/load-members-to-add-card',
+                        data: data
+                    });
+                },
+                deleteMemberWithBoard: function (data) { 
+                    return post({
+                        url: routes.board + '/delete-member-with-board',
+                        data: data
+                    });
+                }, 
+                addMemberToCard: function (data) { 
+                    return post({
+                        url: routes.board + '/add-member-to-card',
+                        data: data
+                    });
+                }, 
+                loadMembersCard: function (data) {
+                    return post({
+                        url: routes.board + '/load-members-card',
+                        data: data
+                    });
+                },
+                deleteMemberWithCard: function (data) { 
+                    return post({
+                        url: routes.board + '/delete-member-with-card',
+                        data: data
+                    });
+                }, 
+                deleteLabel: function (data) {
+                    return post({
+                        url: routes.board + '/label/delete',
+                        data: data
+                    });
+                },
+                addComment: function (data) {
+                    return post({
+                        url: routes.board + '/add/comment',
+                        data: data
+                    });
+                },
+                editComment: function (data) {
+                    return post({
+                        url: routes.board + '/edit-comment',
+                        data: data
+                    });
+                },
+                deleteComment: function (data) {
+                    return post({
+                        url: routes.board + '/delete-comment',
+                        data: data
+                    });
+                },
+                addList: function (data) {
+                    return post({
+                        url: routes.board + '/create/lists',
+                        data: data
+                    });
+                },
+                addBoard: function (data) {
+                    return post({
+                        url: routes.board + '/create/board',
+                        data: data
+                    });
+                }, 
+                addLabelToBoard: function (data) {
+                    return post({
+                        url: routes.board + '/add/label/board',
+                        data: data
+                    });
+                },
+                addMemberBoard: function (data) {
+                    return post({
+                        url: routes.board + '/add/member/board',
+                        data: data
+                    });
+                }, 
+                selectedBoard: function (params) {
+                    return get({
+                        url: routes.board + '/selected/board',
+                        params: params
+                    });
+                },
+                boards: function (params) {
+                    return get({
+                        url:  '/boards-list',
+                        params: params
+                    });
+                },
             }
         };
 

@@ -17,7 +17,7 @@ App.directive("menuAddListTasks", function() {
                     tasks: $scope.board.lists[indexList].cards[indexCard].listsTasks
                 }
         
-                return ApiService.staff.addListsOfTasks(listsTasksObj);
+                return ApiService.card.addListsOfTasks(listsTasksObj);
             }
         }
     }

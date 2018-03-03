@@ -1,6 +1,6 @@
 <a href="#" ng-click="$ctrl.parent.activeMenu('Notice', $event);">
   <div class="btns">
-    <span class="glyphicon glyphicon-bell"></span>
+    <span ng-class="{ isInformation :  $ctrl.parent.user.notifications.readed === false }" class="glyphicon glyphicon-bell"></span>
   </div>
 </a>
 
@@ -8,8 +8,17 @@
 
   <!--<a href="#" ng-click="$ctrl.parent.activeMenu('Notice', $event);">close</a>-->
   <span class="menu-heading">Powiadomienia</span>
+ 
+  <div class="menu_notice-placeholder" ng-repeat="notif in $ctrl.parent.user.notifications.note"> 
+      <span><b>{{notif.user}}</b> {{notif.information}} {{notif.date | timeAgo}}</span>
+    </div> 
 
-  <div class="menu_notice-placeholder">
-    <span>Brak powiadomień</span>
-  </div>
+
+
+    <div class="menu_notice-placeholder" ng-hide="$ctrl.parent.user.notifications.note.length > 0"> 
+        <span>Brak powiadomień</span>
+      </div>
 </div>
+
+
+

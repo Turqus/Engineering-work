@@ -1,9 +1,8 @@
 App.directive("labelPanel", function (ApiService) {
 	return {
-		restrict: 'E', 
+		restrict: 'E',
 		templateUrl: '/directives/label-panel/label-panel-template.ejs',
-		controller: function ($scope) { 
-
+		controller: function ($scope) {
 			$scope.labels = [
 				{ "colour": "#61BD4F" },
 				{ "colour": "#F2D600" },
@@ -15,34 +14,47 @@ App.directive("labelPanel", function (ApiService) {
 				{ "colour": "#0079BF" },
 				{ "colour": "#00C2E0" },
 				{ "colour": "#4d4d4d" },
-				{ "colour": "#B6BBBF" }
-			];
+				{ "colour": "#B6BBBF" }	];
 
-			$scope.toggles = {
-				// rightMenu: true,
-				nestedMenu: false,
-			}
+			$scope.toggles = { 
+				nestedMenu: false,	}
+
 
 			
-                // // usuwanie
-                // $scope.deleteLabel = (_id) => {
-                //     // return ApiService.staff.deleteLabel(_id);
-                //     console.log($scope.board.boardLabels)
-                // }
+			$scope.deleteLabel = (indexLabel) => { 
+					$scope.board.boardLabels.splice(indexLabel, 1);
+					var obj = { 
+						idBoard : $scope.board._id,
+						boardLabels : $scope.board.boardLabels
+					}; 
+
+					return ApiService.board.deleteLabel(obj)
+					.then((resp)=> {
+						$scope.toggles.nestedMenu = false;
+					})
+				}
+ 
 
 			$scope.createLabel = (insertedName) => {
 				let isValidated = validateLabel(insertedName)
 				if (isValidated === true) {
-					if (insertedName == '') {
-						$scope.board.boardLabels.push({ 'colour': $scope.selectedColour });
-					}
-					else {
-						$scope.board.boardLabels.push({ 'name': insertedName, 'colour': $scope.selectedColour });
-					}
+					if (insertedName == '') $scope.board.boardLabels.push({ 'colour': $scope.selectedColour });
+					else $scope.board.boardLabels.push({ 'name': insertedName, 'colour': $scope.selectedColour });
 					updateListLabels()
 				} else {
-
+					$scope.toggles.nestedMenu = false;
 				}
+			};
+
+			function validateLabel(name) {
+				var ok = true;
+				if ($scope.selectedColour == null) $scope.selectedColour = '#B6BBBF';
+	
+				angular.forEach($scope.board.boardLabels, function (value, key) {
+					if ($scope.board.boardLabels[key].colour == $scope.selectedColour && $scope.board.boardLabels[key].name == name) ok = false;
+				});
+
+				return ok;
 			};
 
 			$scope.editLabel = (insertedName, indexLabel) => {
@@ -61,38 +73,21 @@ App.directive("labelPanel", function (ApiService) {
 				$scope.insertedName = insertedName;
 			};
 
-			function validateLabel(name) {
-				var ok = true;
-
-				if ($scope.selectedColour == null) {
-					$scope.selectedColour = '#B6BBBF';
-				}
-
-				angular.forEach($scope.board.boardLabels, function (value, key) {
-					if ($scope.board.boardLabels[key].colour == $scope.selectedColour && $scope.board.boardLabels[key].name == name) {
-						ok = false;
-					}
-				});
-
-				return ok;
-			};
-
 			function updateListLabels() {
 				let labelObj = {
 					idBoard: $scope.board._id,
 					labels: $scope.board.boardLabels
 				}
 
-				return ApiService.staff.addLabelToBoard(labelObj);
-			}
-
-			
+				return ApiService.board.addLabelToBoard(labelObj)
+					.then(() => {
+						$scope.toggles.nestedMenu = false;
+					})
+			};
 			$scope.changeLabelColour = (colour) => {
 				$scope.selectedColour = colour;
-			}
-
-
-			$scope.labelMenu = ($event, nameMenu, index, item) => { 
+			};
+			$scope.labelMenu = ($event, nameMenu, index, item) => {
 				$scope.blockClosingList($event);
 				if ($scope.toggles.nestedMenu === true && $scope.indexEditLabel == index) {
 					$scope.toggles.nestedMenu = !$scope.toggles.nestedMenu;
@@ -104,46 +99,40 @@ App.directive("labelPanel", function (ApiService) {
 				if (index != undefined && item != undefined) {
 					$scope.insertedName = item.name;
 					$scope.selectedColour = item.colour;
-					$scope.indexEditLabel = index; 
-				} else { 
+					$scope.indexEditLabel = index;
+				} else {
 					$scope.insertedName = '';
 					$scope.selectedColour = '#B6BBBF';
 				}
 
-				$scope.names = nameMenu; 
-			}
-
-
-
-			$scope.addLabel = (indexList, indexCard, indexLabel, label) => { 
-				if(indexList != undefined) {
+				$scope.names = nameMenu;
+			};
+			$scope.addLabel = (indexList, indexCard, indexLabel, label) => {
+				if (indexList != undefined) {
 					var ok = true;
 					var duplicate;
-	
+
 					angular.forEach($scope.board.lists[indexList].cards[indexCard].labels, function (value, key) {
 						if ($scope.board.lists[indexList].cards[indexCard].labels[key]._id == label._id) {
 							ok = false;
 							duplicate = key;
 						}
 					})
-	
-					if (ok == true) {
-						$scope.board.lists[indexList].cards[indexCard].labels.splice(indexLabel, 0, { '_id': label._id, 'name': label.name, 'colour': label.colour });
-					} else {
-						$scope.board.lists[indexList].cards[indexCard].labels.splice(duplicate, 1);
-					}
-	
+
+					if (ok == true) $scope.board.lists[indexList].cards[indexCard].labels.splice(indexLabel, 0, { '_id': label._id, 'name': label.name, 'colour': label.colour });
+					else $scope.board.lists[indexList].cards[indexCard].labels.splice(duplicate, 1);
+					
 					var labelObj = {
 						idBoard: $scope.board._id,
 						indexList: indexList,
 						indexCard: indexCard,
 						labels: $scope.board.lists[indexList].cards[indexCard].labels
 					}
-					return ApiService.staff.addLabelToCard(labelObj).then(function () {
-					})	
+					return ApiService.card.addLabelToCard(labelObj).then(function () {
+						$scope.toggles.nestedMenu = false;
+					})
 				}
 			}
-
 		}
 	}
 })

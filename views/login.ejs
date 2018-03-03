@@ -1,0 +1,49 @@
+<% include partials/head.ejs %>
+
+  <body>
+
+    <div class="row">
+      <div class="col-md-3 center-block">
+        <h1 class="register-header">Logowanie</h1>
+
+        <form novalidate name="loginFrm" class="loginFrm" action="/login" method="post">
+
+          <div class="form-group reg-form" ng-class="{ 'has-error': loginFrm.username.$invalid && loginFrm.username.$touched }">
+            <label>Nazwa użytkownika</label>
+            <span class="has-error__item" ng-if="loginFrm.username.$touched && loginFrm.username.$error.required">Te pole jest wymagane.</span>
+            <span class="has-error__item" ng-show="loginFrm.username.$touched && loginFrm.username.$error.minlength">Za krótka nazwa użytkownika.</span>
+            <span class="has-error__item" ng-show="loginFrm.username.$touched && loginFrm.username.$error.maxlength">Za długa nazwa użytkownika</span>
+            <input type="text" class="form-control" ng-model="username" name="username" placeholder="np. Jan Kowalski" ng-required="true"
+              ng-minlength="7" ng-maxlength="20">
+          </div>
+ 
+
+          <div class="form-group reg-form" ng-class="{ 'has-error': loginFrm.password.$invalid && loginFrm.password.$touched }">
+            <label>Hasło</label>
+            <span class="has-error__item" ng-if="loginFrm.password.$touched && loginFrm.password.$error.required">Te pole jest wymagane.</span>
+            <span class="has-error__item" ng-show="loginFrm.password.$touched && loginFrm.password.$error.minlength">Za krótkie hasło.</span>
+            <input type="password" class="form-control" ng-model="password" name="password" placeholder="np. ********" ng-required="true"
+              ng-minlength="7">
+ 
+
+          <button type="submit" ng-disabled="loginFrm.$invalid" class="btn btn-reg">Zaloguj się</button>
+
+          <a href="/">Wróć do strony głównej.</a>  
+
+        </form>
+      </div>
+    </div>
+ 
+ 
+
+
+    
+
+    <script src="/javascripts/angular-timeago.js"></script>
+    <script src="/navbar/navbar-module.js"></script>
+    <script src="/navbar/navbar-component.js"></script>
+    <script src="/sidebar/sidebar.js"></script> 
+    <script src="/javascripts/angular-datepicker.js"></script>
+
+  </body>
+  </html>

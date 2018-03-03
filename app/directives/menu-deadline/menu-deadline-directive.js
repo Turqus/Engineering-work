@@ -11,12 +11,9 @@ App.directive("menuDeadline", function () {
             $scope.term = {};
             $scope.term.date = `${getYear}-${getMonth}-${getDay}`;
             $scope.term.time = `12:00`;
-
             
             $scope.setDeadline = (term, indexList, indexCard) => {
-                let dateObj = {};
-
-                dateObj = {
+                let dateObj = {
                     date: new Date(term.date + 'T' + term.time),
                     idBoard: $scope.board._id,
                     indexList: indexList,

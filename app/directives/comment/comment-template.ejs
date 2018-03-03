@@ -1,25 +1,27 @@
 <div class="modal-comments" style="position: relative;">
   <span class="modal-icon glyphicon glyphicon-comment"></span>
   <h4 class="loud-header">Dodaj komentarz</h4>
-  <form>
-    <textarea ng-model="commentCard" cols="30" rows="2" class="form-control" placeholder="Napisz komentarz..."></textarea>
-    <button class="btn btn-success" ng-click="addComment($parent.$index, $index, commentCard)">Dodaj</button>
+  <form name="commentFrm" novalidate>
+    <span class="has-error__item" ng-if="commentFrm.comment.$touched && commentFrm.comment.$error.required">Te pole jest wymagane.</span>
+    <span class="has-error__item" ng-show="commentFrm.comment.$touched && commentFrm.comment.$error.minlength">Za krótki komentarz.</span>
+    <span class="has-error__item" ng-show="commentFrm.comment.$touched && commentFrm.comment.$error.maxlength">Za długi komentarz</span>
+    <textarea ng-model="commentCard" cols="30" rows="2" class="form-control" placeholder="Napisz komentarz..." name="comment"
+      ng-required="true" minlength="1" maxlength="255"></textarea>
+    <button ng-disabled="board.permissions.addingComments === false || commentFrm.$invalid" class="btn btn-success" ng-click="addComment($parent.$index, $index, commentCard)">Dodaj</button>
   </form>
 </div>
 
 
 <div class="modal-activity" style="position: relative;">
-  <span class="modal-icon glyphicon glyphicon-time"></span>
-  <!-- <h4 class="loud-header">Aktywność</h4> -->
-  <h4 class="loud-header">Komentarze</h4>
-
+  <span ng-hide="card.comments.length === 0" class="modal-icon glyphicon glyphicon-time"></span>
+  <h4 ng-hide="card.comments.length === 0" class="loud-header">Komentarze</h4>
 
   <div class="window-comments">
     <div style="border-bottom: 1px solid #E2E4E6; margin-top: 5px;" ng-repeat="comment in card.comments ">
-        <div class="btn__circle positionCircle">
-            <span class="btn--circle">{{comment.name | limitTo: 1}}</span>
-          </div>
-        <span class="comment-card__author">{{comment.name}}</span> 
+      <div class="btn__circle positionCircle">
+        <span class="btn--circle">{{comment.name | limitTo: 1}}</span>
+      </div>
+      <span class="comment-card__author">{{comment.name}}</span>
       <div class="comment-card" ng-hide="toggler.editComment === true  && indexComment === $index">
         <span class="comment-card__txt">{{ comment.text }}</span>
 
@@ -30,14 +32,18 @@
           <span class="comment-card__option" ng-click="deleteComment($parent.$parent.$index ,$parent.$index, $index)">Usuń</span>
         </p>
       </div>
-      <!-- start -->
       <div class="editComment" ng-show="toggler.editComment === true && indexComment === $index">
-        <form>
-          <textarea ng-model="editTxt" cols="30" rows="2" class="form-control" placeholder="Napisz komentarz..."></textarea>
-          <button class="btn btn-success" ng-click="editComment($parent.$parent.$index, $parent.$index, $index, editTxt)">Edytuj</button>
+        <form name="editCommentFrm" novalidate>
+          <div class="form-group" ng-class="{ 'has-error': editCommentFrm.editTxt.$invalid && editCommentFrm.editTxt.$touched }">
+            <span class="has-error__item" ng-if="editCommentFrm.editTxt.$touched && editCommentFrm.editTxt.$error.required">Te pole jest wymagane.</span>
+            <span class="has-error__item" ng-show="editCommentFrm.editTxt.$touched && editCommentFrm.editTxt.$error.minlength">Za krótki komentarz.</span>
+            <span class="has-error__item" ng-show="editCommentFrm.editTxt.$touched && editCommentFrm.editTxt.$error.maxlength">Za długi komentarz</span>
+            <textarea ng-model="editTxt" name="editTxt" cols="30" rows="2" class="form-control" placeholder="Napisz komentarz..." ng-required="true"
+              minlength="1" maxlength="255"></textarea>
+          </div>
+          <button class="btn btn-success" ng-disabled="editCommentFrm.$invalid" ng-click="editComment($parent.$parent.$index, $parent.$index, $index, editTxt)">Edytuj</button>
         </form>
       </div>
-      <!-- end -->
     </div>
   </div>
 

@@ -1,11 +1,11 @@
 <% include partials/head.ejs %>
 
-  <body ng-controller="boardController" ng-init="init('<%= JSON.stringify(user) %>','<%= JSON.stringify(board) %>')" style="background-color: {{board.background}}">
+  <body ng-controller="boardController" ng-init="init('<%= JSON.stringify(user) %>','<%= JSON.stringify(board) %>')" style="background-color: {{board.background}}; background-image: url('/images/{{board.image}}');">
     <navbar user='user'></navbar>
 
     </div>
     <div>
-      <sidebar board='board'></sidebar>
+      <sidebar board='board' user='user'></sidebar>
 
       <div class="board-header">
         <%= board.name %> Prywatna
@@ -14,12 +14,9 @@
 
 
     <div id="wrapper">
-      <!-- <span> {{results.length}}</span>{{searchCards}} -->
-      <!-- <input type="text" ng-model="searchCards.name"> -->
-      <!--kc-->
-      <ul id="first" dnd-horizontal-list="true" dnd-list="board.lists" dnd-allowed-types="['item']">
+      <ul id="listItem" dnd-horizontal-list="true" dnd-list="board.lists" dnd-allowed-types="['item']">
         <li ng-repeat="item in board.lists" dnd-draggable="item" dnd-type="'item'" dnd-effect-allowed="move" ng-class="{'selected': board.selected === item}"
-          dnd-moved="removeList($index)" dnd-dragstart="logEvent()" dnd-dragend="endEvent()">
+          dnd-moved="dragList($index)" dnd-dragstart="logEvent()" dnd-dragend="endEvent()">
           <div>
             <div id="tasks">
               <div class="titleCard">
@@ -50,14 +47,11 @@
                       <a href ng-click="archiveList($index)">
                         Zarchiwizuj tę listę...
                       </a>
-                    </li>
-                    <!-- <li class="options-list__item">
-                      <a href ng-click="activeMenu('Zarchiwizuj tę listę', $event, $index)">
-                        Zarchiwizuj tę listę...
-                      </a>
-                    </li> -->
+                    </li> 
                   </ul>
                 </div>
+
+
 
                 <div style="position: relative">
                   <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Dodaj kartę' && toggle === true && indexListMenu === $index}">
@@ -65,12 +59,13 @@
                     <form class="copy-list">
                       <div class="form-group">
                         <label>Nazwa</label>
-                        <textarea cols="32" rows="3" class="form-control copy-list__textarea"></textarea>
+                        <textarea cols="32" rows="3" class="form-control copy-list__textarea" name="newTaskCard" ng-model="newTaskCard"></textarea>
                       </div>
-                      <button class="btn btn-success" ng-click="copyList(copyListName, $index)">Utwórz listę</button>
+                      <button ng-disabled="board.permissions.addingCards === false" class="btn btn-success" ng-click="addTask(newTaskCard, $index)">Dodaj kartę</button>
                     </form>
                   </div>
                 </div>
+
 
 
                 <div style="position: relative">
@@ -81,7 +76,7 @@
                         <label>Nazwa</label>
                         <textarea cols="32" rows="3" class="form-control copy-list__textarea" placeholder="Wprowadź nazwę listy..." ng-model="copyListName"></textarea>
                       </div>
-                      <button class="btn btn-success" ng-click="copyList(copyListName, $index)">Utwórz listę</button>
+                      <button ng-disabled="board.permissions.addingLists === false" class="btn btn-success" ng-click="copyList(copyListName, $index)">Utwórz listę</button>
                     </form>
                   </div>
                 </div>
@@ -102,42 +97,29 @@
                         </div>
 
                         <button class="btn btn-success" ng-click="transferList(selectedBoard, $index)">Przenieś</button>
-
                       </form>
                     </div>
                   </div>
-
                 </div>
-
-
-                <!-- <div style="position: relative">
-                  <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Zarchiwizuj tę listę' && toggle === true && indexListMenu === $index}">
-
-                  </div>
-                </div> -->
-
-                <!-- end -->
               </div>
 
-              <ol id="second" dnd-list="item.cards" dnd-allowed-types="['card']" style="padding-bottom: 5px;">
-                <li style="margin: 3px 0 3px 0;" ng-repeat="card in item.cards | filter:searchCards as results" dnd-draggable="card" dnd-type="'card'"
-                  dnd-effect-allowed="move" dnd-moved="removeItem($parent.$index, $index)" ng-class="{'selected': item.selected === card}">
 
-                  <a style="text-decoration: none; color: black;" data-toggle="modal" ng-click="checkDescStatus($parent.$index, $index, card.description, card.name)"
+              
+              <ol id="cardItem" dnd-list="item.cards" dnd-allowed-types="['card']">
+                <li ng-repeat="card in item.cards | filter:searchCards" dnd-draggable="card" dnd-type="'card'"
+                  dnd-effect-allowed="move" dnd-moved="dragItem($parent.$index, $index)" ng-class="{'selected': item.selected === card}">
+                  <a style="text-decoration: none; color: black;" data-toggle="modal" ng-click="checkStatus($parent.$index, $index, card.description, card.name)"
                     href="#{{card._id}}">
                     <div class="card">
-
                       <div class="card__label" ng-show="card.labels.length > 0">
                         <span class="card__label__item" ng-repeat="label in card.labels" style="background-color: {{label.colour}};">
                         </span>
                       </div>
-
                       <div class="card__content">
                         <span>{{card.name}}</span>
                       </div>
-
-                      <div class="card__info" ng-show="card.comments.length > 0 || card.listsTasks.length > 0 || card.description != undefined || card.description.length === 0 || card.deadline != null">
-
+                      <img ng-src="/uploads/{{card.image}}" alt="{{card.image}}" class="img-responsive img-board" ng-hide="card.image === null || card.image == undefined">
+                      <div class="card__info" ng-show="card.comments.length > 0 || card.listsTasks.length > 0 || card.description != undefined || card.description.length === 0 || card.deadline != null || card.members.length != 0">
                         <div class="card__info__comment" ng-show="card.comments.length > 0">
                           <span class="glyphicon glyphicon-comment"></span>{{card.comments.length}}</div>
                         <div class="card__info__listsTasks" ng-show="card.listsTasks.length > 0">
@@ -146,37 +128,26 @@
                           <span class="glyphicon glyphicon-pencil"></span>
                         </div>
                         <div class="card__info__deadline" ng-show="card.deadline != null">
-                          <span style="background-color: #F2D600;">{{card.deadline | date: Dd-Mm-Yyyy}}</span>
+                          <span class="deadline-card">{{card.deadline | date: Dd-Mm-Yyyy}}</span>
                         </div>
+                        <div class="card__info__members" ng-show="card.members.length > 0">
+                          <span class="glyphicon glyphicon-user"></span>{{card.members.length}}</div>
                       </div>
-
-                      <!-- <span class="glyphicon glyphicon-pencil pull-right" ng-click="activeMenu('Dada', $event, $index)"></span> -->
                     </div>
                   </a>
-
                 </li>
               </ol>
 
-              <!-- start-->
-              <!-- <div style="position: relative">
-                  <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Dada' && toggle === true && indexListMenu === $index}">
-                      <textarea name="" id="" cols="30" rows="3"></textarea>
-
-                  </div>
-                </div>  -->
-
-              <!-- end-->
-
               <div class="addCardForm" ng-click="blockClosingList($event)" ng-class="{active : indexAddCard == $index && toggleAddCard === true}"
                 id="id_warstwy2{{$index}}">
-                <form>
-                  <textarea class="textarea-modif" ng-model="newTask" ng-keypress="($event.keyCode==13) ? addTask(newTask, $index) : return"></textarea>
-                  <button class="btn btn-success" ng-click="addTask(newTask, $index)">Dodaj</button>
+                <form name="cardFrm" novalidate> 
+                  <textarea class="textarea-modif" ng-model="newTask" ng-required="true" ng-minlength="1" ng-keypress="($event.keyCode==13) ? addTask(newTask, $index) : return"></textarea>
+                  <button ng-disabled="board.permissions.addingCards === false || cardFrm.$invalid" class="btn btn-success" ng-click="addTask(newTask, $index)">Dodaj</button>
                   <button class="btn btn-default" ng-click="addCard($index)">Anuluj</button>
                 </form>
               </div>
               <div ng-class="{deactive : indexAddCard == $index && toggleAddCard === true}" class="addCard" id="id_warstwy{{$index}}">
-                <a href="#" ng-click="addCard($index);" ng-hide="board.closed === true">
+                <a href ng-click="addCard($index);" ng-hide="board.closed === true">
                   Dodaj kartę...
                 </a>
               </div>
@@ -184,6 +155,8 @@
           </div>
         </li>
 
+
+        
         <ul class="third-list" dnd-list="board.lists" dnd-allowed-types="['de']" ng-hide="board.closed === true">
           <li ng-class="{deactive : openMenuAddList === true }">
             <div ng-click="addListMenuActiv($event);" class="third-list__btn">
@@ -192,9 +165,9 @@
           </li>
           <li>
             <div ng-click="blockClosingList($event)" ng-class="{active : openMenuAddList === true}" class="third-list__input">
-              <form>
-                <input type="text" class="form-control" ng-model="newList" placeholder="Dodaj kartę..." />
-                <button class="btn btn-success" ng-click="addList(newList)">Dodaj</button>
+              <form name="listFrm" novalidate> 
+                <input type="text" class="form-control" ng-model="newList" ng-required="true" ng-minlength="1" placeholder="Dodaj liste..." />
+                <button  ng-disabled="board.permissions.addingLists === false || listFrm.$invalid" class="btn btn-success" ng-click="addList(newList)">Dodaj</button>
                 <button class="btn btn-default" ng-click="addListMenuActiv($event);">Anuluj</button>
               </form>
             </div>
@@ -202,6 +175,7 @@
         </ul>
       </ul>
     </div>
+
 
     <div ng-repeat="item in board.lists">
       <div ng-repeat="card in item.cards">
@@ -212,7 +186,6 @@
 
               <div class="modal-body">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <!--start-->
 
                 <div class="modal-wrapper">
                   <div class="modal-heading">
@@ -230,10 +203,40 @@
 
                   <div class="modal-left-column">
                     <div class="modal-label">
+
+                      <div ng-hide="membersCard.length === 0"> 
+                        <p class="quiet-heading floatleft">Członkowie</p>
+                        <ul class="membersList">
+                          <li ng-repeat="user in membersCard">
+                            <a href ng-click="openMenu('detailsUser', $index)">
+                              <span class="btnCircle">
+                                {{user.username | limitTo: 1}}
+                              </span>
+                            </a>
+
+                            <div class="menuListMembers fulfillment" ng-class="{active : nestedNameMenu === 'detailsUser' && nestedMenuToggle == true && detailsUserIndex == $index }">
+                                <div class="invitedPeople">
+                                    <span class="btnCircle"> {{user.username | limitTo: 1}} </span>
+                                </div>
+    
+                                <div class="invitedPeople__desc">
+                                    <span>{{user.firstName }} </span> 
+                                    <span>{{user.email}}</span>
+                                </div>
+    
+                                <button class="btn btn-sm btn-danger pull-right" ng-click="deleteMemberWithCard($index, user._id, $parent.$parent.$index, $parent.$index)">Usuń</button>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div style="clear: both"></div>
+
                       <div class="modal-label__items" ng-show="card.labels.length > 0">
                         <p class="quiet-heading">Etykiety</p>
-                        <span style="background-color: {{item.colour}}; min-width: 50px;" ng-repeat="item in card.labels">{{item.name}}</span>
+                        <span class="label-item" style="background-color: {{item.colour}}; min-width: 50px;" ng-repeat="item in card.labels">{{item.name}}</span>
                       </div>
+
 
                       <div class="modal-deadline" ng-hide="card.deadline === null">
                         <p class="quiet-heading">Termin</p>
@@ -242,9 +245,15 @@
                           <br> O godzinie: {{card.deadline | date:'HH:mm'}}
                         </span>
                       </div>
-                    </div>
+                    </div> 
 
                     <description></description>
+
+                    <div ng-hide="card.image === null || card.image === undefined">
+                        <p class="quiet-heading">Zdjęcie</p><a href class="quiet-heading pull-right" ng-click="deleteImageFromCard($parent.$index, $index)">Usuń</a>
+                      <img ng-src="/uploads/{{card.image}}" alt="{{card.image}}" class="img-responsive">
+                    </div>
+
 
                     <div class="modal-tasks" ng-repeat="listsTaskItem in card.listsTasks">
                       <list-tasks></list-tasks>
@@ -257,43 +266,55 @@
                     <div class="pull-right">
                       <h4 class="loud-header">Dodaj</h4>
                       <div>
-
+                        
                         <div style="position: relative">
-                          <a href="#" class="modal-menu__link" ng-click="activeMenu('Członkowie',  $event)">Członkowie</a>
+                          <button ng-disabled="board.permissions.addingPeopleToTheCards === false" class="modal-menu__link" ng-click="activeMenu('Członkowie',  $event)">Członkowie</button>
                           <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Członkowie' && toggle === true }">
-                            <label-panel></label-panel>
+
+                            <span class="menu-heading">Członkowie</span>
+                            <input type="text" class="form-control margin" ng-model="keyWord" placeholder="Zacznij wpisywać znaki by wyszukać..." />
+
+                            <div class="finded-users__list">
+                              <a href class="finded-users__item" ng-repeat="finded in members | filter:keyWord" ng-click="addMemberToCard($parent.$parent.$index, $parent.$index, finded._id, $index)">  {{finded.username}} ({{finded.firstName}}) </a>
+                              <span class="finded-users__information" ng-show="members.length == 0">Brak nowych użytkowników do dodania.</span>
+
+                            </div>
                           </div>
                         </div>
 
                         <div style="position: relative;">
-                          <a href="#" class="modal-menu__link" ng-click="activeMenu('addLabel',  $event)">Etykiety</a>
+                          <a href class="modal-menu__link" ng-click="activeMenu('addLabel',  $event)">Etykiety</a>
                           <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'addLabel' && toggle === true }">
                             <span class="menu-heading">Dodaj Etykiete</span>
                             <label-panel></label-panel>
                           </div>
                         </div>
+
                         <menu-add-list-tasks></menu-add-list-tasks>
                         <menu-deadline></menu-deadline>
 
                         <div style="position: relative">
-                          <a href="#" class="modal-menu__link" ng-click="activeMenu('Załącznik',  $event)">Załącznik</a>
+                          <a href class="modal-menu__link" ng-click="activeMenu('Dodaj Zdjęcie',  $event)">Dodaj Zdjęcie</a>
 
-                          <!---->
-                          <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Załącznik' && toggle === true }">
-                            <span class="menu-heading">Dodaj Załącznik</span>
+                          <div class="menu" ng-click="blockClosingList($event)" ng-class="{active : name === 'Dodaj Zdjęcie' && toggle === true }">
+                            <span class="menu-heading">Dodaj Zdjęcie</span>
 
                             <div class="panel-attachment">
-                              <form class="panel-attachment__form" enctype="multipart/form-data">
-                                <input type="file" fileread="file" />
-                                <!-- <button class="btn btn-success panel-attachment__btn pull-right" type="submit" ng-click="uploadAttachment(file)">Wyślij</button>  -->
+                              <form class="panel-attachment__form" method="post" action="/card/upload-attachment" enctype="multipart/form-data">
+                                <input type="file" name="file" />
+                                <input name="idBoard" type="hidden" value="{{board._id}}">
+                                <input name="indexList" type="hidden" value="{{indexListAttachment}}">
+                                <input name="indexCard" type="hidden" value="{{indexCardAttachment}}">
+                                <input  class="pull-right btn btn-success" type="submit" name="submit" value="Dodaj"> 
                               </form>
-                            </div>
 
+                            </div>
                           </div>
                         </div>
                       </div>
 
                       <h4 class="loud-header">Działania</h4>
+
                       <div>
                         <div style="position: relative">
                           <a href="#" class="modal-menu__link" ng-click="activeMenu('Przenieś',  $event)">Przenieś</a>
@@ -301,29 +322,18 @@
                         </div>
 
                         <menu-copy-card></menu-copy-card>
-
-                        <a href="#" class="modal-menu__link">Subskrybuj</a>
-
+ 
                         <a href class="modal-menu__link" ng-click="archiveCard($parent.$index, $index)">Zarchiwizuj</a>
-
-
 
                         <menu-delete-card></menu-delete-card>
                       </div>
                     </div>
                   </div>
-
                 </div>
-                <!--end-->
-
               </div>
             </div>
-            <!-- /.modal-content -->
           </div>
-          <!-- /.modal-dialog -->
         </div>
-        <!-- /.modal -->
-
       </div>
     </div>
 

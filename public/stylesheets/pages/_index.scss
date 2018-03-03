@@ -32,14 +32,19 @@
   margin: 0 !important;
 }
  
-
+.loginFrm {
+  a {
+    display: block;
+    margin-top: 20px;
+  }
+}
 
 
 .bg-colour-main {
     background-color: #E4F0F6;
   }
 
-.nav {
+.navi {
   background-color: #fff; 
   
   &-wrapper {
